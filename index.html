@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111111">
   <title>Seven Coins</title>
-
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
     * {
@@ -16,68 +15,133 @@
 
     body {
       font-family: Arial, sans-serif;
-      background: #f5f5f5;
+      background: #f3f3f3;
       color: #111;
+    }
+
+    button,
+    input {
+      font: inherit;
     }
 
     .app {
       max-width: 480px;
-      margin: auto;
       min-height: 100vh;
-      background: white;
+      margin: auto;
+      background: #fff;
       padding: 20px;
     }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-    }
-
     .logo {
-      font-size: 24px;
-      font-weight: bold;
+      font-size: 25px;
+      font-weight: 800;
+      margin-bottom: 28px;
     }
 
-    .user-name {
-      font-size: 14px;
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    h1 {
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
       color: #777;
-      margin-top: 5px;
+      font-size: 14px;
+      margin-bottom: 22px;
+      line-height: 1.5;
     }
 
-    .bell {
-      font-size: 22px;
+    .message {
+      display: none;
+      background: #f1f1f1;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 15px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ddd;
+      border-radius: 11px;
+      margin-bottom: 12px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #111;
+    }
+
+    .btn {
+      width: 100%;
+      border: 0;
+      border-radius: 11px;
+      padding: 14px;
+      background: #111;
+      color: #fff;
       cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .secondary {
+      background: #eee;
+      color: #111;
+    }
+
+    .danger {
+      background: #c62828;
+    }
+
+    .text-btn {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      padding: 10px;
+      color: #555;
+      cursor: pointer;
+    }
+
+    .welcome {
+      font-size: 15px;
+      color: #666;
+      margin-bottom: 18px;
     }
 
     .balance-card {
       background: #111;
-      color: white;
+      color: #fff;
       border-radius: 18px;
       padding: 25px;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
 
-    .balance-title {
-      font-size: 14px;
-      opacity: 0.7;
+    .balance-label {
+      font-size: 13px;
+      opacity: .7;
     }
 
     .balance {
       font-size: 38px;
-      font-weight: bold;
-      margin-top: 8px;
-    }
-
-    .coin {
-      font-size: 20px;
-    }
-
-    .status {
-      font-size: 13px;
-      margin-top: 10px;
-      opacity: 0.7;
+      font-weight: 800;
+      margin-top: 7px;
     }
 
     .section-title {
@@ -85,69 +149,70 @@
       margin: 25px 0 12px;
     }
 
-    .task {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px;
-      border: 1px solid #ddd;
-      border-radius: 14px;
-      margin-bottom: 10px;
+    .menu {
+      display: grid;
+      gap: 10px;
     }
 
-    .task-info h3 {
-      font-size: 16px;
-      margin-bottom: 5px;
-    }
-
-    .task-info p {
-      font-size: 13px;
-      color: #777;
-    }
-
-    .task button {
-      border: none;
-      background: #111;
-      color: white;
-      padding: 9px 14px;
-      border-radius: 9px;
-      cursor: pointer;
-    }
-
-    .ad-task {
-      border: 1px solid #ddd;
-      border-radius: 14px;
-      padding: 18px;
-      margin-top: 15px;
-    }
-
-    .ad-task button {
+    .menu button {
       width: 100%;
-      margin-top: 12px;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      background: #111;
-      color: white;
-      font-size: 15px;
+      text-align: left;
+      border: 1px solid #ddd;
+      background: #fff;
+      border-radius: 14px;
+      padding: 16px;
       cursor: pointer;
+    }
+
+    .menu-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .menu-description {
+      color: #777;
+      font-size: 13px;
     }
 
     .bottom-nav {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-top: 30px;
-      padding-top: 15px;
+      gap: 5px;
       border-top: 1px solid #ddd;
+      margin-top: 28px;
+      padding-top: 12px;
     }
 
     .bottom-nav button {
-      border: none;
+      border: 0;
       background: transparent;
-      padding: 10px 5px;
-      font-size: 12px;
+      padding: 9px 2px;
       cursor: pointer;
+      font-size: 12px;
+    }
+
+    .profile-card {
+      border: 1px solid #ddd;
+      border-radius: 14px;
+      padding: 17px;
+      margin-bottom: 12px;
+    }
+
+    .profile-card strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .profile-card p {
+      color: #777;
+      font-size: 14px;
+      word-break: break-word;
+    }
+
+    .loading {
+      text-align: center;
+      color: #777;
+      padding: 40px 0;
     }
   </style>
 </head>
@@ -156,325 +221,661 @@
 
 <div class="app">
 
-  <div class="header">
-    <div>
-      <div class="logo">🪙 Seven Coins</div>
-      <div class="user-name" id="userName">Connecting...</div>
-    </div>
+  <div class="logo">🪙 Seven Coins</div>
 
-    <div class="bell">🔔</div>
-  </div>
+  <!-- LOGIN -->
+  <section id="loginScreen" class="screen active">
 
-  <div class="balance-card">
-    <div class="balance-title">Your Balance</div>
+    <h1>Welcome Back</h1>
 
-    <div class="balance">
-      <span id="balance">0</span>
-      <span class="coin">🪙</span>
-    </div>
-
-    <div class="status" id="status">
-      Connecting to Telegram...
-    </div>
-  </div>
-
-  <h2 class="section-title">Daily Tasks</h2>
-
-  <div class="task">
-    <div class="task-info">
-      <h3>📝 Daily Survey</h3>
-      <p>Complete today's survey</p>
-    </div>
-
-    <button onclick="showMessage('Daily survey will be available here.')">
-      Start
-    </button>
-  </div>
-
-  <div class="task">
-    <div class="task-info">
-      <h3>📊 Daily Poll</h3>
-      <p>Vote in today's poll</p>
-    </div>
-
-    <button onclick="showMessage('Daily poll will be available here.')">
-      Vote
-    </button>
-  </div>
-
-  <div class="task">
-    <div class="task-info">
-      <h3>👥 Referral</h3>
-      <p>Invite friends and earn</p>
-    </div>
-
-    <button onclick="showMessage('Referral system coming next.')">
-      Invite
-    </button>
-  </div>
-
-  <div class="ad-task">
-    <h3>🎬 Watch Ad</h3>
-
-    <p>
-      Daily rewarded ad progress:
-      <strong id="adProgress">0 / 5</strong>
+    <p class="subtitle">
+      Login to your Seven Coins account.
     </p>
 
-    <button onclick="showMessage('Rewarded ads will be connected after the task system is ready.')">
-      Watch Ad & Earn
+    <div id="loginMessage" class="message"></div>
+
+    <input
+      id="loginEmail"
+      type="email"
+      placeholder="Email address"
+      autocomplete="email"
+    >
+
+    <input
+      id="loginPassword"
+      type="password"
+      placeholder="Password"
+      autocomplete="current-password"
+    >
+
+    <button id="loginBtn" class="btn">
+      Login
     </button>
-  </div>
 
-  <h2 class="section-title">More</h2>
+    <button id="showSignupBtn" class="text-btn">
+      Don't have an account? Create Account
+    </button>
 
-  <div class="task">
-    <div class="task-info">
-      <h3>💸 Withdraw</h3>
-      <p>Withdrawals will open later</p>
+  </section>
+
+
+  <!-- CREATE ACCOUNT -->
+  <section id="signupScreen" class="screen">
+
+    <h1>Create Account</h1>
+
+    <p class="subtitle">
+      Create your Seven Coins account.
+    </p>
+
+    <div id="signupMessage" class="message"></div>
+
+    <input
+      id="signupUsername"
+      type="text"
+      placeholder="Username"
+      maxlength="30"
+      autocomplete="username"
+    >
+
+    <input
+      id="signupEmail"
+      type="email"
+      placeholder="Email address"
+      autocomplete="email"
+    >
+
+    <input
+      id="signupPassword"
+      type="password"
+      placeholder="Password"
+      autocomplete="new-password"
+    >
+
+    <input
+      id="signupConfirm"
+      type="password"
+      placeholder="Confirm password"
+      autocomplete="new-password"
+    >
+
+    <button id="signupBtn" class="btn">
+      Create Account
+    </button>
+
+    <button id="showLoginBtn" class="text-btn">
+      Already have an account? Login
+    </button>
+
+  </section>
+
+
+  <!-- LOADING -->
+  <section id="loadingScreen" class="screen">
+
+    <div class="loading">
+      Connecting to Seven Coins...
     </div>
 
-    <button onclick="showMessage('Withdrawals are currently locked.')">
-      Locked 🔒
-    </button>
-  </div>
+  </section>
 
-  <div class="task">
-    <div class="task-info">
-      <h3>📢 Advertise</h3>
-      <p>Promote your product</p>
+
+  <!-- HOME -->
+  <section id="homeScreen" class="screen">
+
+    <div class="welcome">
+      Welcome, <strong id="homeUsername">User</strong> 👋
     </div>
 
-    <button onclick="showMessage('Advertising marketplace coming next.')">
-      Open
-    </button>
-  </div>
+    <div class="balance-card">
 
-  <div class="bottom-nav">
-    <button>🏠<br>Home</button>
-    <button>🎯<br>Tasks</button>
-    <button>👥<br>Referral</button>
-    <button>👤<br>Profile</button>
-  </div>
+      <div class="balance-label">
+        Your Balance
+      </div>
+
+      <div class="balance">
+        0 🪙
+      </div>
+
+    </div>
+
+
+    <h2 class="section-title">
+      Daily Tasks
+    </h2>
+
+    <div class="menu">
+
+      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/daily-tasks.html')">
+        <div class="menu-title">🎯 Daily Tasks</div>
+        <div class="menu-description">
+          Complete available tasks.
+        </div>
+      </button>
+
+      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/daily-poll.html')">
+        <div class="menu-title">📊 Daily Poll</div>
+        <div class="menu-description">
+          Vote in today's poll.
+        </div>
+      </button>
+
+      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/referral.html')">
+        <div class="menu-title">👥 Referral</div>
+        <div class="menu-description">
+          Invite friends and learn about referrals.
+        </div>
+      </button>
+
+    </div>
+
+
+    <h2 class="section-title">
+      Account
+    </h2>
+
+    <div class="menu">
+
+      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/transactions-history.html')">
+        <div class="menu-title">💰 Transactions</div>
+        <div class="menu-description">
+          View transaction history.
+        </div>
+      </button>
+
+      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/withdraw.html')">
+        <div class="menu-title">💸 Withdrawal</div>
+        <div class="menu-description">
+          Withdrawals are currently unavailable.
+        </div>
+      </button>
+
+      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/advertisement.html')">
+        <div class="menu-title">📢 Advertise</div>
+        <div class="menu-description">
+          Promote your product.
+        </div>
+      </button>
+
+    </div>
+
+
+    <div class="bottom-nav">
+
+      <button onclick="showHome()">
+        🏠<br>Home
+      </button>
+
+      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/daily-tasks.html')">
+        🎯<br>Tasks
+      </button>
+
+      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/referral.html')">
+        👥<br>Referral
+      </button>
+
+      <button onclick="showProfile()">
+        👤<br>Profile
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- PROFILE -->
+  <section id="profileScreen" class="screen">
+
+    <h1>Profile</h1>
+
+    <p class="subtitle">
+      Your Seven Coins account.
+    </p>
+
+    <div class="profile-card">
+      <strong>Username</strong>
+      <p id="profileUsername">—</p>
+    </div>
+
+    <div class="profile-card">
+      <strong>Email</strong>
+      <p id="profileEmail">—</p>
+    </div>
+
+    <div class="profile-card">
+      <strong>Account ID</strong>
+      <p id="profileUid">—</p>
+    </div>
+
+    <button class="btn secondary" onclick="showHome()">
+      ← Back Home
+    </button>
+
+    <button class="btn danger" onclick="logout()">
+      Logout
+    </button>
+
+  </section>
 
 </div>
 
-<script>
 
-  /*
-   * SEVEN COINS SUPABASE EDGE FUNCTION
-   */
-  const SUPABASE_FUNCTION_URL =
-    "https://wavytzrecflvcdpaerkl.supabase.co/functions/v1/smart-endpoint";
+<!-- Firebase -->
+<script type="module">
+
+  import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut,
+    updateProfile
+  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
-  /*
-   * TELEGRAM MINI APP
-   */
-  const telegram = window.Telegram?.WebApp;
+  /* ================================
+     YOUR FIREBASE CONFIG
+  ================================= */
+
+  const firebaseConfig = {
+
+    apiKey: "AIzaSyBKVtAuouv5c29zhtRwiesyVizPaaVnB8M",
+
+    authDomain: "seven-coins-b841d.firebaseapp.com",
+
+    projectId: "seven-coins-b841d",
+
+    storageBucket: "seven-coins-b841d.firebasestorage.app",
+
+    messagingSenderId: "457210030247",
+
+    appId: "1:457210030247:web:830d1402d137d178245382"
+
+  };
 
 
-  /*
-   * SHOW MESSAGE
-   */
-  function showMessage(message) {
+  const app = initializeApp(firebaseConfig);
 
-    if (telegram && telegram.showAlert) {
-      telegram.showAlert(message);
-    } else {
-      alert(message);
-    }
+  const auth = getAuth(app);
+
+
+  /* ================================
+     SCREEN CONTROL
+  ================================= */
+
+  function showScreen(id) {
+
+    document
+      .querySelectorAll(".screen")
+      .forEach(screen => {
+        screen.classList.remove("active");
+      });
+
+    document
+      .getElementById(id)
+      .classList.add("active");
 
   }
 
 
-  /*
-   * CONNECT TELEGRAM USER
-   */
-  async function connectTelegramUser() {
+  window.showHome = function() {
 
-    const status =
-      document.getElementById("status");
+    showScreen("homeScreen");
 
-    const userName =
-      document.getElementById("userName");
-
-    const balance =
-      document.getElementById("balance");
+  };
 
 
-    /*
-     * Check Telegram
-     */
-    if (!telegram) {
+  window.showProfile = function() {
 
-      status.textContent =
-        "Open Seven Coins from Telegram.";
+    const user = auth.currentUser;
 
-      userName.textContent =
-        "Telegram not detected";
+    if (!user) return;
 
-      return;
-    }
+    document.getElementById("profileUsername").textContent =
+      user.displayName || "No username";
 
+    document.getElementById("profileEmail").textContent =
+      user.email || "No email";
 
-    /*
-     * Initialize Telegram
-     */
-    telegram.ready();
-    telegram.expand();
+    document.getElementById("profileUid").textContent =
+      user.uid;
+
+    showScreen("profileScreen");
+
+  };
 
 
-    /*
-     * Get Telegram initData
-     */
-    const initData =
-      telegram.initData;
+  /* ================================
+     OPEN BLOGGER PAGE
+  ================================= */
+
+  window.openPage = function(url) {
+
+    window.location.href = url;
+
+  };
 
 
-    if (!initData) {
+  /* ================================
+     LOGIN
+  ================================= */
 
-      status.textContent =
-        "Please open the Mini App from Telegram.";
+  document
+    .getElementById("loginBtn")
+    .addEventListener("click", async () => {
 
-      userName.textContent =
-        "Not authenticated";
+      const email =
+        document.getElementById("loginEmail").value.trim();
 
-      return;
-    }
+      const password =
+        document.getElementById("loginPassword").value;
 
+      const message =
+        document.getElementById("loginMessage");
 
-    try {
-
-      status.textContent =
-        "Signing you in...";
-
-      userName.textContent =
-        "Connecting...";
-
-
-      /*
-       * Send Telegram authentication
-       * to Seven Coins Supabase function.
-       */
-      const response = await fetch(
-        SUPABASE_FUNCTION_URL,
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-            initData: initData
-          })
-        }
-      );
+      message.classList.remove("show");
 
 
-      /*
-       * Read response safely
-       */
-      const text =
-        await response.text();
+      if (!email || !password) {
 
-      let data;
+        message.textContent =
+          "Please enter your email and password.";
+
+        message.classList.add("show");
+
+        return;
+
+      }
+
+
+      const button =
+        document.getElementById("loginBtn");
+
+      button.disabled = true;
+
+      button.textContent = "Logging in...";
+
 
       try {
 
-        data = JSON.parse(text);
-
-      } catch {
-
-        console.error(
-          "Server returned:",
-          text
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
         );
 
-        status.textContent =
-          "Server returned an invalid response.";
+      } catch (error) {
 
-        userName.textContent =
-          "Server error";
+        console.error(error);
 
-        return;
+        message.textContent =
+          getFirebaseError(error);
+
+        message.classList.add("show");
+
       }
 
 
-      /*
-       * IMPORTANT:
-       * Display the real backend error.
-       */
-      if (!response.ok || !data.success) {
+      button.disabled = false;
 
-        console.error(
-          "Authentication error:",
-          data
-        );
+      button.textContent = "Login";
 
-        status.textContent =
-          data.error ||
-          `Authentication failed (${response.status})`;
+    });
 
-        userName.textContent =
-          "Authentication error";
+
+  /* ================================
+     CREATE ACCOUNT
+  ================================= */
+
+  document
+    .getElementById("signupBtn")
+    .addEventListener("click", async () => {
+
+      const username =
+        document.getElementById("signupUsername").value.trim();
+
+      const email =
+        document.getElementById("signupEmail").value.trim();
+
+      const password =
+        document.getElementById("signupPassword").value;
+
+      const confirm =
+        document.getElementById("signupConfirm").value;
+
+      const message =
+        document.getElementById("signupMessage");
+
+      message.classList.remove("show");
+
+
+      if (!username) {
+
+        message.textContent =
+          "Please enter a username.";
+
+        message.classList.add("show");
 
         return;
+
       }
 
 
-      /*
-       * Successful login
-       */
-      const user =
-        data.user;
+      if (!email) {
+
+        message.textContent =
+          "Please enter your email.";
+
+        message.classList.add("show");
+
+        return;
+
+      }
 
 
-      userName.textContent =
-        user.first_name
-          ? `Hello, ${user.first_name} 👋`
-          : "Welcome to Seven Coins";
+      if (password.length < 6) {
+
+        message.textContent =
+          "Password must be at least 6 characters.";
+
+        message.classList.add("show");
+
+        return;
+
+      }
 
 
-      balance.textContent =
-        user.balance ?? 0;
+      if (password !== confirm) {
+
+        message.textContent =
+          "Passwords do not match.";
+
+        message.classList.add("show");
+
+        return;
+
+      }
 
 
-      status.textContent =
-        "Account connected ✓";
+      const button =
+        document.getElementById("signupBtn");
+
+      button.disabled = true;
+
+      button.textContent =
+        "Creating account...";
 
 
-      console.log(
-        "Seven Coins user:",
-        user
-      );
+      try {
+
+        const result =
+          await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+
+        await updateProfile(
+          result.user,
+          {
+            displayName: username
+          }
+        );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        message.textContent =
+          getFirebaseError(error);
+
+        message.classList.add("show");
+
+      }
+
+
+      button.disabled = false;
+
+      button.textContent =
+        "Create Account";
+
+    });
+
+
+  /* ================================
+     LOGOUT
+  ================================= */
+
+  window.logout = async function() {
+
+    try {
+
+      await signOut(auth);
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert("Logout failed. Please try again.");
 
     }
 
+  };
 
-    catch (error) {
 
-      console.error(
-        "Connection error:",
-        error
-      );
+  /* ================================
+     AUTH STATE
+  ================================= */
 
-      status.textContent =
-        "Connection failed.";
+  onAuthStateChanged(auth, user => {
 
-      userName.textContent =
-        "Please try again.";
+    if (user) {
+
+      document
+        .getElementById("homeUsername")
+        .textContent =
+          user.displayName || "User";
+
+      document
+        .getElementById("profileUsername")
+        .textContent =
+          user.displayName || "No username";
+
+      document
+        .getElementById("profileEmail")
+        .textContent =
+          user.email || "No email";
+
+      document
+        .getElementById("profileUid")
+        .textContent =
+          user.uid;
+
+      showScreen("homeScreen");
+
+    } else {
+
+      showScreen("loginScreen");
+
+    }
+
+  });
+
+
+  /* ================================
+     SWITCH LOGIN / SIGNUP
+  ================================= */
+
+  document
+    .getElementById("showSignupBtn")
+    .addEventListener("click", () => {
+
+      document
+        .getElementById("loginMessage")
+        .classList.remove("show");
+
+      showScreen("signupScreen");
+
+    });
+
+
+  document
+    .getElementById("showLoginBtn")
+    .addEventListener("click", () => {
+
+      document
+        .getElementById("signupMessage")
+        .classList.remove("show");
+
+      showScreen("loginScreen");
+
+    });
+
+
+  /* ================================
+     FIREBASE ERROR MESSAGES
+  ================================= */
+
+  function getFirebaseError(error) {
+
+    switch (error.code) {
+
+      case "auth/invalid-email":
+        return "Please enter a valid email address.";
+
+      case "auth/email-already-in-use":
+        return "This email is already registered.";
+
+      case "auth/weak-password":
+        return "Password must be at least 6 characters.";
+
+      case "auth/invalid-credential":
+        return "Incorrect email or password.";
+
+      case "auth/user-not-found":
+        return "No account found with this email.";
+
+      case "auth/wrong-password":
+        return "Incorrect email or password.";
+
+      case "auth/network-request-failed":
+        return "Network error. Check your internet connection.";
+
+      case "auth/too-many-requests":
+        return "Too many attempts. Please try again later.";
+
+      default:
+        return error.message ||
+          "Something went wrong. Please try again.";
 
     }
 
   }
-
-
-  /*
-   * START
-   */
-  connectTelegramUser();
 
 </script>
 
