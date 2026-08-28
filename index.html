@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seven Coins</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #111;
+    }
+
+    .app {
+      max-width: 480px;
+      margin: auto;
+      min-height: 100vh;
+      background: white;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .bell {
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .balance-card {
+      background: #111;
+      color: white;
+      border-radius: 18px;
+      padding: 25px;
+      margin-bottom: 20px;
+    }
+
+    .balance-title {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+
+    .balance {
+      font-size: 38px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .coin {
+      font-size: 20px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      margin: 25px 0 12px;
+    }
+
+    .task {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid #ddd;
+      border-radius: 14px;
+      margin-bottom: 10px;
+    }
+
+    .task-info h3 {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .task-info p {
+      font-size: 13px;
+      color: #777;
+    }
+
+    .task button {
+      border: none;
+      background: #111;
+      color: white;
+      padding: 9px 14px;
+      border-radius: 9px;
+      cursor: pointer;
+    }
+
+    .ad-task {
+      border: 1px solid #ddd;
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 15px;
+    }
+
+    .ad-task button {
+      width: 100%;
+      margin-top: 12px;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #111;
+      color: white;
+      font-size: 15px;
+    }
+
+    .bottom-nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 30px;
+      padding-top: 15px;
+      border-top: 1px solid #ddd;
+    }
+
+    .bottom-nav button {
+      border: none;
+      background: transparent;
+      padding: 10px 5px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="header">
+    <div class="logo">🪙 Seven Coins</div>
+    <div class="bell">🔔</div>
+  </div>
+
+  <div class="balance-card">
+    <div class="balance-title">Your Balance</div>
+    <div class="balance">
+      0 <span class="coin">7</span>
+    </div>
+  </div>
+
+  <h2 class="section-title">Daily Tasks</h2>
+
+  <div class="task">
+    <div class="task-info">
+      <h3>📝 Daily Survey</h3>
+      <p>Complete today's survey</p>
+    </div>
+    <button>Start</button>
+  </div>
+
+  <div class="task">
+    <div class="task-info">
+      <h3>📊 Daily Poll</h3>
+      <p>Vote in today's poll</p>
+    </div>
+    <button>Vote</button>
+  </div>
+
+  <div class="task">
+    <div class="task-info">
+      <h3>👥 Referral</h3>
+      <p>Invite friends and earn</p>
+    </div>
+    <button>Invite</button>
+  </div>
+
+  <div class="ad-task">
+    <h3>🎬 Watch Ad</h3>
+    <p>Daily rewarded ad progress: <strong>0 / 5</strong></p>
+
+    <button>Watch Ad & Earn</button>
+  </div>
+
+  <h2 class="section-title">More</h2>
+
+  <div class="task">
+    <div class="task-info">
+      <h3>💸 Withdraw</h3>
+      <p>Withdrawals will open later</p>
+    </div>
+    <button>Locked 🔒</button>
+  </div>
+
+  <div class="task">
+    <div class="task-info">
+      <h3>📢 Advertise</h3>
+      <p>Promote your product</p>
+    </div>
+    <button>Open</button>
+  </div>
+
+  <div class="bottom-nav">
+    <button>🏠<br>Home</button>
+    <button>🎯<br>Tasks</button>
+    <button>👥<br>Referral</button>
+    <button>👤<br>Profile</button>
+  </div>
+
+</div>
+
+</body>
+</html>
