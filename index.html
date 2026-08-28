@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Seven Coins</title>
 
-  <!-- Telegram Mini App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
@@ -186,6 +185,7 @@
       <h3>📝 Daily Survey</h3>
       <p>Complete today's survey</p>
     </div>
+
     <button onclick="showMessage('Daily survey will be available here.')">
       Start
     </button>
@@ -196,6 +196,7 @@
       <h3>📊 Daily Poll</h3>
       <p>Vote in today's poll</p>
     </div>
+
     <button onclick="showMessage('Daily poll will be available here.')">
       Vote
     </button>
@@ -206,6 +207,7 @@
       <h3>👥 Referral</h3>
       <p>Invite friends and earn</p>
     </div>
+
     <button onclick="showMessage('Referral system coming next.')">
       Invite
     </button>
@@ -213,7 +215,11 @@
 
   <div class="ad-task">
     <h3>🎬 Watch Ad</h3>
-    <p>Daily rewarded ad progress: <strong>0 / 5</strong></p>
+
+    <p>
+      Daily rewarded ad progress:
+      <strong id="adProgress">0 / 5</strong>
+    </p>
 
     <button onclick="showMessage('Rewarded ads will be connected after the task system is ready.')">
       Watch Ad & Earn
@@ -254,85 +260,222 @@
 </div>
 
 <script>
+
+  /*
+   * SEVEN COINS SUPABASE EDGE FUNCTION
+   */
   const SUPABASE_FUNCTION_URL =
     "https://wavytzrecflvcdpaerkl.supabase.co/functions/v1/smart-endpoint";
 
+
+  /*
+   * TELEGRAM MINI APP
+   */
   const telegram = window.Telegram?.WebApp;
 
+
+  /*
+   * SHOW MESSAGE
+   */
   function showMessage(message) {
+
     if (telegram && telegram.showAlert) {
       telegram.showAlert(message);
     } else {
       alert(message);
     }
+
   }
 
-  async function connectTelegramUser() {
-    const status = document.getElementById("status");
-    const userName = document.getElementById("userName");
-    const balance = document.getElementById("balance");
 
+  /*
+   * CONNECT TELEGRAM USER
+   */
+  async function connectTelegramUser() {
+
+    const status =
+      document.getElementById("status");
+
+    const userName =
+      document.getElementById("userName");
+
+    const balance =
+      document.getElementById("balance");
+
+
+    /*
+     * Check Telegram
+     */
     if (!telegram) {
-      status.textContent = "Open Seven Coins from Telegram.";
-      userName.textContent = "Telegram not detected";
+
+      status.textContent =
+        "Open Seven Coins from Telegram.";
+
+      userName.textContent =
+        "Telegram not detected";
+
       return;
     }
 
+
+    /*
+     * Initialize Telegram
+     */
     telegram.ready();
     telegram.expand();
 
-    const initData = telegram.initData;
+
+    /*
+     * Get Telegram initData
+     */
+    const initData =
+      telegram.initData;
+
 
     if (!initData) {
-      status.textContent = "Please open the Mini App from Telegram.";
-      userName.textContent = "Not authenticated";
+
+      status.textContent =
+        "Please open the Mini App from Telegram.";
+
+      userName.textContent =
+        "Not authenticated";
+
       return;
     }
 
+
     try {
-      status.textContent = "Signing you in...";
 
-      const response = await fetch(SUPABASE_FUNCTION_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          initData: initData
-        })
-      });
+      status.textContent =
+        "Signing you in...";
 
-      const data = await response.json();
+      userName.textContent =
+        "Connecting...";
 
-      if (!response.ok || !data.success) {
-        console.error(data);
-        status.textContent = "Telegram authentication failed.";
-        userName.textContent = "Authentication error";
+
+      /*
+       * Send Telegram authentication
+       * to Seven Coins Supabase function.
+       */
+      const response = await fetch(
+        SUPABASE_FUNCTION_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            initData: initData
+          })
+        }
+      );
+
+
+      /*
+       * Read response safely
+       */
+      const text =
+        await response.text();
+
+      let data;
+
+      try {
+
+        data = JSON.parse(text);
+
+      } catch {
+
+        console.error(
+          "Server returned:",
+          text
+        );
+
+        status.textContent =
+          "Server returned an invalid response.";
+
+        userName.textContent =
+          "Server error";
+
         return;
       }
 
-      const user = data.user;
+
+      /*
+       * IMPORTANT:
+       * Display the real backend error.
+       */
+      if (!response.ok || !data.success) {
+
+        console.error(
+          "Authentication error:",
+          data
+        );
+
+        status.textContent =
+          data.error ||
+          `Authentication failed (${response.status})`;
+
+        userName.textContent =
+          "Authentication error";
+
+        return;
+      }
+
+
+      /*
+       * Successful login
+       */
+      const user =
+        data.user;
+
 
       userName.textContent =
         user.first_name
           ? `Hello, ${user.first_name} 👋`
           : "Welcome to Seven Coins";
 
-      balance.textContent = user.balance ?? 0;
 
-      status.textContent = "Account connected ✓";
+      balance.textContent =
+        user.balance ?? 0;
 
-      console.log("Seven Coins user:", user);
 
-    } catch (error) {
-      console.error(error);
+      status.textContent =
+        "Account connected ✓";
 
-      status.textContent = "Connection failed.";
-      userName.textContent = "Please try again.";
+
+      console.log(
+        "Seven Coins user:",
+        user
+      );
+
     }
+
+
+    catch (error) {
+
+      console.error(
+        "Connection error:",
+        error
+      );
+
+      status.textContent =
+        "Connection failed.";
+
+      userName.textContent =
+        "Please try again.";
+
+    }
+
   }
 
+
+  /*
+   * START
+   */
   connectTelegramUser();
+
 </script>
 
 </body>
