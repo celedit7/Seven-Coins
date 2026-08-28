@@ -41,6 +41,12 @@
       font-weight: bold;
     }
 
+    .user-name {
+      font-size: 14px;
+      color: #777;
+      margin-top: 5px;
+    }
+
     .bell {
       font-size: 22px;
       cursor: pointer;
@@ -67,6 +73,12 @@
 
     .coin {
       font-size: 20px;
+    }
+
+    .status {
+      font-size: 13px;
+      margin-top: 10px;
+      opacity: 0.7;
     }
 
     .section-title {
@@ -119,6 +131,7 @@
       background: #111;
       color: white;
       font-size: 15px;
+      cursor: pointer;
     }
 
     .bottom-nav {
@@ -135,6 +148,7 @@
       background: transparent;
       padding: 10px 5px;
       font-size: 12px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -144,14 +158,24 @@
 <div class="app">
 
   <div class="header">
-    <div class="logo">🪙 Seven Coins</div>
+    <div>
+      <div class="logo">🪙 Seven Coins</div>
+      <div class="user-name" id="userName">Connecting...</div>
+    </div>
+
     <div class="bell">🔔</div>
   </div>
 
   <div class="balance-card">
     <div class="balance-title">Your Balance</div>
+
     <div class="balance">
-      0 <span class="coin">7</span>
+      <span id="balance">0</span>
+      <span class="coin">🪙</span>
+    </div>
+
+    <div class="status" id="status">
+      Connecting to Telegram...
     </div>
   </div>
 
@@ -162,7 +186,9 @@
       <h3>📝 Daily Survey</h3>
       <p>Complete today's survey</p>
     </div>
-    <button>Start</button>
+    <button onclick="showMessage('Daily survey will be available here.')">
+      Start
+    </button>
   </div>
 
   <div class="task">
@@ -170,7 +196,9 @@
       <h3>📊 Daily Poll</h3>
       <p>Vote in today's poll</p>
     </div>
-    <button>Vote</button>
+    <button onclick="showMessage('Daily poll will be available here.')">
+      Vote
+    </button>
   </div>
 
   <div class="task">
@@ -178,14 +206,18 @@
       <h3>👥 Referral</h3>
       <p>Invite friends and earn</p>
     </div>
-    <button>Invite</button>
+    <button onclick="showMessage('Referral system coming next.')">
+      Invite
+    </button>
   </div>
 
   <div class="ad-task">
     <h3>🎬 Watch Ad</h3>
     <p>Daily rewarded ad progress: <strong>0 / 5</strong></p>
 
-    <button>Watch Ad & Earn</button>
+    <button onclick="showMessage('Rewarded ads will be connected after the task system is ready.')">
+      Watch Ad & Earn
+    </button>
   </div>
 
   <h2 class="section-title">More</h2>
@@ -195,7 +227,10 @@
       <h3>💸 Withdraw</h3>
       <p>Withdrawals will open later</p>
     </div>
-    <button>Locked 🔒</button>
+
+    <button onclick="showMessage('Withdrawals are currently locked.')">
+      Locked 🔒
+    </button>
   </div>
 
   <div class="task">
@@ -203,7 +238,10 @@
       <h3>📢 Advertise</h3>
       <p>Promote your product</p>
     </div>
-    <button>Open</button>
+
+    <button onclick="showMessage('Advertising marketplace coming next.')">
+      Open
+    </button>
   </div>
 
   <div class="bottom-nav">
@@ -214,6 +252,88 @@
   </div>
 
 </div>
+
+<script>
+  const SUPABASE_FUNCTION_URL =
+    "https://wavytzrecfvcdoqaeikl.supabase.co/functions/v1/smart-endpoint";
+
+  const telegram = window.Telegram?.WebApp;
+
+  function showMessage(message) {
+    if (telegram && telegram.showAlert) {
+      telegram.showAlert(message);
+    } else {
+      alert(message);
+    }
+  }
+
+  async function connectTelegramUser() {
+    const status = document.getElementById("status");
+    const userName = document.getElementById("userName");
+    const balance = document.getElementById("balance");
+
+    if (!telegram) {
+      status.textContent = "Open Seven Coins from Telegram.";
+      userName.textContent = "Telegram not detected";
+      return;
+    }
+
+    telegram.ready();
+    telegram.expand();
+
+    const initData = telegram.initData;
+
+    if (!initData) {
+      status.textContent = "Please open the Mini App from Telegram.";
+      userName.textContent = "Not authenticated";
+      return;
+    }
+
+    try {
+      status.textContent = "Signing you in...";
+
+      const response = await fetch(SUPABASE_FUNCTION_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          initData: initData
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        console.error(data);
+        status.textContent = "Telegram authentication failed.";
+        userName.textContent = "Authentication error";
+        return;
+      }
+
+      const user = data.user;
+
+      userName.textContent =
+        user.first_name
+          ? `Hello, ${user.first_name} 👋`
+          : "Welcome to Seven Coins";
+
+      balance.textContent = user.balance ?? 0;
+
+      status.textContent = "Account connected ✓";
+
+      console.log("Seven Coins user:", user);
+
+    } catch (error) {
+      console.error(error);
+
+      status.textContent = "Connection failed.";
+      userName.textContent = "Please try again.";
+    }
+  }
+
+  connectTelegramUser();
+</script>
 
 </body>
 </html>
