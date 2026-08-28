@@ -1,875 +1,704 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#111111">
-  <title>Seven Coins</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111">
+<title>Seven Movies</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f3f3f3;
-      color: #111;
-    }
+body {
+  font-family: Arial, sans-serif;
+  background: #0b0b0b;
+  color: #fff;
+}
 
-    button,
-    input {
-      font: inherit;
-    }
+button,
+input {
+  font: inherit;
+}
 
-    .app {
-      max-width: 480px;
-      min-height: 100vh;
-      margin: auto;
-      background: white;
-      padding: 20px;
-    }
+.app {
+  max-width: 1100px;
+  margin: auto;
+  min-height: 100vh;
+  padding: 18px;
+}
 
-    .logo {
-      font-size: 25px;
-      font-weight: 800;
-      margin-bottom: 28px;
-    }
+/* HEADER */
 
-    .screen {
-      display: none;
-    }
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 22px;
+}
 
-    .screen.active {
-      display: block;
-    }
+.logo {
+  font-size: 25px;
+  font-weight: 800;
+  white-space: nowrap;
+}
 
-    h1 {
-      font-size: 27px;
-      margin-bottom: 8px;
-    }
+.logo span {
+  font-size: 20px;
+}
 
-    .subtitle {
-      color: #777;
-      font-size: 14px;
-      margin-bottom: 22px;
-      line-height: 1.5;
-    }
+.search {
+  flex: 1;
+  max-width: 450px;
+}
 
-    .message {
-      display: none;
-      background: #f1f1f1;
-      border-radius: 10px;
-      padding: 12px;
-      margin-bottom: 15px;
-      font-size: 14px;
-      line-height: 1.4;
-    }
+.search input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid #333;
+  border-radius: 25px;
+  background: #181818;
+  color: #fff;
+  outline: none;
+}
 
-    .message.show {
-      display: block;
-    }
+.search input::placeholder {
+  color: #888;
+}
 
-    input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #ddd;
-      border-radius: 11px;
-      margin-bottom: 12px;
-      outline: none;
-    }
+/* HERO */
 
-    input:focus {
-      border-color: #111;
-    }
+.hero {
+  background: linear-gradient(135deg, #222, #111);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 25px;
+}
 
-    .btn {
-      width: 100%;
-      border: 0;
-      border-radius: 11px;
-      padding: 14px;
-      background: #111;
-      color: white;
-      cursor: pointer;
-      margin-bottom: 10px;
-    }
+.hero h1 {
+  font-size: 34px;
+  margin-bottom: 10px;
+}
 
-    .secondary {
-      background: #eee;
-      color: #111;
-    }
+.hero p {
+  color: #aaa;
+  max-width: 600px;
+  line-height: 1.5;
+}
 
-    .danger {
-      background: #c62828;
-    }
+.hero button {
+  margin-top: 18px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+  font-weight: bold;
+}
 
-    .text-btn {
-      width: 100%;
-      border: 0;
-      background: transparent;
-      padding: 10px;
-      color: #555;
-      cursor: pointer;
-    }
+/* CATEGORIES */
 
-    .welcome {
-      font-size: 15px;
-      color: #666;
-      margin-bottom: 18px;
-    }
+.categories {
+  display: flex;
+  gap: 9px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 25px;
+}
 
-    .balance-card {
-      background: #111;
-      color: white;
-      border-radius: 18px;
-      padding: 25px;
-      margin-bottom: 22px;
-    }
+.category {
+  border: 1px solid #333;
+  background: #151515;
+  color: #ddd;
+  padding: 9px 15px;
+  border-radius: 20px;
+  white-space: nowrap;
+  cursor: pointer;
+}
 
-    .balance-label {
-      font-size: 13px;
-      opacity: .7;
-    }
+.category.active,
+.category:hover {
+  background: #fff;
+  color: #111;
+}
 
-    .balance {
-      font-size: 38px;
-      font-weight: 800;
-      margin-top: 7px;
-    }
+/* SECTION */
 
-    .section-title {
-      font-size: 20px;
-      margin: 25px 0 12px;
-    }
+.section-title {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
 
-    .menu {
-      display: grid;
-      gap: 10px;
-    }
+/* MOVIE GRID */
 
-    .menu button {
-      width: 100%;
-      text-align: left;
-      border: 1px solid #ddd;
-      background: white;
-      border-radius: 14px;
-      padding: 16px;
-      cursor: pointer;
-    }
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
 
-    .menu-title {
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
+.movie {
+  background: #151515;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid #252525;
+}
 
-    .menu-description {
-      color: #777;
-      font-size: 13px;
-    }
+.poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 15px;
+  font-size: 22px;
+  font-weight: bold;
+  background: linear-gradient(145deg, #444, #151515);
+}
 
-    .bottom-nav {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 5px;
-      border-top: 1px solid #ddd;
-      margin-top: 28px;
-      padding-top: 12px;
-    }
+.movie-info {
+  padding: 13px;
+}
 
-    .bottom-nav button {
-      border: 0;
-      background: transparent;
-      padding: 9px 2px;
-      cursor: pointer;
-      font-size: 12px;
-    }
+.movie-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
 
-    .profile-card {
-      border: 1px solid #ddd;
-      border-radius: 14px;
-      padding: 17px;
-      margin-bottom: 12px;
-    }
+.movie-meta {
+  color: #888;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
 
-    .profile-card strong {
-      display: block;
-      margin-bottom: 6px;
-    }
+.movie-description {
+  color: #aaa;
+  font-size: 12px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
 
-    .profile-card p {
-      color: #777;
-      font-size: 14px;
-      word-break: break-word;
-    }
-  </style>
+.movie button {
+  width: 100%;
+  border: none;
+  border-radius: 9px;
+  padding: 10px;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.movie button:hover {
+  opacity: .85;
+}
+
+/* EMPTY */
+
+.empty {
+  display: none;
+  text-align: center;
+  color: #888;
+  padding: 50px 0;
+}
+
+/* FOOTER */
+
+footer {
+  border-top: 1px solid #222;
+  margin-top: 40px;
+  padding: 25px 0;
+  text-align: center;
+  color: #777;
+  font-size: 13px;
+}
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+  .movie-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+
+  header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search {
+    max-width: none;
+  }
+
+  .hero {
+    padding: 22px;
+  }
+
+  .hero h1 {
+    font-size: 27px;
+  }
+
+  .movie-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .movie-info {
+    padding: 10px;
+  }
+
+  .movie-description {
+    display: none;
+  }
+
+}
+
+@media (max-width: 350px) {
+  .movie-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <div class="app">
 
-  <div class="logo">🪙 Seven Coins</div>
+<header>
 
+  <div class="logo">
+    🎬 Seven Movies
+  </div>
 
-  <!-- LOGIN -->
-
-  <section id="loginScreen" class="screen active">
-
-    <h1>Welcome Back</h1>
-
-    <p class="subtitle">
-      Login to your Seven Coins account.
-    </p>
-
-    <div id="loginMessage" class="message"></div>
-
+  <div class="search">
     <input
-      id="loginEmail"
-      type="email"
-      placeholder="Email address"
-      autocomplete="email"
+      id="searchInput"
+      type="search"
+      placeholder="Search movies..."
+      oninput="searchMovies()"
     >
+  </div>
 
-    <input
-      id="loginPassword"
-      type="password"
-      placeholder="Password"
-      autocomplete="current-password"
-    >
-
-    <button class="btn" onclick="login()">
-      Login
-    </button>
-
-    <button class="text-btn" onclick="showSignup()">
-      Don't have an account? Create Account
-    </button>
-
-  </section>
+</header>
 
 
-  <!-- CREATE ACCOUNT -->
+<section class="hero">
 
-  <section id="signupScreen" class="screen">
+  <h1>Watch. Discover. Enjoy.</h1>
 
-    <h1>Create Account</h1>
+  <p>
+    Discover classic and public-domain movies in this Seven Movies prototype.
+    Download buttons are provided only for movies or files that you are
+    authorized to distribute.
+  </p>
 
-    <p class="subtitle">
-      Create your Seven Coins account.
-    </p>
+  <button onclick="scrollToMovies()">
+    Browse Movies
+  </button>
 
-    <div id="signupMessage" class="message"></div>
-
-    <input
-      id="signupUsername"
-      type="text"
-      placeholder="Username"
-      maxlength="30"
-    >
-
-    <input
-      id="signupEmail"
-      type="email"
-      placeholder="Email address"
-    >
-
-    <input
-      id="signupPassword"
-      type="password"
-      placeholder="Password"
-    >
-
-    <input
-      id="signupConfirm"
-      type="password"
-      placeholder="Confirm password"
-    >
-
-    <button class="btn" onclick="createAccount()">
-      Create Account
-    </button>
-
-    <button class="text-btn" onclick="showLogin()">
-      Already have an account? Login
-    </button>
-
-  </section>
+</section>
 
 
-  <!-- HOME -->
+<div class="categories">
 
-  <section id="homeScreen" class="screen">
+  <button
+    class="category active"
+    onclick="filterCategory('All', this)">
+    All
+  </button>
 
-    <div class="welcome">
-      Welcome, <strong id="homeUsername">User</strong> 👋
-    </div>
+  <button
+    class="category"
+    onclick="filterCategory('Action', this)">
+    Action
+  </button>
 
-    <div class="balance-card">
+  <button
+    class="category"
+    onclick="filterCategory('Comedy', this)">
+    Comedy
+  </button>
 
-      <div class="balance-label">
-        Your Balance
-      </div>
+  <button
+    class="category"
+    onclick="filterCategory('Drama', this)">
+    Drama
+  </button>
 
-      <div class="balance">
-        0 🪙
-      </div>
+  <button
+    class="category"
+    onclick="filterCategory('Horror', this)">
+    Horror
+  </button>
 
-    </div>
+  <button
+    class="category"
+    onclick="filterCategory('Animation', this)">
+    Animation
+  </button>
 
+  <button
+    class="category"
+    onclick="filterCategory('Classic', this)">
+    Classic
+  </button>
 
-    <h2 class="section-title">
-      Daily Tasks
-    </h2>
-
-    <div class="menu">
-
-      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/daily-tasks.html')">
-        <div class="menu-title">🎯 Daily Tasks</div>
-        <div class="menu-description">
-          Complete available tasks.
-        </div>
-      </button>
-
-      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/daily-poll.html')">
-        <div class="menu-title">📊 Daily Poll</div>
-        <div class="menu-description">
-          Vote in today's poll.
-        </div>
-      </button>
-
-      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/referral.html')">
-        <div class="menu-title">👥 Referral</div>
-        <div class="menu-description">
-          Invite friends and learn about referrals.
-        </div>
-      </button>
-
-    </div>
+</div>
 
 
-    <h2 class="section-title">
-      Account
-    </h2>
+<section id="moviesSection">
 
-    <div class="menu">
+  <h2 class="section-title">
+    🎥 Movies
+  </h2>
 
-      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/transactions-history.html')">
-        <div class="menu-title">💰 Transactions</div>
-        <div class="menu-description">
-          View transaction history.
-        </div>
-      </button>
+  <div id="movieGrid" class="movie-grid"></div>
 
-      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/withdraw.html')">
-        <div class="menu-title">💸 Withdrawal</div>
-        <div class="menu-description">
-          Withdrawals are currently unavailable.
-        </div>
-      </button>
+  <div id="empty" class="empty">
+    No movies found.
+  </div>
 
-      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/advertisement.html')">
-        <div class="menu-title">📢 Advertise</div>
-        <div class="menu-description">
-          Promote your product.
-        </div>
-      </button>
-
-    </div>
+</section>
 
 
-    <div class="bottom-nav">
+<footer>
 
-      <button onclick="showHome()">
-        🏠<br>Home
-      </button>
+  <p>© 2026 Seven Movies</p>
 
-      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/daily-tasks.html')">
-        🎯<br>Tasks
-      </button>
+  <p style="margin-top:8px;">
+    Only authorized, public-domain, or properly licensed content should
+    be distributed through this website.
+  </p>
 
-      <button onclick="openPage('https://nigeriasurveys.blogspot.com/p/referral.html')">
-        👥<br>Referral
-      </button>
-
-      <button onclick="showProfile()">
-        👤<br>Profile
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- PROFILE -->
-
-  <section id="profileScreen" class="screen">
-
-    <h1>Profile</h1>
-
-    <p class="subtitle">
-      Your Seven Coins account.
-    </p>
-
-    <div class="profile-card">
-      <strong>Username</strong>
-      <p id="profileUsername">—</p>
-    </div>
-
-    <div class="profile-card">
-      <strong>Email</strong>
-      <p id="profileEmail">—</p>
-    </div>
-
-    <button class="btn secondary" onclick="showHome()">
-      ← Back Home
-    </button>
-
-    <button class="btn danger" onclick="logout()">
-      Logout
-    </button>
-
-  </section>
+</footer>
 
 </div>
 
 
 <script>
 
-  /*
-   * ==========================================
-   * SEVEN COINS PROTOTYPE AUTHENTICATION
-   * ==========================================
-   *
-   * NO FIREBASE
-   * NO SUPABASE
-   * NO API KEY
-   *
-   * This is ONLY a prototype.
-   */
+/* =========================================
+   MOVIE DATABASE
+   ========================================= */
+
+const movies = [
+
+  {
+    title: "The General",
+    year: "1926",
+    genre: "Comedy",
+    type: "Classic",
+    description:
+      "A classic silent comedy featuring Buster Keaton.",
+    poster:
+      "🎬",
+    download:
+      "https://archive.org/download/TheGeneral1926_0/TheGeneral1926_0.mp4"
+  },
+
+  {
+    title: "His Girl Friday",
+    year: "1940",
+    genre: "Comedy",
+    type: "Classic",
+    description:
+      "A fast-paced classic comedy-drama.",
+    poster:
+      "📰",
+    download:
+      "https://archive.org/"
+  },
+
+  {
+    title: "Night of the Living Dead",
+    year: "1968",
+    genre: "Horror",
+    type: "Classic",
+    description:
+      "A landmark independent horror film.",
+    poster:
+      "🧟",
+    download:
+      "https://archive.org/"
+  },
+
+  {
+    title: "Charade",
+    year: "1963",
+    genre: "Drama",
+    type: "Classic",
+    description:
+      "A mystery thriller starring Audrey Hepburn and Cary Grant.",
+    poster:
+      "🕵️",
+    download:
+      "https://archive.org/"
+  },
+
+  {
+    title: "Sherlock Jr.",
+    year: "1924",
+    genre: "Comedy",
+    type: "Classic",
+    description:
+      "A silent comedy classic starring Buster Keaton.",
+    poster:
+      "🔎",
+    download:
+      "https://archive.org/"
+  },
+
+  {
+    title: "The Phantom of the Opera",
+    year: "1925",
+    genre: "Drama",
+    type: "Classic",
+    description:
+      "A landmark silent-era adaptation of the famous story.",
+    poster:
+      "🎭",
+    download:
+      "https://archive.org/"
+  },
+
+  {
+    title: "Plan 9 from Outer Space",
+    year: "1959",
+    genre: "Action",
+    type: "Classic",
+    description:
+      "A famous low-budget science-fiction cult classic.",
+    poster:
+      "👽",
+    download:
+      "https://archive.org/"
+  },
+
+  {
+    title: "The Last Man on Earth",
+    year: "1964",
+    genre: "Horror",
+    type: "Classic",
+    description:
+      "A classic science-fiction horror story.",
+    poster:
+      "🌙",
+    download:
+      "https://archive.org/"
+  }
+
+];
 
 
-  const ACCOUNT_KEY = "sevenCoinsAccount";
+/* =========================================
+   STATE
+   ========================================= */
 
-  const SESSION_KEY = "sevenCoinsLoggedIn";
+let currentCategory = "All";
 
 
-  /* =========================
-     SCREEN CONTROL
-  ========================= */
+/* =========================================
+   DISPLAY MOVIES
+   ========================================= */
 
-  function showScreen(id) {
+function displayMovies(list) {
 
-    document
-      .querySelectorAll(".screen")
-      .forEach(screen => {
-        screen.classList.remove("active");
-      });
+  const grid =
+    document.getElementById("movieGrid");
 
-    document
-      .getElementById(id)
-      .classList.add("active");
+  const empty =
+    document.getElementById("empty");
+
+
+  grid.innerHTML = "";
+
+
+  if (list.length === 0) {
+
+    empty.style.display = "block";
+
+    return;
 
   }
 
 
-  function showLogin() {
-
-    clearMessages();
-
-    showScreen("loginScreen");
-
-  }
+  empty.style.display = "none";
 
 
-  function showSignup() {
+  list.forEach(movie => {
 
-    clearMessages();
+    const card =
+      document.createElement("div");
 
-    showScreen("signupScreen");
-
-  }
+    card.className = "movie";
 
 
-  function showHome() {
+    card.innerHTML = `
 
-    const account = getAccount();
+      <div class="poster">
+        ${movie.poster}
+      </div>
 
-    if (!account) {
+      <div class="movie-info">
 
-      showLogin();
+        <div class="movie-title">
+          ${movie.title}
+        </div>
 
-      return;
+        <div class="movie-meta">
+          ${movie.year} • ${movie.genre}
+        </div>
 
-    }
+        <div class="movie-description">
+          ${movie.description}
+        </div>
 
+        <button
+          onclick="downloadMovie('${movie.download}')">
+          ⬇ Download
+        </button>
+
+      </div>
+
+    `;
+
+
+    grid.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================
+   CATEGORY FILTER
+   ========================================= */
+
+function filterCategory(category, button) {
+
+  currentCategory = category;
+
+
+  document
+    .querySelectorAll(".category")
+    .forEach(btn => {
+      btn.classList.remove("active");
+    });
+
+
+  button.classList.add("active");
+
+
+  searchMovies();
+
+}
+
+
+/* =========================================
+   SEARCH
+   ========================================= */
+
+function searchMovies() {
+
+  const query =
     document
-      .getElementById("homeUsername")
-      .textContent = account.username;
-
-    showScreen("homeScreen");
-
-  }
+      .getElementById("searchInput")
+      .value
+      .toLowerCase()
+      .trim();
 
 
-  function showProfile() {
+  let results =
+    movies.filter(movie => {
 
-    const account = getAccount();
+      const matchesSearch =
+        movie.title
+          .toLowerCase()
+          .includes(query) ||
 
-    if (!account) {
+        movie.genre
+          .toLowerCase()
+          .includes(query) ||
 
-      showLogin();
-
-      return;
-
-    }
-
-    document
-      .getElementById("profileUsername")
-      .textContent = account.username;
-
-    document
-      .getElementById("profileEmail")
-      .textContent = account.email;
-
-    showScreen("profileScreen");
-
-  }
+        movie.description
+          .toLowerCase()
+          .includes(query);
 
 
-  /* =========================
-     CREATE ACCOUNT
-  ========================= */
+      const matchesCategory =
+        currentCategory === "All" ||
 
-  function createAccount() {
+        movie.genre === currentCategory ||
 
-    const username =
-      document
-        .getElementById("signupUsername")
-        .value
-        .trim();
-
-    const email =
-      document
-        .getElementById("signupEmail")
-        .value
-        .trim()
-        .toLowerCase();
-
-    const password =
-      document
-        .getElementById("signupPassword")
-        .value;
-
-    const confirm =
-      document
-        .getElementById("signupConfirm")
-        .value;
+        movie.type === currentCategory;
 
 
-    if (!username) {
+      return matchesSearch && matchesCategory;
 
-      showSignupMessage(
-        "Please enter a username."
-      );
-
-      return;
-
-    }
+    });
 
 
-    if (!email || !email.includes("@")) {
+  displayMovies(results);
 
-      showSignupMessage(
-        "Please enter a valid email address."
-      );
-
-      return;
-
-    }
+}
 
 
-    if (password.length < 6) {
+/* =========================================
+   DOWNLOAD
+   ========================================= */
 
-      showSignupMessage(
-        "Password must be at least 6 characters."
-      );
+function downloadMovie(url) {
 
-      return;
+  if (!url) {
 
-    }
-
-
-    if (password !== confirm) {
-
-      showSignupMessage(
-        "Passwords do not match."
-      );
-
-      return;
-
-    }
-
-
-    const existingAccount =
-      getAccount();
-
-
-    if (existingAccount) {
-
-      showSignupMessage(
-        "An account already exists in this browser."
-      );
-
-      return;
-
-    }
-
-
-    const account = {
-
-      username: username,
-
-      email: email,
-
-      /*
-       * Prototype only.
-       * Real applications should NEVER
-       * store passwords like this.
-       */
-
-      password: password,
-
-      balance: 0,
-
-      createdAt:
-        new Date().toISOString()
-
-    };
-
-
-    localStorage.setItem(
-      ACCOUNT_KEY,
-      JSON.stringify(account)
+    alert(
+      "A download file has not been added yet."
     );
 
-
-    localStorage.setItem(
-      SESSION_KEY,
-      "true"
-    );
-
-
-    showHome();
+    return;
 
   }
 
 
-  /* =========================
-     LOGIN
-  ========================= */
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer"
+  );
 
-  function login() {
+}
 
-    const email =
-      document
-        .getElementById("loginEmail")
-        .value
-        .trim()
-        .toLowerCase();
 
-    const password =
-      document
-        .getElementById("loginPassword")
-        .value;
+/* =========================================
+   SCROLL
+   ========================================= */
 
+function scrollToMovies() {
 
-    const account =
-      getAccount();
+  document
+    .getElementById("moviesSection")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
 
+}
 
-    if (!account) {
 
-      showLoginMessage(
-        "No account found. Please create an account first."
-      );
+/* =========================================
+   START
+   ========================================= */
 
-      return;
-
-    }
-
-
-    if (
-      email !== account.email ||
-      password !== account.password
-    ) {
-
-      showLoginMessage(
-        "Incorrect email or password."
-      );
-
-      return;
-
-    }
-
-
-    localStorage.setItem(
-      SESSION_KEY,
-      "true"
-    );
-
-
-    showHome();
-
-  }
-
-
-  /* =========================
-     LOGOUT
-  ========================= */
-
-  function logout() {
-
-    localStorage.removeItem(
-      SESSION_KEY
-    );
-
-    document
-      .getElementById("loginEmail")
-      .value = "";
-
-    document
-      .getElementById("loginPassword")
-      .value = "";
-
-    showLogin();
-
-  }
-
-
-  /* =========================
-     GET ACCOUNT
-  ========================= */
-
-  function getAccount() {
-
-    const data =
-      localStorage.getItem(
-        ACCOUNT_KEY
-      );
-
-
-    if (!data) {
-
-      return null;
-
-    }
-
-
-    try {
-
-      return JSON.parse(data);
-
-    } catch {
-
-      return null;
-
-    }
-
-  }
-
-
-  /* =========================
-     CHECK SESSION
-  ========================= */
-
-  function checkSession() {
-
-    const loggedIn =
-      localStorage.getItem(
-        SESSION_KEY
-      );
-
-
-    const account =
-      getAccount();
-
-
-    if (loggedIn === "true" && account) {
-
-      showHome();
-
-    } else {
-
-      showLogin();
-
-    }
-
-  }
-
-
-  /* =========================
-     BLOGGER PAGES
-  ========================= */
-
-  function openPage(url) {
-
-    window.location.href = url;
-
-  }
-
-
-  /* =========================
-     MESSAGES
-  ========================= */
-
-  function showLoginMessage(message) {
-
-    const element =
-      document.getElementById(
-        "loginMessage"
-      );
-
-    element.textContent = message;
-
-    element.classList.add("show");
-
-  }
-
-
-  function showSignupMessage(message) {
-
-    const element =
-      document.getElementById(
-        "signupMessage"
-      );
-
-    element.textContent = message;
-
-    element.classList.add("show");
-
-  }
-
-
-  function clearMessages() {
-
-    document
-      .getElementById("loginMessage")
-      .classList.remove("show");
-
-    document
-      .getElementById("signupMessage")
-      .classList.remove("show");
-
-  }
-
-
-  /* =========================
-     START APP
-  ========================= */
-
-  checkSession();
+displayMovies(movies);
 
 </script>
 
