@@ -28,7 +28,7 @@
       max-width: 480px;
       min-height: 100vh;
       margin: auto;
-      background: #fff;
+      background: white;
       padding: 20px;
     }
 
@@ -91,14 +91,9 @@
       border-radius: 11px;
       padding: 14px;
       background: #111;
-      color: #fff;
+      color: white;
       cursor: pointer;
       margin-bottom: 10px;
-    }
-
-    .btn:disabled {
-      opacity: .6;
-      cursor: not-allowed;
     }
 
     .secondary {
@@ -127,7 +122,7 @@
 
     .balance-card {
       background: #111;
-      color: #fff;
+      color: white;
       border-radius: 18px;
       padding: 25px;
       margin-bottom: 22px;
@@ -158,7 +153,7 @@
       width: 100%;
       text-align: left;
       border: 1px solid #ddd;
-      background: #fff;
+      background: white;
       border-radius: 14px;
       padding: 16px;
       cursor: pointer;
@@ -208,12 +203,6 @@
       font-size: 14px;
       word-break: break-word;
     }
-
-    .loading {
-      text-align: center;
-      color: #777;
-      padding: 40px 0;
-    }
   </style>
 </head>
 
@@ -223,7 +212,9 @@
 
   <div class="logo">🪙 Seven Coins</div>
 
+
   <!-- LOGIN -->
+
   <section id="loginScreen" class="screen active">
 
     <h1>Welcome Back</h1>
@@ -248,11 +239,11 @@
       autocomplete="current-password"
     >
 
-    <button id="loginBtn" class="btn">
+    <button class="btn" onclick="login()">
       Login
     </button>
 
-    <button id="showSignupBtn" class="text-btn">
+    <button class="text-btn" onclick="showSignup()">
       Don't have an account? Create Account
     </button>
 
@@ -260,6 +251,7 @@
 
 
   <!-- CREATE ACCOUNT -->
+
   <section id="signupScreen" class="screen">
 
     <h1>Create Account</h1>
@@ -275,52 +267,39 @@
       type="text"
       placeholder="Username"
       maxlength="30"
-      autocomplete="username"
     >
 
     <input
       id="signupEmail"
       type="email"
       placeholder="Email address"
-      autocomplete="email"
     >
 
     <input
       id="signupPassword"
       type="password"
       placeholder="Password"
-      autocomplete="new-password"
     >
 
     <input
       id="signupConfirm"
       type="password"
       placeholder="Confirm password"
-      autocomplete="new-password"
     >
 
-    <button id="signupBtn" class="btn">
+    <button class="btn" onclick="createAccount()">
       Create Account
     </button>
 
-    <button id="showLoginBtn" class="text-btn">
+    <button class="text-btn" onclick="showLogin()">
       Already have an account? Login
     </button>
 
   </section>
 
 
-  <!-- LOADING -->
-  <section id="loadingScreen" class="screen">
-
-    <div class="loading">
-      Connecting to Seven Coins...
-    </div>
-
-  </section>
-
-
   <!-- HOME -->
+
   <section id="homeScreen" class="screen">
 
     <div class="welcome">
@@ -424,6 +403,7 @@
 
 
   <!-- PROFILE -->
+
   <section id="profileScreen" class="screen">
 
     <h1>Profile</h1>
@@ -442,11 +422,6 @@
       <p id="profileEmail">—</p>
     </div>
 
-    <div class="profile-card">
-      <strong>Account ID</strong>
-      <p id="profileUid">—</p>
-    </div>
-
     <button class="btn secondary" onclick="showHome()">
       ← Back Home
     </button>
@@ -460,51 +435,29 @@
 </div>
 
 
-<!-- Firebase -->
-<script type="module">
+<script>
 
-  import { initializeApp }
-    from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut,
-    updateProfile
-  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-  /* ================================
-     YOUR FIREBASE CONFIG
-  ================================= */
-
-  const firebaseConfig = {
-
-    apiKey: "AIzaSyBKVtAuouv5c29zhtRwiesyVizPaaVnB8M",
-
-    authDomain: "seven-coins-b841d.firebaseapp.com",
-
-    projectId: "seven-coins-b841d",
-
-    storageBucket: "seven-coins-b841d.firebasestorage.app",
-
-    messagingSenderId: "457210030247",
-
-    appId: "1:457210030247:web:830d1402d137d178245382"
-
-  };
+  /*
+   * ==========================================
+   * SEVEN COINS PROTOTYPE AUTHENTICATION
+   * ==========================================
+   *
+   * NO FIREBASE
+   * NO SUPABASE
+   * NO API KEY
+   *
+   * This is ONLY a prototype.
+   */
 
 
-  const app = initializeApp(firebaseConfig);
+  const ACCOUNT_KEY = "sevenCoinsAccount";
 
-  const auth = getAuth(app);
+  const SESSION_KEY = "sevenCoinsLoggedIn";
 
 
-  /* ================================
+  /* =========================
      SCREEN CONTROL
-  ================================= */
+  ========================= */
 
   function showScreen(id) {
 
@@ -521,361 +474,402 @@
   }
 
 
-  window.showHome = function() {
+  function showLogin() {
+
+    clearMessages();
+
+    showScreen("loginScreen");
+
+  }
+
+
+  function showSignup() {
+
+    clearMessages();
+
+    showScreen("signupScreen");
+
+  }
+
+
+  function showHome() {
+
+    const account = getAccount();
+
+    if (!account) {
+
+      showLogin();
+
+      return;
+
+    }
+
+    document
+      .getElementById("homeUsername")
+      .textContent = account.username;
 
     showScreen("homeScreen");
 
-  };
+  }
 
 
-  window.showProfile = function() {
+  function showProfile() {
 
-    const user = auth.currentUser;
+    const account = getAccount();
 
-    if (!user) return;
+    if (!account) {
 
-    document.getElementById("profileUsername").textContent =
-      user.displayName || "No username";
+      showLogin();
 
-    document.getElementById("profileEmail").textContent =
-      user.email || "No email";
+      return;
 
-    document.getElementById("profileUid").textContent =
-      user.uid;
+    }
+
+    document
+      .getElementById("profileUsername")
+      .textContent = account.username;
+
+    document
+      .getElementById("profileEmail")
+      .textContent = account.email;
 
     showScreen("profileScreen");
 
-  };
+  }
 
 
-  /* ================================
-     OPEN BLOGGER PAGE
-  ================================= */
-
-  window.openPage = function(url) {
-
-    window.location.href = url;
-
-  };
-
-
-  /* ================================
-     LOGIN
-  ================================= */
-
-  document
-    .getElementById("loginBtn")
-    .addEventListener("click", async () => {
-
-      const email =
-        document.getElementById("loginEmail").value.trim();
-
-      const password =
-        document.getElementById("loginPassword").value;
-
-      const message =
-        document.getElementById("loginMessage");
-
-      message.classList.remove("show");
-
-
-      if (!email || !password) {
-
-        message.textContent =
-          "Please enter your email and password.";
-
-        message.classList.add("show");
-
-        return;
-
-      }
-
-
-      const button =
-        document.getElementById("loginBtn");
-
-      button.disabled = true;
-
-      button.textContent = "Logging in...";
-
-
-      try {
-
-        await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-      } catch (error) {
-
-        console.error(error);
-
-        message.textContent =
-          getFirebaseError(error);
-
-        message.classList.add("show");
-
-      }
-
-
-      button.disabled = false;
-
-      button.textContent = "Login";
-
-    });
-
-
-  /* ================================
+  /* =========================
      CREATE ACCOUNT
-  ================================= */
+  ========================= */
 
-  document
-    .getElementById("signupBtn")
-    .addEventListener("click", async () => {
+  function createAccount() {
 
-      const username =
-        document.getElementById("signupUsername").value.trim();
+    const username =
+      document
+        .getElementById("signupUsername")
+        .value
+        .trim();
 
-      const email =
-        document.getElementById("signupEmail").value.trim();
+    const email =
+      document
+        .getElementById("signupEmail")
+        .value
+        .trim()
+        .toLowerCase();
 
-      const password =
-        document.getElementById("signupPassword").value;
+    const password =
+      document
+        .getElementById("signupPassword")
+        .value;
 
-      const confirm =
-        document.getElementById("signupConfirm").value;
-
-      const message =
-        document.getElementById("signupMessage");
-
-      message.classList.remove("show");
-
-
-      if (!username) {
-
-        message.textContent =
-          "Please enter a username.";
-
-        message.classList.add("show");
-
-        return;
-
-      }
+    const confirm =
+      document
+        .getElementById("signupConfirm")
+        .value;
 
 
-      if (!email) {
+    if (!username) {
 
-        message.textContent =
-          "Please enter your email.";
+      showSignupMessage(
+        "Please enter a username."
+      );
 
-        message.classList.add("show");
+      return;
 
-        return;
-
-      }
-
-
-      if (password.length < 6) {
-
-        message.textContent =
-          "Password must be at least 6 characters.";
-
-        message.classList.add("show");
-
-        return;
-
-      }
+    }
 
 
-      if (password !== confirm) {
+    if (!email || !email.includes("@")) {
 
-        message.textContent =
-          "Passwords do not match.";
+      showSignupMessage(
+        "Please enter a valid email address."
+      );
 
-        message.classList.add("show");
+      return;
 
-        return;
-
-      }
-
-
-      const button =
-        document.getElementById("signupBtn");
-
-      button.disabled = true;
-
-      button.textContent =
-        "Creating account...";
+    }
 
 
-      try {
+    if (password.length < 6) {
 
-        const result =
-          await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
+      showSignupMessage(
+        "Password must be at least 6 characters."
+      );
 
+      return;
 
-        await updateProfile(
-          result.user,
-          {
-            displayName: username
-          }
-        );
+    }
 
 
-      } catch (error) {
+    if (password !== confirm) {
 
-        console.error(error);
+      showSignupMessage(
+        "Passwords do not match."
+      );
 
-        message.textContent =
-          getFirebaseError(error);
+      return;
 
-        message.classList.add("show");
-
-      }
-
-
-      button.disabled = false;
-
-      button.textContent =
-        "Create Account";
-
-    });
+    }
 
 
-  /* ================================
+    const existingAccount =
+      getAccount();
+
+
+    if (existingAccount) {
+
+      showSignupMessage(
+        "An account already exists in this browser."
+      );
+
+      return;
+
+    }
+
+
+    const account = {
+
+      username: username,
+
+      email: email,
+
+      /*
+       * Prototype only.
+       * Real applications should NEVER
+       * store passwords like this.
+       */
+
+      password: password,
+
+      balance: 0,
+
+      createdAt:
+        new Date().toISOString()
+
+    };
+
+
+    localStorage.setItem(
+      ACCOUNT_KEY,
+      JSON.stringify(account)
+    );
+
+
+    localStorage.setItem(
+      SESSION_KEY,
+      "true"
+    );
+
+
+    showHome();
+
+  }
+
+
+  /* =========================
+     LOGIN
+  ========================= */
+
+  function login() {
+
+    const email =
+      document
+        .getElementById("loginEmail")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const password =
+      document
+        .getElementById("loginPassword")
+        .value;
+
+
+    const account =
+      getAccount();
+
+
+    if (!account) {
+
+      showLoginMessage(
+        "No account found. Please create an account first."
+      );
+
+      return;
+
+    }
+
+
+    if (
+      email !== account.email ||
+      password !== account.password
+    ) {
+
+      showLoginMessage(
+        "Incorrect email or password."
+      );
+
+      return;
+
+    }
+
+
+    localStorage.setItem(
+      SESSION_KEY,
+      "true"
+    );
+
+
+    showHome();
+
+  }
+
+
+  /* =========================
      LOGOUT
-  ================================= */
+  ========================= */
 
-  window.logout = async function() {
+  function logout() {
+
+    localStorage.removeItem(
+      SESSION_KEY
+    );
+
+    document
+      .getElementById("loginEmail")
+      .value = "";
+
+    document
+      .getElementById("loginPassword")
+      .value = "";
+
+    showLogin();
+
+  }
+
+
+  /* =========================
+     GET ACCOUNT
+  ========================= */
+
+  function getAccount() {
+
+    const data =
+      localStorage.getItem(
+        ACCOUNT_KEY
+      );
+
+
+    if (!data) {
+
+      return null;
+
+    }
+
 
     try {
 
-      await signOut(auth);
+      return JSON.parse(data);
 
-    } catch (error) {
+    } catch {
 
-      console.error(error);
-
-      alert("Logout failed. Please try again.");
-
-    }
-
-  };
-
-
-  /* ================================
-     AUTH STATE
-  ================================= */
-
-  onAuthStateChanged(auth, user => {
-
-    if (user) {
-
-      document
-        .getElementById("homeUsername")
-        .textContent =
-          user.displayName || "User";
-
-      document
-        .getElementById("profileUsername")
-        .textContent =
-          user.displayName || "No username";
-
-      document
-        .getElementById("profileEmail")
-        .textContent =
-          user.email || "No email";
-
-      document
-        .getElementById("profileUid")
-        .textContent =
-          user.uid;
-
-      showScreen("homeScreen");
-
-    } else {
-
-      showScreen("loginScreen");
-
-    }
-
-  });
-
-
-  /* ================================
-     SWITCH LOGIN / SIGNUP
-  ================================= */
-
-  document
-    .getElementById("showSignupBtn")
-    .addEventListener("click", () => {
-
-      document
-        .getElementById("loginMessage")
-        .classList.remove("show");
-
-      showScreen("signupScreen");
-
-    });
-
-
-  document
-    .getElementById("showLoginBtn")
-    .addEventListener("click", () => {
-
-      document
-        .getElementById("signupMessage")
-        .classList.remove("show");
-
-      showScreen("loginScreen");
-
-    });
-
-
-  /* ================================
-     FIREBASE ERROR MESSAGES
-  ================================= */
-
-  function getFirebaseError(error) {
-
-    switch (error.code) {
-
-      case "auth/invalid-email":
-        return "Please enter a valid email address.";
-
-      case "auth/email-already-in-use":
-        return "This email is already registered.";
-
-      case "auth/weak-password":
-        return "Password must be at least 6 characters.";
-
-      case "auth/invalid-credential":
-        return "Incorrect email or password.";
-
-      case "auth/user-not-found":
-        return "No account found with this email.";
-
-      case "auth/wrong-password":
-        return "Incorrect email or password.";
-
-      case "auth/network-request-failed":
-        return "Network error. Check your internet connection.";
-
-      case "auth/too-many-requests":
-        return "Too many attempts. Please try again later.";
-
-      default:
-        return error.message ||
-          "Something went wrong. Please try again.";
+      return null;
 
     }
 
   }
+
+
+  /* =========================
+     CHECK SESSION
+  ========================= */
+
+  function checkSession() {
+
+    const loggedIn =
+      localStorage.getItem(
+        SESSION_KEY
+      );
+
+
+    const account =
+      getAccount();
+
+
+    if (loggedIn === "true" && account) {
+
+      showHome();
+
+    } else {
+
+      showLogin();
+
+    }
+
+  }
+
+
+  /* =========================
+     BLOGGER PAGES
+  ========================= */
+
+  function openPage(url) {
+
+    window.location.href = url;
+
+  }
+
+
+  /* =========================
+     MESSAGES
+  ========================= */
+
+  function showLoginMessage(message) {
+
+    const element =
+      document.getElementById(
+        "loginMessage"
+      );
+
+    element.textContent = message;
+
+    element.classList.add("show");
+
+  }
+
+
+  function showSignupMessage(message) {
+
+    const element =
+      document.getElementById(
+        "signupMessage"
+      );
+
+    element.textContent = message;
+
+    element.classList.add("show");
+
+  }
+
+
+  function clearMessages() {
+
+    document
+      .getElementById("loginMessage")
+      .classList.remove("show");
+
+    document
+      .getElementById("signupMessage")
+      .classList.remove("show");
+
+  }
+
+
+  /* =========================
+     START APP
+  ========================= */
+
+  checkSession();
 
 </script>
 
