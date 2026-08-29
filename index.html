@@ -2,218 +2,258 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Celedit Words</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+<title>Celedit Tic Tac Toe</title>
 
 <style>
 *{
   box-sizing:border-box;
+  margin:0;
+  padding:0;
   -webkit-tap-highlight-color:transparent;
 }
 
 body{
-  margin:0;
   min-height:100vh;
   font-family:Arial,sans-serif;
-  background:
-    radial-gradient(circle at top,#34495e 0,#101722 45%,#070b11 100%);
   color:white;
+  background:
+    radial-gradient(circle at top,#263a58,#0b1018 55%,#05070a);
+  display:flex;
+  justify-content:center;
 }
 
 .app{
   width:100%;
-  max-width:520px;
-  margin:auto;
-  padding:15px;
+  max-width:480px;
   min-height:100vh;
+  padding:18px;
+  text-align:center;
 }
+
+/* HEADER */
 
 .header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:12px;
+  margin-bottom:22px;
 }
 
 .logo{
-  font-size:24px;
+  font-size:23px;
   font-weight:900;
 }
 
-.coins{
-  background:#202a38;
-  padding:9px 13px;
+.badge{
+  background:#182331;
+  padding:8px 12px;
   border-radius:20px;
+  font-size:12px;
   font-weight:bold;
 }
 
-.levelBox{
-  text-align:center;
+/* SCORE */
+
+.scoreboard{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  margin-bottom:18px;
+}
+
+.score{
+  background:#121b27;
+  border:1px solid #273548;
+  border-radius:15px;
+  padding:12px 5px;
+}
+
+.score strong{
+  display:block;
+  font-size:23px;
+  margin-bottom:3px;
+}
+
+.score span{
+  color:#8997aa;
+  font-size:11px;
+}
+
+/* TURN */
+
+.turn{
+  min-height:25px;
   margin-bottom:15px;
+  font-size:15px;
+  font-weight:800;
 }
 
-.level{
-  font-size:25px;
-  font-weight:900;
-}
+/* BOARD */
 
-.progress{
-  width:100%;
-  height:7px;
-  background:#202a38;
-  border-radius:20px;
-  overflow:hidden;
-  margin-top:9px;
-}
-
-.progressBar{
-  height:100%;
-  width:0%;
-  background:#f1c40f;
-  transition:.3s;
-}
-
-.words{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-  margin:15px 0 25px;
-}
-
-.wordRow{
-  display:flex;
-  gap:7px;
-  min-height:40px;
-}
-
-.slot{
-  width:35px;
-  height:38px;
-  border-bottom:3px solid #9ba6b5;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:22px;
-  font-weight:900;
-}
-
-.slot.found{
-  color:#f1c40f;
-  border-bottom-color:#f1c40f;
-}
-
-.answer{
-  min-height:45px;
-  text-align:center;
-  font-size:30px;
-  font-weight:900;
-  letter-spacing:4px;
-  margin-bottom:20px;
-}
-
-.letters{
-  width:270px;
-  height:270px;
-  margin:auto;
+.board{
   position:relative;
-}
+  width:min(92vw,390px);
+  aspect-ratio:1;
+  margin:auto;
 
-.letter{
-  position:absolute;
-  width:66px;
-  height:66px;
-  border-radius:50%;
-  border:0;
-  background:
-    linear-gradient(145deg,#ffffff,#cfd6df);
-  color:#17202b;
-  font-size:24px;
-  font-weight:900;
-  box-shadow:
-    0 7px 14px rgba(0,0,0,.35),
-    inset 0 2px 3px rgba(255,255,255,.8);
-  cursor:pointer;
-  transform:translate(-50%,-50%);
-}
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:repeat(3,1fr);
 
-.letter:active{
-  transform:translate(-50%,-50%) scale(.9);
-}
-
-.letter.used{
-  opacity:.3;
-  pointer-events:none;
-}
-
-.centerCircle{
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:90px;
-  height:90px;
-  transform:translate(-50%,-50%);
-  border-radius:50%;
-  border:2px solid rgba(255,255,255,.12);
-  pointer-events:none;
-}
-
-.buttons{
-  display:flex;
-  justify-content:center;
   gap:8px;
-  margin-top:20px;
+
+  background:#101722;
+  padding:8px;
+  border-radius:25px;
+
+  box-shadow:
+    0 20px 55px rgba(0,0,0,.5);
 }
 
-.action{
+.cell{
   border:0;
-  border-radius:12px;
-  padding:11px 15px;
-  background:#202a38;
+  border-radius:18px;
+  background:#1a2533;
   color:white;
-  font-weight:bold;
+
+  font-size:62px;
+  font-weight:900;
+
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  transition:
+    transform .12s,
+    background .2s;
+}
+
+.cell:active{
+  transform:scale(.94);
+}
+
+.cell.x{
+  color:#4da3ff;
+}
+
+.cell.o{
+  color:#ff6078;
+}
+
+.cell.win{
+  animation:
+    winPulse .55s infinite alternate;
+}
+
+@keyframes winPulse{
+  from{
+    transform:scale(1);
+  }
+  to{
+    transform:scale(1.06);
+  }
+}
+
+/* CONTROLS */
+
+.controls{
+  margin-top:18px;
+  display:grid;
+  gap:10px;
+}
+
+button{
+  font-family:inherit;
+}
+
+.control{
+  border:0;
+  border-radius:13px;
+  padding:13px;
+  background:#1b2735;
+  color:white;
+  font-size:14px;
+  font-weight:800;
   cursor:pointer;
 }
 
-.action:active{
-  transform:scale(.95);
+.control:active{
+  transform:scale(.97);
 }
 
-.hint{
-  background:#e6b800;
+.primary{
+  background:#f1c40f;
   color:#111;
 }
 
-.message{
-  text-align:center;
-  min-height:22px;
-  margin-top:13px;
+/* MODE */
+
+.modes{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+
+.mode{
+  flex:1;
+  border:1px solid #304053;
+  background:#121b27;
+  color:#9eabba;
+  border-radius:12px;
+  padding:10px 5px;
+  font-size:12px;
   font-weight:bold;
 }
 
-.stats{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-top:14px;
+.mode.active{
+  background:#29394d;
+  color:white;
+  border-color:#687b94;
 }
 
-.stat{
-  background:#151e2a;
-  border-radius:12px;
-  padding:8px 12px;
-  font-size:12px;
+/* DIFFICULTY */
+
+.difficulty{
+  margin-top:10px;
+  display:flex;
+  gap:7px;
 }
+
+.diff{
+  flex:1;
+  border:1px solid #304053;
+  background:#121b27;
+  color:#9eabba;
+  border-radius:10px;
+  padding:9px 3px;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.diff.active{
+  background:#27394e;
+  color:white;
+}
+
+/* POPUP */
 
 .overlay{
-  display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.82);
+
+  display:none;
   align-items:center;
   justify-content:center;
+
+  background:rgba(0,0,0,.82);
+
   padding:20px;
-  z-index:50;
+
+  z-index:20;
 }
 
 .overlay.show{
@@ -223,43 +263,69 @@ body{
 .popup{
   width:100%;
   max-width:350px;
-  background:#17202c;
+
+  background:#17212e;
+  border:1px solid #2a394c;
+
   border-radius:25px;
-  padding:28px;
-  text-align:center;
+
+  padding:30px 22px;
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.6);
 }
 
 .popupIcon{
-  font-size:55px;
+  font-size:60px;
 }
 
 .popup h2{
   margin:8px 0;
+  font-size:28px;
 }
 
 .popup p{
-  color:#aeb7c4;
+  color:#aab5c4;
   line-height:1.5;
 }
 
 .popup button{
-  border:0;
   width:100%;
+  margin-top:16px;
   padding:13px;
+  border:0;
   border-radius:12px;
-  font-weight:bold;
-  margin-top:10px;
+  background:#f1c40f;
+  color:#111;
+  font-weight:900;
+}
+
+.resetScore{
+  margin-top:9px;
+  background:#121b27;
+  color:#8795a8;
+}
+
+.footer{
+  margin-top:18px;
+  color:#68778b;
+  font-size:11px;
 }
 
 @media(max-width:380px){
-  .letters{
-    width:245px;
-    height:245px;
+
+  .app{
+    padding:12px;
   }
 
-  .letter{
-    width:60px;
-    height:60px;
+  .cell{
+    font-size:51px;
+    border-radius:15px;
+  }
+
+  .board{
+    gap:6px;
+    padding:6px;
   }
 }
 </style>
@@ -272,147 +338,161 @@ body{
   <div class="header">
 
     <div class="logo">
-      🍪 Celedit Words
+      ❌⭕ Celedit
     </div>
 
-    <div class="coins">
-      🪙 <span id="coins">100</span>
+    <div class="badge">
+      TIC TAC TOE
     </div>
 
   </div>
 
 
-  <div class="levelBox">
+  <!-- SCORE -->
 
-    <div class="level">
-      Level <span id="level">1</span>
+  <div class="scoreboard">
+
+    <div class="score">
+      <strong id="playerScore">0</strong>
+      <span id="playerLabel">YOU ❌</span>
     </div>
 
-    <div class="progress">
-      <div
-        class="progressBar"
-        id="progressBar">
-      </div>
+    <div class="score">
+      <strong id="drawScore">0</strong>
+      <span>DRAWS</span>
+    </div>
+
+    <div class="score">
+      <strong id="computerScore">0</strong>
+      <span id="computerLabel">CPU ⭕</span>
     </div>
 
   </div>
 
 
   <div
-    class="words"
-    id="words">
+    class="turn"
+    id="turn">
+    Your turn
   </div>
 
+
+  <!-- BOARD -->
 
   <div
-    class="answer"
-    id="answer">
+    class="board"
+    id="board">
+
+    <button class="cell" data-index="0"></button>
+    <button class="cell" data-index="1"></button>
+    <button class="cell" data-index="2"></button>
+
+    <button class="cell" data-index="3"></button>
+    <button class="cell" data-index="4"></button>
+    <button class="cell" data-index="5"></button>
+
+    <button class="cell" data-index="6"></button>
+    <button class="cell" data-index="7"></button>
+    <button class="cell" data-index="8"></button>
+
   </div>
 
 
-  <div class="letters">
+  <!-- CONTROLS -->
 
-    <div class="centerCircle"></div>
-
-    <div id="letters"></div>
-
-  </div>
-
-
-  <div class="buttons">
+  <div class="controls">
 
     <button
-      class="action"
-      onclick="clearAnswer()">
-      ⌫ Clear
+      class="control primary"
+      onclick="newRound()">
+      🔄 New Round
     </button>
 
-    <button
-      class="action"
-      onclick="shuffleLetters()">
-      🔀 Shuffle
-    </button>
+    <div class="modes">
 
-    <button
-      class="action hint"
-      onclick="useHint()">
-      💡 Hint
-    </button>
+      <button
+        class="mode active"
+        id="cpuMode"
+        onclick="setMode('cpu')">
+        🤖 VS COMPUTER
+      </button>
 
-  </div>
+      <button
+        class="mode"
+        id="friendMode"
+        onclick="setMode('friend')">
+        👥 TWO PLAYERS
+      </button>
 
-
-  <div
-    class="message"
-    id="message">
-  </div>
-
-
-  <div class="stats">
-
-    <div class="stat">
-      🔥 Streak:
-      <span id="streak">0</span>
     </div>
 
-    <div class="stat">
-      ⭐ Found:
-      <span id="found">0</span>
+
+    <div
+      class="difficulty"
+      id="difficulty">
+
+      <button
+        class="diff active"
+        onclick="setDifficulty('easy')"
+        id="easy">
+        EASY
+      </button>
+
+      <button
+        class="diff"
+        onclick="setDifficulty('medium')"
+        id="medium">
+        MEDIUM
+      </button>
+
+      <button
+        class="diff"
+        onclick="setDifficulty('hard')"
+        id="hard">
+        HARD
+      </button>
+
     </div>
 
+    <button
+      class="control"
+      onclick="resetScores()">
+      🗑 Reset Scores
+    </button>
+
+  </div>
+
+
+  <div class="footer">
+    Progress is automatically saved on this device.
   </div>
 
 </div>
 
 
-<!-- LEVEL COMPLETE -->
+<!-- RESULT -->
 
 <div
   class="overlay"
-  id="levelOverlay">
+  id="overlay">
 
   <div class="popup">
 
-    <div class="popupIcon">
-      🎉
-    </div>
-
-    <h2>
-      Level Complete!
-    </h2>
-
-    <p id="levelReward"></p>
-
-    <button onclick="nextLevel()">
-      Continue →
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- GAME COMPLETE -->
-
-<div
-  class="overlay"
-  id="gameOverlay">
-
-  <div class="popup">
-
-    <div class="popupIcon">
+    <div
+      class="popupIcon"
+      id="popupIcon">
       🏆
     </div>
 
-    <h2>
-      Amazing!
+    <h2 id="popupTitle">
+      You Win!
     </h2>
 
-    <p>
-      You completed all 20 prototype levels.
+    <p id="popupText">
+      Nice move!
     </p>
 
-    <button onclick="restartGame()">
+    <button onclick="newRound()">
       Play Again
     </button>
 
@@ -424,719 +504,278 @@ body{
 <script>
 
 /*
-=================================================
- CELEDIT WORDS
- Original word puzzle prototype
-=================================================
+==================================================
+ CELEDIT TIC TAC TOE
+ No Firebase
+ No API
+ No external libraries
+==================================================
 */
 
 
-/* ===============================
-   LEVEL DATA
-================================ */
+/* ================================================
+   ELEMENTS
+================================================ */
 
-const levels = [
+const cells =
+  document.querySelectorAll(".cell");
 
-  {
-    letters:"CAT",
-    words:["CAT","ACT","AT"]
-  },
+const turnText =
+  document.getElementById("turn");
 
-  {
-    letters:"DOG",
-    words:["DOG","GOD","DO"]
-  },
+const overlay =
+  document.getElementById("overlay");
 
-  {
-    letters:"EARN",
-    words:["EARN","NEAR","RAN","EAR"]
-  },
+const popupIcon =
+  document.getElementById("popupIcon");
 
-  {
-    letters:"GAME",
-    words:["GAME","MEGA","AGE","GAME"]
-  },
+const popupTitle =
+  document.getElementById("popupTitle");
 
-  {
-    letters:"STAR",
-    words:["STAR","ARTS","RATS","ART","RAT"]
-  },
+const popupText =
+  document.getElementById("popupText");
 
-  {
-    letters:"NOTE",
-    words:["NOTE","TONE","ON","NOT","ONE"]
-  },
 
-  {
-    letters:"COLD",
-    words:["COLD","COD","OLD","COL"]
-  },
+/* ================================================
+   GAME DATA
+================================================ */
 
-  {
-    letters:"FIRE",
-    words:["FIRE","RIFE","IRE","FIR"]
-  },
+let board = [
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  ""
+];
 
-  {
-    letters:"TIME",
-    words:["TIME","MITE","ITEM","TIE"]
-  },
 
-  {
-    letters:"READ",
-    words:["READ","DEAR","DARE","EAR","RED"]
-  },
+let currentPlayer =
+  "X";
 
-  {
-    letters:"BREAD",
-    words:["BREAD","BEARD","BARE","BEAR","DEAR"]
-  },
 
-  {
-    letters:"STONE",
-    words:["STONE","NOTES","TONES","NOTE","TONE"]
-  },
+let gameActive =
+  true;
 
-  {
-    letters:"HEART",
-    words:["HEART","EARTH","HEAR","HEAT","RATE"]
-  },
 
-  {
-    letters:"PLANT",
-    words:["PLANT","PLANT","PLAN","PANT","TAP"]
-  },
+let mode =
+  "cpu";
 
-  {
-    letters:"HOUSE",
-    words:["HOUSE","SHOE","HOSE","USE","SHE"]
-  },
 
-  {
-    letters:"LIGHT",
-    words:["LIGHT","HIL T","LIT","HIT","GILT"]
-  },
+let difficulty =
+  "easy";
 
-  {
-    letters:"WATER",
-    words:["WATER","WRITE","RATE","WEAR","TEAR"]
-  },
 
-  {
-    letters:"MONEY",
-    words:["MONEY","MANY","OMEN","YEN"]
-  },
+let scores = {
 
-  {
-    letters:"SMILE",
-    words:["SMILE","LIMES","MILES","SLIME","LIME"]
-  },
+  player:
+    Number(
+      localStorage.getItem(
+        "tttPlayer"
+      )
+    ) || 0,
 
-  {
-    letters:"WORLD",
-    words:["WORLD","WORD","LORD","LOW","OLD"]
-  }
+  computer:
+    Number(
+      localStorage.getItem(
+        "tttComputer"
+      )
+    ) || 0,
+
+  draws:
+    Number(
+      localStorage.getItem(
+        "tttDraws"
+      )
+    ) || 0
+
+};
+
+
+/* ================================================
+   WINNING COMBINATIONS
+================================================ */
+
+const wins = [
+
+  [0,1,2],
+  [3,4,5],
+  [6,7,8],
+
+  [0,3,6],
+  [1,4,7],
+  [2,5,8],
+
+  [0,4,8],
+  [2,4,6]
 
 ];
 
 
-/*
-=================================================
- STATE
-=================================================
-*/
+/* ================================================
+   SOUNDS
+================================================ */
 
-let currentLevel =
-  Number(
-    localStorage.getItem(
-      "celeditLevel"
-    )
-  ) || 1;
+let audioContext;
 
 
-let coins =
-  Number(
-    localStorage.getItem(
-      "celeditCoins"
-    )
-  ) || 100;
+function sound(
+  frequency,
+  duration
+){
+
+  try{
+
+    if(!audioContext){
+
+      audioContext =
+        new (
+          window.AudioContext ||
+          window.webkitAudioContext
+        )();
+
+    }
 
 
-let streak =
-  Number(
-    localStorage.getItem(
-      "celeditStreak"
-    )
-  ) || 0;
+    const oscillator =
+      audioContext.createOscillator();
+
+    const gain =
+      audioContext.createGain();
 
 
-let foundCount = 0;
+    oscillator.frequency.value =
+      frequency;
 
-let currentAnswer = "";
-
-let currentLetters = [];
-
-let foundWords = [];
+    oscillator.type =
+      "sine";
 
 
-/*
-=================================================
- ELEMENTS
-=================================================
-*/
-
-const levelElement =
-  document.getElementById("level");
-
-const coinsElement =
-  document.getElementById("coins");
-
-const streakElement =
-  document.getElementById("streak");
-
-const foundElement =
-  document.getElementById("found");
-
-const wordsElement =
-  document.getElementById("words");
-
-const answerElement =
-  document.getElementById("answer");
-
-const lettersElement =
-  document.getElementById("letters");
-
-const messageElement =
-  document.getElementById("message");
-
-const progressBar =
-  document.getElementById("progressBar");
+    gain.gain.setValueAtTime(
+      .08,
+      audioContext.currentTime
+    );
 
 
-/*
-=================================================
- SAVE
-=================================================
-*/
+    gain.gain.exponentialRampToValueAtTime(
+      .001,
+      audioContext.currentTime +
+      duration
+    );
 
-function save(){
 
-  localStorage.setItem(
-    "celeditLevel",
-    currentLevel
-  );
+    oscillator.connect(gain);
 
-  localStorage.setItem(
-    "celeditCoins",
-    coins
-  );
+    gain.connect(
+      audioContext.destination
+    );
 
-  localStorage.setItem(
-    "celeditStreak",
-    streak
-  );
+
+    oscillator.start();
+
+    oscillator.stop(
+      audioContext.currentTime +
+      duration
+    );
+
+  }catch(e){}
 
 }
 
 
-/*
-=================================================
- LOAD LEVEL
-=================================================
-*/
+/* ================================================
+   CLICK EVENTS
+================================================ */
 
-function loadLevel(){
+cells.forEach(
+  cell => {
 
-  if(
-    currentLevel >
-    levels.length
-  ){
+    cell.addEventListener(
+      "click",
+      () => {
 
-    currentLevel =
-      levels.length;
+        const index =
+          Number(
+            cell.dataset.index
+          );
+
+
+        playerMove(index);
+
+      }
+    );
 
   }
+);
 
 
-  const level =
-    levels[
-      currentLevel-1
-    ];
+/* ================================================
+   PLAYER MOVE
+================================================ */
 
-
-  levelElement.textContent =
-    currentLevel;
-
-
-  coinsElement.textContent =
-    coins;
-
-
-  streakElement.textContent =
-    streak;
-
-
-  foundWords =
-    [];
-
-
-  foundCount =
-    0;
-
-
-  currentAnswer =
-    "";
-
-
-  /*
-    Remove accidental duplicate
-    words from the level.
-  */
-
-  level.words =
-    [...new Set(level.words)]
-    .filter(
-      word =>
-        word &&
-        !word.includes(" ")
-    )
-    .map(
-      word =>
-        word.toUpperCase()
-    );
-
-
-  currentLetters =
-    level.letters
-      .split("")
-      .map(
-        (letter,index) => ({
-          letter,
-          index,
-          used:false
-        })
-      );
-
-
-  drawWords();
-
-  drawLetters();
-
-  updateAnswer();
-
-  updateProgress();
-
-  messageElement.textContent =
-    "";
-
-}
-
-
-/*
-=================================================
- DRAW WORD SLOTS
-=================================================
-*/
-
-function drawWords(){
-
-  wordsElement.innerHTML =
-    "";
-
-
-  const level =
-    levels[
-      currentLevel-1
-    ];
-
-
-  const groups =
-    {};
-
-
-  level.words.forEach(
-    word => {
-
-      const length =
-        word.length;
-
-
-      if(!groups[length])
-        groups[length] = [];
-
-
-      groups[length].push(
-        word
-      );
-
-    }
-  );
-
-
-  Object.keys(groups)
-    .sort(
-      (a,b) =>
-        Number(a)-Number(b)
-    )
-    .forEach(
-      length => {
-
-        const row =
-          document.createElement(
-            "div"
-          );
-
-
-        row.className =
-          "wordRow";
-
-
-        groups[length]
-          .forEach(
-            word => {
-
-              /*
-                Each word gets its
-                own small row container.
-              */
-
-              const container =
-                document.createElement(
-                  "div"
-                );
-
-              container.style.display =
-                "flex";
-
-              container.style.gap =
-                "3px";
-
-              container.style.margin =
-                "0 5px";
-
-
-              for(
-                let i=0;
-                i<word.length;
-                i++
-              ){
-
-                const slot =
-                  document.createElement(
-                    "div"
-                  );
-
-
-                slot.className =
-                  "slot";
-
-
-                if(
-                  foundWords.includes(
-                    word
-                  )
-                ){
-
-                  slot.textContent =
-                    word[i];
-
-                  slot.classList.add(
-                    "found"
-                  );
-
-                }
-
-
-                container.appendChild(
-                  slot
-                );
-
-              }
-
-
-              row.appendChild(
-                container
-              );
-
-            }
-          );
-
-
-        wordsElement.appendChild(
-          row
-        );
-
-      }
-    );
-
-}
-
-
-/*
-=================================================
- DRAW LETTERS
-=================================================
-*/
-
-function drawLetters(){
-
-  lettersElement.innerHTML =
-    "";
-
-
-  const total =
-    currentLetters.length;
-
-
-  const radius =
-    total <= 4
-      ? 92
-      : total <= 5
-        ? 101
-        : 108;
-
-
-  currentLetters.forEach(
-    (item,index) => {
-
-      const button =
-        document.createElement(
-          "button"
-        );
-
-
-      button.className =
-        "letter";
-
-
-      button.textContent =
-        item.letter;
-
-
-      if(item.used){
-
-        button.classList.add(
-          "used"
-        );
-
-      }
-
-
-      const angle =
-        (
-          index / total
-        ) *
-        Math.PI * 2
-        -
-        Math.PI/2;
-
-
-      const x =
-        50 +
-        Math.cos(angle) *
-        (radius/2.7);
-
-
-      const y =
-        50 +
-        Math.sin(angle) *
-        (radius/2.7);
-
-
-      button.style.left =
-        x + "%";
-
-
-      button.style.top =
-        y + "%";
-
-
-      button.onclick =
-        () =>
-          chooseLetter(
-            index
-          );
-
-
-      lettersElement.appendChild(
-        button
-      );
-
-    }
-  );
-
-}
-
-
-/*
-=================================================
- CHOOSE LETTER
-=================================================
-*/
-
-function chooseLetter(index){
+function playerMove(index){
 
   if(
-    currentLetters[index].used
+    !gameActive ||
+    board[index] !== ""
   )
     return;
 
 
-  currentLetters[index].used =
-    true;
-
-
-  currentAnswer +=
-    currentLetters[index].letter;
-
-
-  updateAnswer();
-
-  drawLetters();
-
-
-  /*
-    Automatically check once
-    the answer matches a word.
-  */
-
-  const level =
-    levels[
-      currentLevel-1
-    ];
-
-
   if(
-    level.words.includes(
-      currentAnswer
-    )
-  ){
-
-    submitWord();
-
-  }
-
-}
-
-
-/*
-=================================================
- UPDATE ANSWER
-=================================================
-*/
-
-function updateAnswer(){
-
-  answerElement.textContent =
-    currentAnswer ||
-    " ";
-
-}
-
-
-/*
-=================================================
- SUBMIT WORD
-=================================================
-*/
-
-function submitWord(){
-
-  const word =
-    currentAnswer.toUpperCase();
-
-
-  const level =
-    levels[
-      currentLevel-1
-    ];
-
-
-  if(
-    !level.words.includes(
-      word
-    )
-  ){
-
-    messageElement.textContent =
-      "❌ Not a word for this level";
-
-    shakeAnswer();
-
+    mode === "cpu" &&
+    currentPlayer !== "X"
+  )
     return;
 
-  }
+
+  board[index] =
+    currentPlayer;
 
 
-  if(
-    foundWords.includes(
-      word
-    )
-  ){
-
-    messageElement.textContent =
-      "Already found 👀";
-
-    clearAnswer();
-
-    return;
-
-  }
-
-
-  foundWords.push(
-    word
+  sound(
+    currentPlayer === "X"
+      ? 520
+      : 350,
+    .08
   );
 
 
-  foundCount =
-    foundWords.length;
+  render();
+
+
+  const result =
+    checkGame();
+
+
+  if(result)
+    return;
+
+
+  currentPlayer =
+    currentPlayer === "X"
+      ? "O"
+      : "X";
+
+
+  updateTurn();
 
 
   /*
-    Reward.
-  */
-
-  const reward =
-    word.length * 3;
-
-
-  coins +=
-    reward;
-
-
-  streak++;
-
-
-  messageElement.textContent =
-    `✅ ${word}  +${reward} coins`;
-
-
-  save();
-
-
-  drawWords();
-
-  updateStats();
-
-  updateProgress();
-
-
-  clearAnswer();
-
-
-  /*
-    Level complete.
+    Computer turn.
   */
 
   if(
-    foundWords.length ===
-    level.words.length
+    mode === "cpu" &&
+    currentPlayer === "O"
   ){
 
     setTimeout(
-      completeLevel,
-      650
+      computerMove,
+      400
     );
 
   }
@@ -1144,326 +783,922 @@ function submitWord(){
 }
 
 
-/*
-=================================================
- CLEAR
-=================================================
-*/
+/* ================================================
+   COMPUTER
+================================================ */
 
-function clearAnswer(){
+function computerMove(){
 
-  currentAnswer =
-    "";
+  if(
+    !gameActive ||
+    mode !== "cpu"
+  )
+    return;
 
 
-  currentLetters.forEach(
-    item =>
-      item.used = false
+  let move;
+
+
+  if(
+    difficulty === "easy"
+  ){
+
+    move =
+      randomMove();
+
+  }
+
+
+  else if(
+    difficulty === "medium"
+  ){
+
+    /*
+      60% smart,
+      40% random.
+    */
+
+    if(
+      Math.random() < .6
+    ){
+
+      move =
+        smartMove();
+
+    }else{
+
+      move =
+        randomMove();
+
+    }
+
+  }
+
+
+  else{
+
+    move =
+      bestMove();
+
+  }
+
+
+  if(move === -1)
+    return;
+
+
+  board[move] =
+    "O";
+
+
+  sound(
+    350,
+    .08
   );
 
 
-  updateAnswer();
+  render();
 
-  drawLetters();
+
+  const result =
+    checkGame();
+
+
+  if(result)
+    return;
+
+
+  currentPlayer =
+    "X";
+
+
+  updateTurn();
 
 }
 
 
-/*
-=================================================
- SHUFFLE
-=================================================
-*/
+/* ================================================
+   RANDOM MOVE
+================================================ */
 
-function shuffleLetters(){
+function randomMove(){
 
-  for(
-    let i =
-      currentLetters.length-1;
-    i>0;
-    i--
-  ){
-
-    const j =
-      Math.floor(
-        Math.random() *
-        (i+1)
+  const empty =
+    board
+      .map(
+        (value,index) =>
+          value === ""
+            ? index
+            : null
+      )
+      .filter(
+        index =>
+          index !== null
       );
 
 
-    [
-      currentLetters[i],
-      currentLetters[j]
-    ] =
-    [
-      currentLetters[j],
-      currentLetters[i]
-    ];
-
-  }
+  if(!empty.length)
+    return -1;
 
 
-  drawLetters();
+  return empty[
+    Math.floor(
+      Math.random() *
+      empty.length
+    )
+  ];
 
 }
 
 
-/*
-=================================================
- HINT
-=================================================
-*/
+/* ================================================
+   SMART MOVE
+================================================ */
 
-function useHint(){
+function smartMove(){
 
-  if(coins < 10){
+  /*
+    Try winning.
+  */
 
-    messageElement.textContent =
-      "You need 10 coins for a hint.";
+  for(
+    let i=0;
+    i<9;
+    i++
+  ){
 
-    return;
+    if(
+      board[i] !== ""
+    )
+      continue;
+
+
+    board[i] =
+      "O";
+
+
+    if(
+      winner("O")
+    ){
+
+      board[i] =
+        "";
+
+      return i;
+
+    }
+
+
+    board[i] =
+      "";
 
   }
-
-
-  const level =
-    levels[
-      currentLevel-1
-    ];
-
-
-  const remaining =
-    level.words.filter(
-      word =>
-        !foundWords.includes(
-          word
-        )
-    );
-
-
-  if(!remaining.length)
-    return;
-
-
-  const word =
-    remaining[
-      Math.floor(
-        Math.random() *
-        remaining.length
-      )
-    ];
-
-
-  coins -=
-    10;
 
 
   /*
-    Reveal first letter
-    temporarily.
+    Block player.
   */
 
-  messageElement.textContent =
-    `💡 Try a word starting with "${word[0]}"`;
+  for(
+    let i=0;
+    i<9;
+    i++
+  ){
 
-  coinsElement.textContent =
-    coins;
+    if(
+      board[i] !== ""
+    )
+      continue;
 
 
-  save();
+    board[i] =
+      "X";
 
-}
+
+    if(
+      winner("X")
+    ){
+
+      board[i] =
+        "";
+
+      return i;
+
+    }
 
 
-/*
-=================================================
- PROGRESS
-=================================================
-*/
+    board[i] =
+      "";
 
-function updateProgress(){
+  }
 
-  const level =
-    levels[
-      currentLevel-1
+
+  /*
+    Prefer center.
+  */
+
+  if(
+    board[4] === ""
+  )
+    return 4;
+
+
+  /*
+    Prefer corners.
+  */
+
+  const corners =
+    [0,2,6,8]
+      .filter(
+        i =>
+          board[i] === ""
+      );
+
+
+  if(corners.length){
+
+    return corners[
+      Math.floor(
+        Math.random() *
+        corners.length
+      )
     ];
 
-
-  const percentage =
-    (
-      foundWords.length /
-      level.words.length
-    ) * 100;
+  }
 
 
-  progressBar.style.width =
-    percentage + "%";
+  return randomMove();
 
 }
 
 
-/*
-=================================================
- STATS
-=================================================
-*/
+/* ================================================
+   HARD AI
+   MINIMAX
+================================================ */
 
-function updateStats(){
+function bestMove(){
 
-  coinsElement.textContent =
-    coins;
+  let bestScore =
+    -Infinity;
 
-  streakElement.textContent =
-    streak;
+  let move =
+    -1;
 
-  foundElement.textContent =
-    foundCount;
+
+  for(
+    let i=0;
+    i<9;
+    i++
+  ){
+
+    if(
+      board[i] !== ""
+    )
+      continue;
+
+
+    board[i] =
+      "O";
+
+
+    const score =
+      minimax(
+        board,
+        false
+      );
+
+
+    board[i] =
+      "";
+
+
+    if(
+      score > bestScore
+    ){
+
+      bestScore =
+        score;
+
+      move =
+        i;
+
+    }
+
+  }
+
+
+  return move;
 
 }
 
 
-/*
-=================================================
- SHAKE
-=================================================
-*/
+function minimax(
+  position,
+  maximizing
+){
 
-function shakeAnswer(){
+  if(
+    winner("O")
+  )
+    return 10;
 
-  answerElement.animate(
-    [
-      {transform:"translateX(-7px)"},
-      {transform:"translateX(7px)"},
-      {transform:"translateX(-5px)"},
-      {transform:"translateX(5px)"},
-      {transform:"translateX(0)"}
-    ],
-    {
-      duration:300
+
+  if(
+    winner("X")
+  )
+    return -10;
+
+
+  if(
+    position.every(
+      cell =>
+        cell !== ""
+    )
+  )
+    return 0;
+
+
+  if(maximizing){
+
+    let best =
+      -Infinity;
+
+
+    for(
+      let i=0;
+      i<9;
+      i++
+    ){
+
+      if(
+        position[i] !== ""
+      )
+        continue;
+
+
+      position[i] =
+        "O";
+
+
+      best =
+        Math.max(
+          best,
+          minimax(
+            position,
+            false
+          )
+        );
+
+
+      position[i] =
+        "";
+
+
+    }
+
+
+    return best;
+
+  }
+
+
+  else{
+
+    let best =
+      Infinity;
+
+
+    for(
+      let i=0;
+      i<9;
+      i++
+    ){
+
+      if(
+        position[i] !== ""
+      )
+        continue;
+
+
+      position[i] =
+        "X";
+
+
+      best =
+        Math.min(
+          best,
+          minimax(
+            position,
+            true
+          )
+        );
+
+
+      position[i] =
+        "";
+
+    }
+
+
+    return best;
+
+  }
+
+}
+
+
+/* ================================================
+   CHECK WINNER
+================================================ */
+
+function winner(
+  symbol
+){
+
+  return wins.some(
+    combo =>
+      combo.every(
+        index =>
+          board[index] === symbol
+      )
+  );
+
+}
+
+
+/* ================================================
+   CHECK GAME
+================================================ */
+
+function checkGame(){
+
+  let winningCombo =
+    null;
+
+
+  for(
+    const combo of wins
+  ){
+
+    if(
+      combo.every(
+        index =>
+          board[index] !== "" &&
+          board[index] ===
+          board[combo[0]]
+      )
+    ){
+
+      winningCombo =
+        combo;
+
+      break;
+
+    }
+
+  }
+
+
+  if(winningCombo){
+
+    gameActive =
+      false;
+
+
+    winningCombo.forEach(
+      index =>
+        cells[index]
+          .classList.add(
+            "win"
+          )
+    );
+
+
+    const winnerSymbol =
+      board[
+        winningCombo[0]
+      ];
+
+
+    if(
+      mode === "friend"
+    ){
+
+      if(
+        winnerSymbol === "X"
+      ){
+
+        scores.player++;
+
+      }else{
+
+        scores.computer++;
+
+      }
+
+    }
+
+
+    else{
+
+      if(
+        winnerSymbol === "X"
+      ){
+
+        scores.player++;
+
+      }else{
+
+        scores.computer++;
+
+      }
+
+    }
+
+
+    saveScores();
+
+    updateScores();
+
+
+    sound(
+      winnerSymbol === "X"
+        ? 700
+        : 430,
+      .25
+    );
+
+
+    setTimeout(
+      () =>
+        showResult(
+          winnerSymbol === "X"
+            ? "X"
+            : "O"
+        ),
+      500
+    );
+
+
+    return true;
+
+  }
+
+
+  /*
+    Draw.
+  */
+
+  if(
+    board.every(
+      cell =>
+        cell !== ""
+    )
+  ){
+
+    gameActive =
+      false;
+
+
+    scores.draws++;
+
+    saveScores();
+
+    updateScores();
+
+
+    sound(
+      250,
+      .2
+    );
+
+
+    setTimeout(
+      showDraw,
+      400
+    );
+
+
+    return true;
+
+  }
+
+
+  return false;
+
+}
+
+
+/* ================================================
+   RENDER
+================================================ */
+
+function render(){
+
+  cells.forEach(
+    (cell,index) => {
+
+      cell.textContent =
+        board[index];
+
+
+      cell.classList.remove(
+        "x",
+        "o"
+      );
+
+
+      if(
+        board[index] === "X"
+      )
+        cell.classList.add(
+          "x"
+        );
+
+
+      if(
+        board[index] === "O"
+      )
+        cell.classList.add(
+          "o"
+        );
+
     }
   );
 
 }
 
 
-/*
-=================================================
- LEVEL COMPLETE
-=================================================
-*/
+/* ================================================
+   TURN
+================================================ */
 
-function completeLevel(){
+function updateTurn(){
 
-  const reward =
-    25 +
-    currentLevel * 5;
+  if(
+    mode === "friend"
+  ){
 
+    turnText.textContent =
+      currentPlayer === "X"
+        ? "Player 1 — your turn ❌"
+        : "Player 2 — your turn ⭕";
 
-  coins +=
-    reward;
+  }
 
+  else{
 
-  save();
+    turnText.textContent =
+      currentPlayer === "X"
+        ? "Your turn ❌"
+        : "Computer is thinking... 🤖";
 
-
-  document.getElementById(
-    "levelReward"
-  ).textContent =
-    `You earned ${reward} bonus coins!`;
-
-
-  document.getElementById(
-    "levelOverlay"
-  ).classList.add(
-    "show"
-  );
+  }
 
 }
 
 
-/*
-=================================================
- NEXT LEVEL
-=================================================
-*/
+/* ================================================
+   NEW ROUND
+================================================ */
 
-function nextLevel(){
+function newRound(){
 
-  document.getElementById(
-    "levelOverlay"
-  ).classList.remove(
+  board =
+    [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ];
+
+
+  currentPlayer =
+    "X";
+
+
+  gameActive =
+    true;
+
+
+  cells.forEach(
+    cell =>
+      cell.classList.remove(
+        "win"
+      )
+  );
+
+
+  overlay.classList.remove(
+    "show"
+  );
+
+
+  render();
+
+  updateTurn();
+
+}
+
+
+/* ================================================
+   MODE
+================================================ */
+
+function setMode(
+  newMode
+){
+
+  mode =
+    newMode;
+
+
+  document
+    .getElementById("cpuMode")
+    .classList.toggle(
+      "active",
+      mode === "cpu"
+    );
+
+
+  document
+    .getElementById("friendMode")
+    .classList.toggle(
+      "active",
+      mode === "friend"
+    );
+
+
+  document
+    .getElementById("difficulty")
+    .style.display =
+      mode === "cpu"
+        ? "flex"
+        : "none";
+
+
+  updateLabels();
+
+  newRound();
+
+}
+
+
+/* ================================================
+   DIFFICULTY
+================================================ */
+
+function setDifficulty(
+  level
+){
+
+  difficulty =
+    level;
+
+
+  document
+    .querySelectorAll(".diff")
+    .forEach(
+      button =>
+        button.classList.remove(
+          "active"
+        )
+    );
+
+
+  document
+    .getElementById(level)
+    .classList.add(
+      "active"
+    );
+
+
+  newRound();
+
+}
+
+
+/* ================================================
+   LABELS
+================================================ */
+
+function updateLabels(){
+
+  const playerLabel =
+    document.getElementById(
+      "playerLabel"
+    );
+
+  const computerLabel =
+    document.getElementById(
+      "computerLabel"
+    );
+
+
+  if(
+    mode === "friend"
+  ){
+
+    playerLabel.textContent =
+      "PLAYER 1 ❌";
+
+
+    computerLabel.textContent =
+      "PLAYER 2 ⭕";
+
+  }
+
+  else{
+
+    playerLabel.textContent =
+      "YOU ❌";
+
+
+    computerLabel.textContent =
+      "CPU ⭕";
+
+  }
+
+}
+
+
+/* ================================================
+   RESULT POPUP
+================================================ */
+
+function showResult(
+  symbol
+){
+
+  overlay.classList.add(
     "show"
   );
 
 
   if(
-    currentLevel >=
-    levels.length
+    mode === "friend"
   ){
 
-    document.getElementById(
-      "gameOverlay"
-    ).classList.add(
-      "show"
-    );
+    if(symbol === "X"){
 
-    return;
+      popupIcon.textContent =
+        "🏆";
+
+      popupTitle.textContent =
+        "Player 1 Wins!";
+
+      popupText.textContent =
+        "Nice game! ❌";
+
+    }else{
+
+      popupIcon.textContent =
+        "🏆";
+
+      popupTitle.textContent =
+        "Player 2 Wins!";
+
+      popupText.textContent =
+        "Nice game! ⭕";
+
+    }
 
   }
 
+  else{
 
-  currentLevel++;
+    if(symbol === "X"){
 
+      popupIcon.textContent =
+        "🏆";
 
-  save();
+      popupTitle.textContent =
+        "You Win!";
 
-  loadLevel();
+      popupText.textContent =
+        "You outplayed the computer. 🔥";
 
-}
+    }else{
 
+      popupIcon.textContent =
+        "🤖";
 
-/*
-=================================================
- RESTART
-=================================================
-*/
+      popupTitle.textContent =
+        "Computer Wins";
 
-function restartGame(){
+      popupText.textContent =
+        "The CPU got you this round.";
 
-  currentLevel =
-    1;
+    }
 
-  coins =
-    100;
-
-  streak =
-    0;
-
-
-  save();
-
-
-  document.getElementById(
-    "gameOverlay"
-  ).classList.remove(
-    "show"
-  );
-
-
-  loadLevel();
+  }
 
 }
 
 
-/*
-=================================================
- INITIALIZE
-=================================================
-*/
-
-loadLevel();
-
-</script>
-
-</body>
-    </html>
+/* =======================
