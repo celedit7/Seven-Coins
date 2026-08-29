@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#080d1c">
-<title>Color Water Sort 3D</title>
+<title>Parking Jam</title>
 
 <style>
 *{
@@ -17,10 +16,9 @@
 body{
   min-height:100vh;
   background:
-    radial-gradient(circle at 50% 0%,#263b68 0%,#11182c 38%,#060914 100%);
-  color:white;
+    radial-gradient(circle at top,#26365b,#10172b 45%,#060912);
   font-family:Arial,sans-serif;
-  overflow-x:hidden;
+  color:white;
 }
 
 button{
@@ -28,10 +26,11 @@ button{
 }
 
 .app{
-  max-width:520px;
-  min-height:100vh;
+  width:100%;
+  max-width:500px;
   margin:auto;
-  padding:15px;
+  padding:16px;
+  min-height:100vh;
 }
 
 /* HEADER */
@@ -44,31 +43,15 @@ button{
 }
 
 .logo{
-  font-size:21px;
+  font-size:23px;
   font-weight:900;
 }
 
-.stats{
-  display:flex;
-  gap:7px;
-  align-items:center;
-}
-
-.stat{
-  background:rgba(255,255,255,.09);
-  border:1px solid rgba(255,255,255,.13);
+.coins{
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.15);
   border-radius:13px;
-  padding:9px 11px;
-  font-size:13px;
-}
-
-.icon-btn{
-  width:40px;
-  height:40px;
-  border:1px solid rgba(255,255,255,.13);
-  border-radius:13px;
-  background:rgba(255,255,255,.09);
-  color:white;
+  padding:9px 13px;
 }
 
 /* LEVEL */
@@ -76,17 +59,17 @@ button{
 .level-row{
   display:flex;
   justify-content:space-between;
-  align-items:end;
+  align-items:center;
   margin-bottom:9px;
 }
 
 .level{
-  font-size:26px;
+  font-size:25px;
   font-weight:900;
 }
 
 .moves{
-  color:#aeb8d0;
+  color:#aab5ca;
   font-size:13px;
 }
 
@@ -95,184 +78,182 @@ button{
   background:rgba(255,255,255,.08);
   border-radius:20px;
   overflow:hidden;
-  margin-bottom:20px;
+  margin-bottom:18px;
 }
 
 .progress{
   height:100%;
-  background:white;
   width:0;
+  background:white;
   transition:.3s;
 }
 
-/* GAME */
+/* PARKING LOT */
 
-.game{
-  min-height:465px;
+.parking-wrap{
+  width:100%;
+  display:flex;
+  justify-content:center;
+}
+
+.parking{
+  position:relative;
+  width:min(92vw,430px);
+  aspect-ratio:1/1.25;
+
+  background:
+    linear-gradient(90deg,
+      rgba(255,255,255,.025) 1px,
+      transparent 1px),
+    linear-gradient(
+      rgba(255,255,255,.025) 1px,
+      transparent 1px),
+    #252b36;
+
+  background-size:25% 20%;
+
+  border:7px solid #4d5663;
+  border-radius:18px;
+
+  box-shadow:
+    inset 0 0 35px rgba(0,0,0,.5),
+    0 20px 40px rgba(0,0,0,.45);
+
+  overflow:hidden;
+}
+
+/* PARKING LINES */
+
+.slot{
+  position:absolute;
+  border:2px dashed rgba(255,255,255,.22);
+  border-radius:6px;
+}
+
+/* EXIT */
+
+.exit{
+  position:absolute;
+  left:0;
+  top:43%;
+  width:8%;
+  height:14%;
+  background:#36d477;
+  border-radius:0 10px 10px 0;
+  z-index:2;
   display:flex;
   align-items:center;
   justify-content:center;
+  writing-mode:vertical-rl;
+  font-size:10px;
+  font-weight:bold;
 }
 
-.board{
-  width:100%;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:30px 12px;
-  justify-items:center;
-  align-items:end;
-  padding:20px 3px;
-}
+/* CAR */
 
-/* BOTTLE */
-
-.bottle-box{
-  width:75px;
-  height:210px;
-  display:flex;
-  justify-content:center;
-  align-items:flex-end;
-  position:relative;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.bottle-box.selected{
-  transform:translateY(-13px);
-}
-
-.bottle-box.hint{
-  animation:pulse .65s infinite alternate;
-}
-
-@keyframes pulse{
-  from{
-    filter:brightness(1);
-  }
-  to{
-    filter:brightness(1.8);
-  }
-}
-
-.bottle{
-  width:61px;
-  height:190px;
-  position:relative;
-  border:2px solid rgba(255,255,255,.62);
-  border-radius:29px 29px 20px 20px;
-  overflow:hidden;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.24),
-      rgba(255,255,255,.04) 24%,
-      rgba(255,255,255,.10) 50%,
-      rgba(0,0,0,.10) 78%,
-      rgba(255,255,255,.20)
-    );
+.car{
+  position:absolute;
+  border-radius:10px;
+  border:2px solid rgba(255,255,255,.6);
 
   box-shadow:
-    inset 6px 0 10px rgba(255,255,255,.12),
-    inset -8px 0 12px rgba(0,0,0,.24),
-    0 15px 25px rgba(0,0,0,.45);
-}
+    0 8px 12px rgba(0,0,0,.45),
+    inset 4px 0 8px rgba(255,255,255,.12);
 
-.bottle::before{
-  content:"";
-  position:absolute;
-  top:8px;
-  bottom:10px;
-  left:8px;
-  width:5px;
-  border-radius:10px;
-  background:rgba(255,255,255,.28);
+  cursor:pointer;
+
+  transition:
+    left .38s ease,
+    top .38s ease,
+    transform .2s ease;
+
   z-index:10;
-  pointer-events:none;
 }
 
-.bottle::after{
+.car:active{
+  transform:scale(.96);
+}
+
+.car::before{
   content:"";
   position:absolute;
-  left:5px;
-  right:5px;
-  top:-5px;
-  height:10px;
-  border:2px solid rgba(255,255,255,.62);
-  border-radius:50%;
-  background:rgba(255,255,255,.08);
-  z-index:20;
+  background:rgba(150,220,255,.75);
+  border:1px solid rgba(255,255,255,.45);
+  border-radius:4px;
 }
 
-/* WATER */
-
-.water{
-  width:100%;
-  height:25%;
-  flex-shrink:0;
-  position:relative;
-  border-top:1px solid rgba(255,255,255,.35);
-  animation:waterAppear .18s ease;
-}
-
-.water:first-child{
-  border-radius:0 0 18px 18px;
-}
-
-.water::before{
+.car::after{
   content:"";
   position:absolute;
-  left:-10%;
-  width:120%;
-  top:-4px;
-  height:10px;
+  width:9px;
+  height:9px;
+  background:#111;
   border-radius:50%;
-  background:rgba(255,255,255,.25);
-  animation:wave 1.3s ease-in-out infinite;
+  box-shadow:0 0 0 2px rgba(255,255,255,.15);
 }
 
-@keyframes wave{
-  0%,100%{transform:translateX(-3%)}
-  50%{transform:translateX(3%)}
+/* HORIZONTAL */
+
+.car.horizontal{
+  width:23%;
+  height:12%;
 }
 
-@keyframes waterAppear{
-  from{transform:scaleY(.2);transform-origin:bottom}
-  to{transform:scaleY(1);transform-origin:bottom}
+.car.horizontal::before{
+  left:22%;
+  right:22%;
+  top:12%;
+  height:76%;
+}
+
+.car.horizontal::after{
+  right:8%;
+  bottom:8%;
+}
+
+/* VERTICAL */
+
+.car.vertical{
+  width:12%;
+  height:23%;
+}
+
+.car.vertical::before{
+  top:22%;
+  bottom:22%;
+  left:12%;
+  width:76%;
+}
+
+.car.vertical::after{
+  right:8%;
+  bottom:8%;
 }
 
 /* COLORS */
 
 .red{
-  background:linear-gradient(90deg,#9b1829,#ff5264,#b61f33);
+  background:#e84855;
 }
 
 .blue{
-  background:linear-gradient(90deg,#1260a8,#4db7ff,#1975be);
+  background:#3987e8;
 }
 
 .green{
-  background:linear-gradient(90deg,#137846,#52df8a,#149456);
+  background:#3bbf78;
 }
 
 .yellow{
-  background:linear-gradient(90deg,#b07c05,#ffe34c,#d19f08);
+  background:#e9b82e;
 }
 
 .purple{
-  background:linear-gradient(90deg,#60249d,#c06aff,#7932c1);
+  background:#9b59d0;
 }
 
 .orange{
-  background:linear-gradient(90deg,#b85009,#ff9b3d,#d66a12);
-}
-
-.pink{
-  background:linear-gradient(90deg,#ae2868,#ff70b0,#c9367d);
-}
-
-.cyan{
-  background:linear-gradient(90deg,#087d8b,#55e8ef,#109ba7);
+  background:#ed8138;
 }
 
 /* CONTROLS */
@@ -281,43 +262,40 @@ button{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:9px;
+  margin-top:18px;
 }
 
 .control{
   border:1px solid rgba(255,255,255,.13);
+  border-radius:13px;
   background:rgba(255,255,255,.09);
   color:white;
   padding:13px 5px;
-  border-radius:14px;
   font-weight:bold;
 }
 
-.control:active,
-.level-select:active,
-.popup button:active{
-  transform:scale(.97);
-}
-
-.level-select{
+.level-button{
   width:100%;
-  margin-top:11px;
+  margin-top:10px;
   padding:14px;
+  border-radius:13px;
   border:1px solid rgba(255,255,255,.13);
-  border-radius:14px;
   background:rgba(255,255,255,.09);
   color:white;
   font-weight:bold;
 }
 
+/* INSTRUCTIONS */
+
 .tip{
-  color:#8994ad;
   text-align:center;
+  color:#8995ad;
   font-size:12px;
   line-height:1.5;
-  margin-top:14px;
+  margin-top:13px;
 }
 
-/* LEVEL SCREEN */
+/* LEVEL SELECT */
 
 .level-screen{
   display:none;
@@ -333,8 +311,8 @@ button{
 
 .level-header{
   display:flex;
-  align-items:center;
   gap:12px;
+  align-items:center;
   margin-bottom:22px;
 }
 
@@ -342,26 +320,22 @@ button{
   border:0;
   border-radius:12px;
   padding:10px 14px;
-  background:rgba(255,255,255,.09);
+  background:rgba(255,255,255,.1);
   color:white;
 }
 
 .level-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:10px;
+  gap:9px;
 }
 
 .level-card{
-  min-height:75px;
+  min-height:70px;
   border:1px solid rgba(255,255,255,.1);
-  border-radius:15px;
+  border-radius:14px;
   background:rgba(255,255,255,.07);
   color:white;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
 }
 
 .level-card.locked{
@@ -372,17 +346,17 @@ button{
   border-color:white;
 }
 
-.number{
-  font-size:20px;
-  font-weight:900;
+.level-number{
+  font-size:19px;
+  font-weight:bold;
 }
 
-.small-stars{
+.stars{
   font-size:11px;
   margin-top:4px;
 }
 
-/* POPUPS */
+/* POPUP */
 
 .overlay{
   position:fixed;
@@ -392,7 +366,7 @@ button{
   justify-content:center;
   padding:20px;
   background:rgba(0,0,0,.78);
-  backdrop-filter:blur(7px);
+  backdrop-filter:blur(6px);
   z-index:100;
 }
 
@@ -402,44 +376,41 @@ button{
 
 .popup{
   width:100%;
-  max-width:350px;
-  background:#151d31;
+  max-width:340px;
+  background:#161e31;
   border:1px solid rgba(255,255,255,.15);
-  border-radius:25px;
-  padding:27px 21px;
+  border-radius:24px;
+  padding:26px;
   text-align:center;
-  box-shadow:0 25px 70px rgba(0,0,0,.5);
 }
 
 .popup-icon{
-  font-size:60px;
-  margin-bottom:8px;
+  font-size:55px;
 }
 
 .popup h2{
-  margin-bottom:9px;
+  margin:8px 0;
 }
 
 .popup p{
-  color:#aeb8cd;
+  color:#aab5ca;
   font-size:14px;
   line-height:1.5;
-  margin-bottom:15px;
 }
 
 .popup button{
   width:100%;
   padding:13px;
-  margin-top:8px;
+  margin-top:10px;
   border:0;
-  border-radius:13px;
+  border-radius:12px;
   background:white;
   color:#111;
   font-weight:bold;
 }
 
 .popup .secondary{
-  background:rgba(255,255,255,.09);
+  background:rgba(255,255,255,.1);
   color:white;
 }
 
@@ -450,49 +421,21 @@ button{
   left:50%;
   bottom:25px;
   transform:translate(-50%,20px);
+  opacity:0;
   background:white;
   color:#111;
-  padding:11px 17px;
   border-radius:30px;
+  padding:11px 18px;
   font-size:13px;
   font-weight:bold;
-  opacity:0;
-  pointer-events:none;
   transition:.25s;
   z-index:200;
+  pointer-events:none;
 }
 
 .toast.show{
   opacity:1;
   transform:translate(-50%,0);
-}
-
-/* POUR */
-
-.bottle-box.pouring{
-  animation:pour .5s ease;
-}
-
-@keyframes pour{
-  0%{transform:rotate(0)}
-  50%{transform:rotate(12deg) translateY(-7px)}
-  100%{transform:rotate(0)}
-}
-
-@media(max-width:390px){
-
-  .board{
-    gap:25px 7px;
-  }
-
-  .bottle-box{
-    width:67px;
-  }
-
-  .bottle{
-    width:56px;
-  }
-
 }
 </style>
 </head>
@@ -501,27 +444,18 @@ button{
 
 <div class="app">
 
+<!-- GAME -->
+
 <section id="gameScreen">
 
   <div class="header">
 
     <div class="logo">
-      💧 Color Water 3D
+      🚗 Parking Jam
     </div>
 
-    <div class="stats">
-
-      <button
-        class="icon-btn"
-        id="soundBtn"
-        onclick="toggleSound()">
-        🔊
-      </button>
-
-      <div class="stat">
-        🪙 <span id="coins">0</span>
-      </div>
-
+    <div class="coins">
+      🪙 <span id="coins">0</span>
     </div>
 
   </div>
@@ -548,11 +482,16 @@ button{
   </div>
 
 
-  <div class="game">
+  <div class="parking-wrap">
 
     <div
-      class="board"
-      id="board">
+      class="parking"
+      id="parking">
+
+      <div class="exit">
+        EXIT
+      </div>
+
     </div>
 
   </div>
@@ -582,7 +521,7 @@ button{
 
 
   <button
-    class="level-select"
+    class="level-button"
     onclick="openLevels()">
 
     📋 Choose Level
@@ -591,12 +530,14 @@ button{
 
 
   <div class="tip">
-    Tap a bottle, then tap another bottle to pour.<br>
-    Match colors or pour into an empty bottle.
+    Tap a car to move it toward the exit.<br>
+    Clear the path and get every car out.
   </div>
 
 </section>
 
+
+<!-- LEVEL SELECT -->
 
 <section
   id="levelScreen"
@@ -624,11 +565,11 @@ button{
 </div>
 
 
-<!-- WIN -->
+<!-- WIN POPUP -->
 
 <div
   class="overlay"
-  id="win">
+  id="winPopup">
 
   <div class="popup">
 
@@ -636,17 +577,17 @@ button{
       🎉
     </div>
 
-    <h2>Level Complete!</h2>
+    <h2>Parking Cleared!</h2>
 
-    <p id="winMessage"></p>
+    <p id="winText"></p>
 
     <button onclick="nextLevel()">
-      ➡️ Next Level
+      🚗 Next Level
     </button>
 
     <button
       class="secondary"
-      onclick="showLevelSelect()">
+      onclick="showLevels()">
 
       📋 Level Select
 
@@ -657,11 +598,11 @@ button{
 </div>
 
 
-<!-- LOCKED -->
+<!-- LOCKED POPUP -->
 
 <div
   class="overlay"
-  id="locked">
+  id="lockedPopup">
 
   <div class="popup">
 
@@ -692,542 +633,372 @@ button{
 
 <script>
 
-/* ==================================================
-   SETTINGS
-================================================== */
+/* ==========================================
+   GAME SETTINGS
+========================================== */
 
-const CAPACITY = 4;
-
-const COLORS = [
-  "red",
-  "blue",
-  "green",
-  "yellow",
-  "purple",
-  "orange",
-  "pink",
-  "cyan"
-];
-
-const MAX_LEVEL = 100;
+const MAX_LEVEL = 50;
 
 
-/* ==================================================
+/* ==========================================
    SAVE DATA
-================================================== */
+========================================== */
 
 let currentLevel =
-  Number(localStorage.getItem(
-    "water_current_level"
-  )) || 1;
+  Number(
+    localStorage.getItem(
+      "parking_level"
+    )
+  ) || 1;
+
 
 let unlockedLevel =
-  Number(localStorage.getItem(
-    "water_unlocked_level"
-  )) || 1;
+  Number(
+    localStorage.getItem(
+      "parking_unlocked"
+    )
+  ) || 1;
+
 
 let coins =
-  Number(localStorage.getItem(
-    "water_coins"
-  )) || 0;
+  Number(
+    localStorage.getItem(
+      "parking_coins"
+    )
+  ) || 0;
 
-let soundOn =
-  localStorage.getItem(
-    "water_sound"
-  ) !== "off";
 
-let stars =
+let bestStars =
   JSON.parse(
     localStorage.getItem(
-      "water_stars"
+      "parking_stars"
     ) || "{}"
   );
 
 
-if(currentLevel > unlockedLevel){
-  currentLevel = unlockedLevel;
-}
-
-
-/* ==================================================
+/* ==========================================
    GAME VARIABLES
-================================================== */
+========================================== */
 
-let bottles = [];
+let cars = [];
 
-let startingBottles = [];
+let originalCars = [];
 
 let history = [];
 
-let selected = null;
+let moves = 0;
 
-let moveCount = 0;
+let hintTimer;
 
-let hintTimeout;
 
-
-/* ==================================================
-   AUDIO
-================================================== */
-
-let audio = null;
-
-
-function getAudio(){
-
-  if(!soundOn) return null;
-
-  if(!audio){
-
-    const AudioContext =
-      window.AudioContext ||
-      window.webkitAudioContext;
-
-    if(!AudioContext) return null;
-
-    audio =
-      new AudioContext();
-
-  }
-
-  if(audio.state === "suspended"){
-    audio.resume();
-  }
-
-  return audio;
-
-}
-
-
-function sound(
-  frequency,
-  duration,
-  type="sine"
-){
-
-  const ctx = getAudio();
-
-  if(!ctx) return;
-
-  const osc =
-    ctx.createOscillator();
-
-  const gain =
-    ctx.createGain();
-
-  osc.type = type;
-
-  osc.frequency.value =
-    frequency;
-
-  gain.gain.setValueAtTime(
-    .045,
-    ctx.currentTime
-  );
-
-  gain.gain.exponentialRampToValueAtTime(
-    .001,
-    ctx.currentTime + duration
-  );
-
-  osc.connect(gain);
-
-  gain.connect(ctx.destination);
-
-  osc.start();
-
-  osc.stop(
-    ctx.currentTime + duration
-  );
-
-}
-
-
-function selectSound(){
-  sound(550,.08);
-}
-
-
-function pourSound(){
-
-  sound(280,.12,"triangle");
-
-  setTimeout(
-    () => sound(400,.14,"triangle"),
-    80
-  );
-
-}
-
-
-function badSound(){
-  sound(130,.16,"square");
-}
-
-
-function winSound(){
-
-  sound(523,.12);
-
-  setTimeout(
-    () => sound(659,.12),
-    120
-  );
-
-  setTimeout(
-    () => sound(784,.22),
-    240
-  );
-
-}
-
-
-/* ==================================================
-   SOUND BUTTON
-================================================== */
-
-function toggleSound(){
-
-  soundOn = !soundOn;
-
-  localStorage.setItem(
-    "water_sound",
-    soundOn ? "on" : "off"
-  );
-
-  updateSoundButton();
-
-  if(soundOn){
-    sound(600,.1);
-  }
-
-}
-
-
-function updateSoundButton(){
-
-  document.getElementById(
-    "soundBtn"
-  ).textContent =
-    soundOn ? "🔊" : "🔇";
-
-}
-
-
-/* ==================================================
-   SAVE
-================================================== */
-
-function save(){
-
-  localStorage.setItem(
-    "water_current_level",
-    currentLevel
-  );
-
-  localStorage.setItem(
-    "water_unlocked_level",
-    unlockedLevel
-  );
-
-  localStorage.setItem(
-    "water_coins",
-    coins
-  );
-
-  localStorage.setItem(
-    "water_sound",
-    soundOn ? "on" : "off"
-  );
-
-  localStorage.setItem(
-    "water_stars",
-    JSON.stringify(stars)
-  );
-
-}
-
-
-/* ==================================================
-   GUARANTEED-SOLVABLE LEVELS
-================================================== */
+/* ==========================================
+   LEVEL GENERATOR
+========================================== */
 
 /*
-  Instead of randomly scrambling a puzzle,
-  we START from solved bottles and perform
-  legal reverse moves.
+  The game uses handcrafted layouts.
 
-  Every generated puzzle therefore has a
-  valid solution.
+  This makes the prototype predictable
+  and prevents impossible random levels.
 */
 
-function createSolvedState(colorCount){
+const LEVELS = [
 
-  let result = [];
+  /* LEVEL 1 */
 
-  for(
-    let c=0;
-    c<colorCount;
-    c++
-  ){
-
-    result.push([
-      COLORS[c],
-      COLORS[c],
-      COLORS[c],
-      COLORS[c]
-    ]);
-
-  }
-
-  result.push([]);
-  result.push([]);
-
-  return result;
-
-}
-
-
-function legalMoves(state){
-
-  const moves = [];
-
-  for(
-    let from=0;
-    from<state.length;
-    from++
-  ){
-
-    if(state[from].length === 0)
-      continue;
-
-    const color =
-      state[from][
-        state[from].length-1
-      ];
-
-    let amount = 0;
-
-    for(
-      let i=state[from].length-1;
-      i>=0;
-      i--
-    ){
-
-      if(state[from][i] === color)
-        amount++;
-      else
-        break;
-
+  [
+    {
+      id:1,
+      color:"red",
+      dir:"horizontal",
+      x:18,
+      y:44
+    },
+    {
+      id:2,
+      color:"blue",
+      dir:"vertical",
+      x:45,
+      y:15
+    },
+    {
+      id:3,
+      color:"yellow",
+      dir:"vertical",
+      x:70,
+      y:28
     }
+  ],
 
 
-    for(
-      let to=0;
-      to<state.length;
-      to++
-    ){
+  /* LEVEL 2 */
 
-      if(from === to)
-        continue;
-
-      if(state[to].length >= CAPACITY)
-        continue;
-
-      if(
-        state[to].length === 0 ||
-        state[to][state[to].length-1] === color
-      ){
-
-        moves.push({
-          from,
-          to,
-          amount
-        });
-
-      }
-
+  [
+    {
+      id:1,
+      color:"red",
+      dir:"horizontal",
+      x:25,
+      y:44
+    },
+    {
+      id:2,
+      color:"blue",
+      dir:"vertical",
+      x:50,
+      y:15
+    },
+    {
+      id:3,
+      color:"green",
+      dir:"vertical",
+      x:75,
+      y:20
+    },
+    {
+      id:4,
+      color:"yellow",
+      dir:"horizontal",
+      x:8,
+      y:65
     }
-
-  }
-
-  return moves;
-
-}
+  ],
 
 
-function reverseMove(state,move){
+  /* LEVEL 3 */
 
-  /*
-    To scramble while preserving
-    solvability, we move the top pieces
-    in the opposite direction.
-  */
-
-  const from =
-    state[move.from];
-
-  const to =
-    state[move.to];
-
-  if(
-    from.length === 0 ||
-    to.length >= CAPACITY
-  ){
-    return false;
-  }
-
-  const color =
-    from[from.length-1];
-
-  let amount = 1;
-
-  /*
-    Move only part of a stack when possible.
-  */
-
-  if(
-    from.length > 1 &&
-    Math.random() > .45
-  ){
-
-    amount =
-      Math.min(
-        move.amount,
-        CAPACITY - to.length
-      );
-
-  }
-
-  for(let i=0;i<amount;i++){
-
-    to.push(
-      from.pop()
-    );
-
-  }
-
-  return true;
-
-}
+  [
+    {
+      id:1,
+      color:"red",
+      dir:"horizontal",
+      x:18,
+      y:44
+    },
+    {
+      id:2,
+      color:"blue",
+      dir:"vertical",
+      x:43,
+      y:18
+    },
+    {
+      id:3,
+      color:"green",
+      dir:"vertical",
+      x:68,
+      y:12
+    },
+    {
+      id:4,
+      color:"yellow",
+      dir:"horizontal",
+      x:10,
+      y:68
+    },
+    {
+      id:5,
+      color:"purple",
+      dir:"vertical",
+      x:78,
+      y:62
+    }
+  ],
 
 
-function generatePuzzle(level){
+  /* LEVEL 4 */
 
-  let colorCount;
-
-  if(level <= 5)
-    colorCount = 3;
-  else if(level <= 12)
-    colorCount = 4;
-  else if(level <= 22)
-    colorCount = 5;
-  else if(level <= 38)
-    colorCount = 6;
-  else if(level <= 60)
-    colorCount = 7;
-  else
-    colorCount = 8;
-
-
-  let state =
-    createSolvedState(
-      colorCount
-    );
-
-
-  /*
-    More scrambling as level increases.
-  */
-
-  const scrambleCount =
-    Math.min(
-      10 + level * 2,
-      100
-    );
-
-
-  let previous = null;
-
-
-  for(
-    let i=0;
-    i<scrambleCount;
-    i++
-  ){
-
-    const possible =
-      legalMoves(state)
-      .filter(move => {
-
-        /*
-          Avoid immediately undoing
-          the previous move.
-        */
-
-        if(
-          previous &&
-          move.from === previous.to &&
-          move.to === previous.from
-        ){
-          return false;
-        }
-
-        return true;
-
-      });
+  [
+    {
+      id:1,
+      color:"red",
+      dir:"horizontal",
+      x:22,
+      y:44
+    },
+    {
+      id:2,
+      color:"blue",
+      dir:"vertical",
+      x:48,
+      y:8
+    },
+    {
+      id:3,
+      color:"green",
+      dir:"vertical",
+      x:72,
+      y:12
+    },
+    {
+      id:4,
+      color:"yellow",
+      dir:"horizontal",
+      x:7,
+      y:67
+    },
+    {
+      id:5,
+      color:"purple",
+      dir:"vertical",
+      x:60,
+      y:63
+    },
+    {
+      id:6,
+      color:"orange",
+      dir:"horizontal",
+      x:36,
+      y:78
+    }
+  ],
 
 
-    if(possible.length === 0)
-      break;
+  /* LEVEL 5 */
+
+  [
+    {
+      id:1,
+      color:"red",
+      dir:"horizontal",
+      x:20,
+      y:44
+    },
+    {
+      id:2,
+      color:"blue",
+      dir:"vertical",
+      x:42,
+      y:8
+    },
+    {
+      id:3,
+      color:"green",
+      dir:"vertical",
+      x:65,
+      y:15
+    },
+    {
+      id:4,
+      color:"yellow",
+      dir:"horizontal",
+      x:5,
+      y:68
+    },
+    {
+      id:5,
+      color:"purple",
+      dir:"vertical",
+      x:55,
+      y:62
+    },
+    {
+      id:6,
+      color:"orange",
+      dir:"horizontal",
+      x:30,
+      y:80
+    },
+    {
+      id:7,
+      color:"blue",
+      dir:"horizontal",
+      x:68,
+      y:80
+    }
+  ]
+
+];
 
 
-    const move =
-      possible[
-        Math.floor(
-          Math.random() *
-          possible.length
-        )
-      ];
-
-
-    reverseMove(
-      state,
-      move
-    );
-
-
-    previous = move;
-
-  }
-
-
-  return state;
-
-}
-
-
-/* ==================================================
-   LOAD
-================================================== */
+/* ==========================================
+   LOAD LEVEL
+========================================== */
 
 function loadLevel(level){
 
   currentLevel = level;
 
-  bottles =
-    generatePuzzle(level);
+  /*
+    For levels beyond the handcrafted
+    prototypes, reuse and slightly
+    expand the final layout.
+  */
 
-  startingBottles =
+  let source =
+    LEVELS[
+      Math.min(
+        level - 1,
+        LEVELS.length - 1
+      )
+    ];
+
+
+  cars =
     JSON.parse(
-      JSON.stringify(bottles)
+      JSON.stringify(source)
     );
+
+
+  /*
+    Add more cars for higher levels.
+  */
+
+  if(level > 5){
+
+    const extra =
+      Math.min(
+        level - 5,
+        5
+      );
+
+
+    const colors = [
+      "red",
+      "blue",
+      "green",
+      "yellow",
+      "purple",
+      "orange"
+    ];
+
+
+    for(
+      let i=0;
+      i<extra;
+      i++
+    ){
+
+      cars.push({
+        id:cars.length + 1,
+        color:
+          colors[
+            i % colors.length
+          ],
+        dir:
+          i % 2 === 0
+            ? "vertical"
+            : "horizontal",
+        x:
+          10 + (i * 16) % 80,
+        y:
+          10 + (i * 13) % 80
+      });
+
+    }
+
+  }
+
+
+  originalCars =
+    JSON.parse(
+      JSON.stringify(cars)
+    );
+
 
   history = [];
 
-  selected = null;
-
-  moveCount = 0;
+  moves = 0;
 
   save();
 
@@ -1236,83 +1007,67 @@ function loadLevel(level){
 }
 
 
-/* ==================================================
+/* ==========================================
    RENDER
-================================================== */
+========================================== */
 
 function render(){
 
-  const board =
+  const parking =
     document.getElementById(
-      "board"
+      "parking"
     );
 
-  board.innerHTML = "";
+
+  /*
+    Remove old cars.
+  */
+
+  parking
+    .querySelectorAll(
+      ".car"
+    )
+    .forEach(
+      car =>
+        car.remove()
+    );
 
 
-  bottles.forEach(
-    (water,index) => {
+  cars.forEach(
+    car => {
 
-      const wrapper =
+      const element =
         document.createElement(
           "div"
         );
 
-      wrapper.className =
-        "bottle-box";
+
+      element.className =
+        "car " +
+        car.color +
+        " " +
+        car.dir;
 
 
-      if(selected === index){
-
-        wrapper.classList.add(
-          "selected"
-        );
-
-      }
+      element.dataset.id =
+        car.id;
 
 
-      wrapper.addEventListener(
-        "click",
-        () => tapBottle(index)
-      );
+      element.style.left =
+        car.x + "%";
 
 
-      const bottle =
-        document.createElement(
-          "div"
-        );
-
-      bottle.className =
-        "bottle";
+      element.style.top =
+        car.y + "%";
 
 
-      /*
-        Water is rendered bottom-up.
-      */
-
-      water.forEach(color => {
-
-        const segment =
-          document.createElement(
-            "div"
-          );
-
-        segment.className =
-          "water " + color;
-
-        bottle.appendChild(
-          segment
-        );
-
-      });
+      element.onclick =
+        () =>
+          moveCar(car.id);
 
 
-      wrapper.appendChild(
-        bottle
-      );
-
-      board.appendChild(
-        wrapper
+      parking.appendChild(
+        element
       );
 
     }
@@ -1324,67 +1079,73 @@ function render(){
 }
 
 
-/* ==================================================
-   UI
-================================================== */
+/* ==========================================
+   MOVE CAR
+========================================== */
 
-function updateUI(){
+function moveCar(id){
 
-  document.getElementById(
-    "level"
-  ).textContent =
-    currentLevel;
-
-  document.getElementById(
-    "moves"
-  ).textContent =
-    moveCount;
-
-  document.getElementById(
-    "coins"
-  ).textContent =
-    coins;
-
-  updateSoundButton();
-
-
-  const percentage =
-    Math.min(
-      100,
-      ((currentLevel - 1) /
-      MAX_LEVEL) * 100
+  const car =
+    cars.find(
+      c => c.id === id
     );
 
-  document.getElementById(
-    "progress"
-  ).style.width =
-    percentage + "%";
 
-}
+  if(!car)
+    return;
 
-
-/* ==================================================
-   TAP BOTTLE
-================================================== */
-
-function tapBottle(index){
-
-  clearHint();
 
   /*
-    First bottle.
+    Save state.
   */
 
-  if(selected === null){
+  history.push(
+    JSON.parse(
+      JSON.stringify(cars)
+    )
+  );
 
-    if(
-      bottles[index].length === 0
-    ){
 
-      badSound();
+  /*
+    Store old position.
+  */
+
+  const oldCars =
+    JSON.parse(
+      JSON.stringify(cars)
+    );
+
+
+  /*
+    Cars move toward the exit.
+
+    Horizontal cars move left.
+    Vertical cars move downward.
+
+    If the path is blocked, they move
+    only when another car is cleared.
+  */
+
+  if(car.dir === "horizontal"){
+
+    const blocked =
+      cars.some(
+        other =>
+          other.id !== car.id &&
+          Math.abs(
+            other.y - car.y
+          ) < 10 &&
+          other.x < car.x &&
+          other.x > 3
+      );
+
+
+    if(blocked){
+
+      history.pop();
 
       toast(
-        "Choose a bottle with water."
+        "🚧 Another car is blocking the way."
       );
 
       return;
@@ -1392,111 +1153,467 @@ function tapBottle(index){
     }
 
 
-    selected = index;
+    car.x = -25;
 
-    selectSound();
+  }else{
 
-    render();
+    const blocked =
+      cars.some(
+        other =>
+          other.id !== car.id &&
+          Math.abs(
+            other.x - car.x
+          ) < 10 &&
+          other.y > car.y &&
+          other.y < 90
+      );
 
-    return;
+
+    if(blocked){
+
+      history.pop();
+
+      toast(
+        "🚧 Another car is blocking the way."
+      );
+
+      return;
+
+    }
+
+
+    car.y = 115;
 
   }
+
+
+  moves++;
+
+  render();
 
 
   /*
-    Tap same bottle.
+    Remove cars that have exited.
   */
 
-  if(selected === index){
+  setTimeout(
+    () => {
 
-    selected = null;
+      cars =
+        cars.filter(
+          c =>
+            c.x > -20 &&
+            c.y < 110
+        );
 
-    render();
 
-    return;
-
-  }
+      render();
 
 
-  pour(
-    selected,
-    index
+      if(
+        cars.length === 0
+      ){
+
+        completeLevel();
+
+      }
+
+    },
+    400
   );
 
 }
 
 
-/* ==================================================
-   POUR
-================================================== */
+/* ==========================================
+   UNDO
+========================================== */
 
-function pour(fromIndex,toIndex){
+function undo(){
 
-  const from =
-    bottles[fromIndex];
-
-  const to =
-    bottles[toIndex];
-
-
-  if(from.length === 0){
-    selected = null;
-    render();
-    return;
-  }
-
-
-  if(to.length >= CAPACITY){
-
-    badSound();
+  if(
+    history.length === 0
+  ){
 
     toast(
-      "That bottle is full."
+      "Nothing to undo."
     );
-
-    selected = null;
-
-    render();
 
     return;
 
   }
 
 
-  const color =
-    from[from.length-1];
+  cars =
+    history.pop();
+
+  moves =
+    Math.max(
+      0,
+      moves - 1
+    );
+
+  render();
+
+}
+
+
+/* ==========================================
+   RESET
+========================================== */
+
+function resetLevel(){
+
+  cars =
+    JSON.parse(
+      JSON.stringify(
+        originalCars
+      )
+    );
+
+  history = [];
+
+  moves = 0;
+
+  render();
+
+  toast(
+    "Level " +
+    currentLevel +
+    " restarted."
+  );
+
+}
+
+
+/* ==========================================
+   HINT
+========================================== */
+
+function hint(){
+
+  clearHint();
+
+
+  if(cars.length === 0)
+    return;
+
+
+  const first =
+    document.querySelector(
+      `.car[data-id="${cars[0].id}"]`
+    );
+
+
+  if(first){
+
+    first.style.boxShadow =
+      "0 0 25px 8px white";
+
+
+    hintTimer =
+      setTimeout(
+        clearHint,
+        2500
+      );
+
+
+    toast(
+      "💡 Try this car first."
+    );
+
+  }
+
+}
+
+
+function clearHint(){
+
+  if(hintTimer){
+
+    clearTimeout(
+      hintTimer
+    );
+
+    hintTimer = null;
+
+  }
+
+
+  document
+    .querySelectorAll(
+      ".car"
+    )
+    .forEach(
+      car =>
+        car.style.boxShadow = ""
+    );
+
+}
+
+
+/* ==========================================
+   COMPLETE LEVEL
+========================================== */
+
+function completeLevel(){
+
+  if(
+    bestStars[currentLevel]
+  )
+    return;
+
+
+  let rating = 3;
 
 
   if(
-    to.length > 0 &&
-    to[to.length-1] !== color
+    moves > cars.length * 3
+  )
+    rating = 2;
+
+
+  if(
+    moves > cars.length * 5
+  )
+    rating = 1;
+
+
+  bestStars[currentLevel] =
+    rating;
+
+
+  if(
+    currentLevel === unlockedLevel &&
+    currentLevel < MAX_LEVEL
   ){
 
-    badSound();
-
-    toast(
-      "Colors don't match."
-    );
-
-    selected = null;
-
-    render();
-
-    return;
+    unlockedLevel =
+      currentLevel + 1;
 
   }
 
 
-  /*
-    Save state for Undo.
-  */
+  const reward =
+    10 + rating * 5;
 
-  history.push(
-    JSON.parse(
-      JSON.stringify(bottles)
+
+  coins += reward;
+
+  save();
+
+
+  document.getElementById(
+    "winText"
+  ).textContent =
+    "⭐".repeat(rating) +
+    "  Completed in " +
+    moves +
+    " moves. +" +
+    reward +
+    " coins";
+
+
+  document
+    .getElementById(
+      "winPopup"
     )
-  );
+    .classList.add(
+      "show"
+    );
+
+}
 
 
-  /*
-    Count same colo
+/* ==========================================
+   NEXT LEVEL
+========================================== */
+
+function nextLevel(){
+
+  document
+    .getElementById(
+      "winPopup"
+    )
+    .classList.remove(
+      "show"
+    );
+
+
+  if(
+    currentLevel < unlockedLevel
+  ){
+
+    loadLevel(
+      currentLevel + 1
+    );
+
+  }
+
+}
+
+
+/* ==========================================
+   LEVEL SELECT
+========================================== */
+
+function openLevels(){
+
+  document
+    .getElementById(
+      "gameScreen"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  document
+    .getElementById(
+      "levelScreen"
+    )
+    .classList.add(
+      "active"
+    );
+
+
+  renderLevels();
+
+}
+
+
+function closeLevels(){
+
+  document
+    .getElementById(
+      "levelScreen"
+    )
+    .classList.remove(
+      "active"
+    );
+
+
+  document
+    .getElementById(
+      "gameScreen"
+    )
+    .classList.remove(
+      "hidden"
+    );
+
+}
+
+
+function renderLevels(){
+
+  const grid =
+    document.getElementById(
+      "levelGrid"
+    );
+
+
+  grid.innerHTML = "";
+
+
+  for(
+    let level=1;
+    level<=MAX_LEVEL;
+    level++
+  ){
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.className =
+      "level-card";
+
+
+    const unlocked =
+      level <= unlockedLevel;
+
+
+    if(!unlocked){
+
+      button.classList.add(
+        "locked"
+      );
+
+    }
+
+
+    if(
+      level === currentLevel
+    ){
+
+      button.classList.add(
+        "current"
+      );
+
+    }
+
+
+    const stars =
+      bestStars[level]
+        ? "⭐".repeat(
+            bestStars[level]
+          )
+        : "—";
+
+
+    button.innerHTML = `
+      <div class="level-number">
+        ${
+          unlocked
+            ? level
+            : "🔒"
+        }
+      </div>
+
+      <div class="stars">
+        ${stars}
+      </div>
+    `;
+
+
+    button.onclick =
+      () => {
+
+        if(!unlocked){
+
+          document
+            .getElementById(
+              "lockedPopup"
+            )
+            .classList.add(
+              "show"
+            );
+
+          return;
+
+        }
+
+
+        loadLevel(level);
+
+        closeLevels();
+
+      };
+
+
+    grid.appendChild(
+      button
+    );
+
+  }
+
+}
+
+
+/* ==========================================
+   POPUPS
+========================================== */
+
+function s
