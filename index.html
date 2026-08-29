@@ -3,594 +3,432 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Celedit Tic Tac Toe</title>
+<title>CELEDIT GAME</title>
 
 <style>
 *{
   box-sizing:border-box;
   margin:0;
   padding:0;
-  -webkit-tap-highlight-color:transparent;
 }
 
 body{
-  min-height:100vh;
-  background:linear-gradient(145deg,#07111f,#03070d);
-  color:#fff;
   font-family:Arial,sans-serif;
+  min-height:100vh;
+  background:#07111f;
+  color:white;
 }
 
-.app{
+.container{
   width:100%;
-  max-width:450px;
+  max-width:430px;
   margin:auto;
   padding:18px;
 }
 
-.header{
-  text-align:center;
-  margin-bottom:18px;
-}
-
 .logo{
+  text-align:center;
   font-size:28px;
   font-weight:900;
+  margin-bottom:5px;
 }
 
-.sub{
-  color:#8290a2;
+.subtitle{
+  text-align:center;
+  color:#8795a7;
   font-size:13px;
-  margin-top:4px;
+  margin-bottom:20px;
 }
 
-/* TOP STATS */
+.card{
+  background:#111d2b;
+  border:1px solid #26384d;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:14px;
+}
 
-.topStats{
+input{
+  width:100%;
+  padding:14px;
+  margin:6px 0;
+  border:1px solid #33485f;
+  border-radius:11px;
+  background:#0b1623;
+  color:white;
+  outline:none;
+}
+
+button{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:11px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:7px;
+}
+
+.primary{
+  background:#f1c40f;
+  color:#111;
+}
+
+.secondary{
+  background:#203044;
+  color:white;
+}
+
+.danger{
+  background:#8d2635;
+  color:white;
+}
+
+.hidden{
+  display:none !important;
+}
+
+.message{
+  text-align:center;
+  font-size:13px;
+  margin-top:10px;
+  color:#f1c40f;
+}
+
+.stats{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:9px;
-  margin-bottom:12px;
+  gap:10px;
 }
 
 .stat{
-  background:#111c29;
-  border:1px solid #223247;
-  border-radius:15px;
-  padding:12px;
+  background:#182638;
+  border-radius:13px;
+  padding:13px;
 }
 
 .stat small{
-  color:#7f8da0;
-  font-size:10px;
+  color:#8291a4;
   display:block;
+  font-size:10px;
 }
 
 .stat strong{
+  font-size:21px;
   display:block;
-  font-size:20px;
   margin-top:4px;
 }
 
-/* LEVEL */
-
-.levelCard{
-  background:#111c29;
-  border:1px solid #223247;
-  border-radius:18px;
-  padding:14px;
-  margin-bottom:12px;
-}
-
-.levelTop{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.levelTitle{
-  font-weight:900;
-}
-
-.levelNumber{
-  color:#f1c40f;
-  font-weight:900;
-}
-
-.progress{
-  height:7px;
-  background:#253244;
-  border-radius:20px;
-  margin-top:11px;
-  overflow:hidden;
-}
-
-.progressBar{
-  height:100%;
-  width:0%;
-  background:#f1c40f;
-  transition:.3s;
-}
-
-/* WITHDRAW */
-
-.withdraw{
-  background:#111c29;
-  border:1px solid #223247;
-  border-radius:18px;
-  padding:14px;
-  margin-bottom:12px;
-}
-
-.withdrawTitle{
-  font-weight:900;
-  margin-bottom:5px;
-}
-
-.withdrawText{
-  color:#8290a2;
-  font-size:12px;
-  line-height:1.5;
-}
-
-.withdrawProgress{
-  height:6px;
-  background:#253244;
-  border-radius:20px;
-  margin-top:10px;
-  overflow:hidden;
-}
-
-.withdrawBar{
-  height:100%;
-  width:0%;
-  background:#35d07f;
-}
-
-/* CHOOSE SIDE */
-
-.choose{
-  background:#111c29;
-  border:1px solid #223247;
-  border-radius:18px;
-  padding:14px;
-  margin-bottom:12px;
-}
-
-.chooseTitle{
-  font-size:13px;
+.mode{
+  font-size:17px;
   font-weight:bold;
-  margin-bottom:9px;
+  margin-bottom:8px;
 }
-
-.sideButtons{
-  display:flex;
-  gap:9px;
-}
-
-.side{
-  flex:1;
-  height:55px;
-  border:2px solid #29394d;
-  background:#182433;
-  color:white;
-  border-radius:13px;
-  font-size:25px;
-  cursor:pointer;
-}
-
-.side.selected{
-  border-color:#f1c40f;
-  background:#29374a;
-}
-
-/* TURN */
-
-#turn{
-  text-align:center;
-  min-height:22px;
-  font-size:14px;
-  font-weight:bold;
-  margin:8px 0;
-}
-
-/* BOARD */
 
 .board{
-  width:min(92vw,390px);
-  aspect-ratio:1;
-  margin:auto;
-
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  grid-template-rows:repeat(3,1fr);
-
   gap:7px;
-  padding:7px;
-
-  background:#03070c;
-  border-radius:22px;
+  margin-top:15px;
 }
 
 .cell{
-  width:100%;
-  height:100%;
-  border:0;
-  border-radius:15px;
-  background:#1a2736;
+  aspect-ratio:1;
+  background:#1b2b3d;
   color:white;
-  font-size:60px;
-  font-weight:900;
-  cursor:pointer;
+  font-size:50px;
+  border-radius:13px;
+  margin:0;
 }
 
-.cell.x{
-  color:#4ca5ff;
+.x{
+  color:#4ba3ff;
 }
 
-.cell.o{
-  color:#ff6077;
+.o{
+  color:#ff6177;
 }
 
-.cell.win{
-  background:#34465c;
-  animation:win .45s infinite alternate;
-}
-
-@keyframes win{
-  from{
-    transform:scale(1);
-  }
-  to{
-    transform:scale(.94);
-  }
-}
-
-/* BUTTONS */
-
-.buttons{
-  display:flex;
-  gap:8px;
+.turn{
+  text-align:center;
+  font-weight:bold;
   margin-top:12px;
 }
 
-.btn{
-  flex:1;
-  border:0;
+.referral{
+  background:#172638;
   border-radius:12px;
-  padding:13px 5px;
-  background:#1c2a3a;
-  color:white;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.btn.primary{
-  background:#f1c40f;
-  color:#111;
-}
-
-/* RESULT POPUP */
-
-.overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.86);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  z-index:50;
-}
-
-.overlay.show{
-  display:flex;
-}
-
-.popup{
-  width:100%;
-  max-width:350px;
-  background:#152231;
-  border:1px solid #304155;
-  border-radius:25px;
-  padding:27px 20px;
+  padding:12px;
+  margin-top:10px;
   text-align:center;
 }
 
-.popupIcon{
-  font-size:55px;
-}
-
-.popup h2{
-  font-size:27px;
-  margin:8px 0;
-}
-
-.popup p{
-  color:#9aa8b8;
-  line-height:1.5;
-  margin-bottom:15px;
-}
-
-.continue{
-  width:100%;
-  border:0;
-  background:#f1c40f;
-  color:#111;
-  border-radius:12px;
-  padding:14px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-/* LEVELS */
-
-.levels{
-  margin-top:15px;
-  background:#111c29;
-  border:1px solid #223247;
-  border-radius:18px;
-  padding:14px;
-}
-
-.levels h3{
-  margin-bottom:10px;
-  font-size:15px;
-}
-
-.levelGrid{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:7px;
-}
-
-.levelBtn{
-  aspect-ratio:1;
-  border:1px solid #29394d;
-  border-radius:10px;
-  background:#182433;
-  color:white;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.levelBtn.active{
-  background:#f1c40f;
-  color:#111;
-}
-
-.levelBtn.locked{
-  opacity:.35;
-  cursor:not-allowed;
-}
-
-/* REFERRAL */
-
-.referral{
-  margin-top:12px;
-  background:#111c29;
-  border:1px solid #223247;
-  border-radius:18px;
-  padding:14px;
-}
-
-.referral h3{
-  font-size:15px;
-  margin-bottom:5px;
-}
-
-.referral p{
-  color:#8290a2;
-  font-size:12px;
-  line-height:1.5;
-}
-
-.refCode{
-  margin-top:10px;
-  background:#182433;
-  border-radius:10px;
-  padding:11px;
-  font-weight:900;
+.code{
+  margin-top:8px;
+  padding:10px;
+  background:#0b1623;
+  border-radius:9px;
+  font-weight:bold;
   letter-spacing:1px;
 }
 
-@media(max-width:370px){
+.lock{
+  text-align:center;
+  color:#a7b2bf;
+  font-size:13px;
+  line-height:1.5;
+}
 
-  .cell{
-    font-size:50px;
-  }
+.levels{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+  margin-top:10px;
+}
 
-  .app{
-    padding:13px;
-  }
+.level{
+  padding:11px 3px;
+  background:#1b2b3d;
+  color:white;
+  border-radius:9px;
+  margin:0;
+}
 
+.level.active{
+  background:#f1c40f;
+  color:#111;
+}
+
+.level.locked{
+  opacity:.35;
+}
+
+#gameMessage{
+  text-align:center;
+  min-height:22px;
+  margin-top:10px;
+  font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="container">
 
-  <div class="header">
-    <div class="logo">❌⭕ Celedit</div>
-    <div class="sub">Tic Tac Toe Challenge</div>
-  </div>
+  <div class="logo">🎮 CELEDIT GAME</div>
+  <div class="subtitle">Play • Progress • Compete</div>
 
+  <!-- AUTH -->
 
-  <!-- STATS -->
+  <div id="authScreen">
 
-  <div class="topStats">
+    <div class="card">
 
-    <div class="stat">
-      <small>YOUR POINTS</small>
-      <strong id="points">0</strong>
-    </div>
+      <h2 id="authTitle">Create Account</h2>
 
-    <div class="stat">
-      <small>LEVEL</small>
-      <strong id="currentLevel">1</strong>
-    </div>
+      <input
+        id="username"
+        type="text"
+        placeholder="Username">
 
-  </div>
+      <input
+        id="email"
+        type="email"
+        placeholder="Email">
 
+      <input
+        id="password"
+        type="password"
+        placeholder="Password">
 
-  <!-- LEVEL PROGRESS -->
-
-  <div class="levelCard">
-
-    <div class="levelTop">
-
-      <div class="levelTitle">
-        Current Level
-      </div>
-
-      <div
-        class="levelNumber"
-        id="levelLabel">
-        Level 1
-      </div>
-
-    </div>
-
-    <div class="progress">
-      <div
-        class="progressBar"
-        id="levelProgress">
-      </div>
-    </div>
-
-  </div>
-
-
-  <!-- WITHDRAWAL -->
-
-  <div class="withdraw">
-
-    <div class="withdrawTitle">
-      🔒 Withdrawal Locked
-    </div>
-
-    <div class="withdrawText">
-      Reach 1,000,000 points to unlock
-      withdrawal requests.
-      <br><br>
-      <b id="withdrawText">
-        0 / 1,000,000 points
-      </b>
-    </div>
-
-    <div class="withdrawProgress">
-      <div
-        class="withdrawBar"
-        id="withdrawBar">
-      </div>
-    </div>
-
-  </div>
-
-
-  <!-- SYMBOL -->
-
-  <div class="choose">
-
-    <div class="chooseTitle">
-      Choose your symbol
-    </div>
-
-    <div class="sideButtons">
+      <input
+        id="referralInput"
+        type="text"
+        placeholder="Referral code (optional)">
 
       <button
-        type="button"
-        class="side selected"
-        id="xSide">
-        ❌
+        class="primary"
+        id="authButton">
+        Create Account
       </button>
 
       <button
-        type="button"
-        class="side"
-        id="oSide">
-        ⭕
+        class="secondary"
+        id="switchAuth">
+        Already have an account? Login
+      </button>
+
+      <div
+        class="message"
+        id="authMessage">
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- APP -->
+
+  <div
+    id="appScreen"
+    class="hidden">
+
+    <div class="card">
+
+      <div class="stats">
+
+        <div class="stat">
+          <small>POINTS</small>
+          <strong id="points">0</strong>
+        </div>
+
+        <div class="stat">
+          <small>LEVEL</small>
+          <strong id="level">1</strong>
+        </div>
+
+      </div>
+
+      <button
+        class="danger"
+        id="logout">
+        Logout
       </button>
 
     </div>
 
-  </div>
 
+    <!-- GAME MODE -->
 
-  <div id="turn">
-    Your turn ❌
-  </div>
+    <div class="card">
 
+      <div class="mode">
+        🤖 Computer Mode
+      </div>
 
-  <!-- BOARD -->
+      <p style="color:#8b99aa;font-size:13px">
+        Complete a level to earn 50 points.
+      </p>
 
-  <div class="board">
+      <button
+        class="primary"
+        id="startGame">
+        ▶ Start Game
+      </button>
 
-    <button type="button" class="cell" data-i="0"></button>
-    <button type="button" class="cell" data-i="1"></button>
-    <button type="button" class="cell" data-i="2"></button>
-
-    <button type="button" class="cell" data-i="3"></button>
-    <button type="button" class="cell" data-i="4"></button>
-    <button type="button" class="cell" data-i="5"></button>
-
-    <button type="button" class="cell" data-i="6"></button>
-    <button type="button" class="cell" data-i="7"></button>
-    <button type="button" class="cell" data-i="8"></button>
-
-  </div>
-
-
-  <div class="buttons">
-
-    <button
-      type="button"
-      class="btn primary"
-      id="newGame">
-      🔄 New Game
-    </button>
-
-    <button
-      type="button"
-      class="btn"
-      id="reset">
-      Reset
-    </button>
-
-  </div>
-
-
-  <!-- LEVEL SELECT -->
-
-  <div class="levels">
-
-    <h3>🎮 Levels</h3>
-
-    <div
-      class="levelGrid"
-      id="levelGrid">
     </div>
 
-  </div>
 
-
-  <!-- REFERRAL -->
-
-  <div class="referral">
-
-    <h3>👥 Invite Friends</h3>
-
-    <p>
-      Invite friends and earn
-      <b>100 points</b> for each
-      qualifying referral.
-    </p>
+    <!-- GAME -->
 
     <div
-      class="refCode"
-      id="refCode">
-      CELEDIT100
+      class="card hidden"
+      id="gameCard">
+
+      <div class="turn" id="turn">
+        Your turn ❌
+      </div>
+
+      <div
+        class="board"
+        id="board">
+
+        <button class="cell" data-i="0"></button>
+        <button class="cell" data-i="1"></button>
+        <button class="cell" data-i="2"></button>
+
+        <button class="cell" data-i="3"></button>
+        <button class="cell" data-i="4"></button>
+        <button class="cell" data-i="5"></button>
+
+        <button class="cell" data-i="6"></button>
+        <button class="cell" data-i="7"></button>
+        <button class="cell" data-i="8"></button>
+
+      </div>
+
+      <div id="gameMessage"></div>
+
+      <button
+        class="secondary"
+        id="newGame">
+        New Game
+      </button>
+
+    </div>
+
+
+    <!-- LEVELS -->
+
+    <div class="card">
+
+      <b>🎯 Levels</b>
+
+      <div
+        class="levels"
+        id="levels">
+      </div>
+
+    </div>
+
+
+    <!-- REFERRAL -->
+
+    <div class="card">
+
+      <b>👥 Referral</b>
+
+      <p style="color:#8795a7;font-size:13px;margin-top:6px">
+        Invite a qualifying player and earn
+        <b>100 points</b>.
+      </p>
+
+      <div class="referral">
+
+        <div>Your referral code</div>
+
+        <div
+          class="code"
+          id="referralCode">
+          Loading...
+        </div>
+
+        <div style="margin-top:8px">
+          Referrals:
+          <b id="referralCount">0</b>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- WITHDRAWAL -->
+
+    <div class="card">
+
+      <b>💰 Withdrawal</b>
+
+      <div
+        class="lock"
+        id="withdrawalBox"
+        style="margin-top:10px">
+
+        🔒 Withdrawal Locked<br>
+
+        Reach <b>1,000,000 points</b>
+        to request a withdrawal.
+
+        <br><br>
+
+        <span id="withdrawProgress">
+          0 / 1,000,000
+        </span>
+
+      </div>
+
     </div>
 
   </div>
@@ -598,49 +436,712 @@ body{
 </div>
 
 
-<!-- RESULT -->
-
-<div
-  class="overlay"
-  id="overlay">
-
-  <div class="popup">
-
-    <div
-      class="popupIcon"
-      id="popupIcon">
-      🏆
-    </div>
-
-    <h2
-      id="popupTitle">
-      You Win!
-    </h2>
-
-    <p
-      id="popupMessage">
-      You completed the level.
-    </p>
-
-    <button
-      type="button"
-      class="continue"
-      id="continue">
-      Continue
-    </button>
-
-  </div>
-
-</div>
-
-
-<script>
+<script type="module">
 
 /* =====================================================
-   GAME DATA
+   FIREBASE
 ===================================================== */
 
-let board = [
+import {
+  initializeApp
+} from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  increment,
+  onSnapshot
+} from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+  apiKey:
+  "AIzaSyAntwXZaQ6Lrk_Dbn4uPJt9fMoKoETjOjM",
+
+  authDomain:
+  "celedit-game.firebaseapp.com",
+
+  projectId:
+  "celedit-game",
+
+  storageBucket:
+  "celedit-game.firebasestorage.app",
+
+  messagingSenderId:
+  "430066189305",
+
+  appId:
+  "1:430066189305:web:89953ce99876c97568f328"
+
+};
+
+
+const app =
+  initializeApp(firebaseConfig);
+
+const auth =
+  getAuth(app);
+
+const db =
+  getFirestore(app);
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const authScreen =
+  document.getElementById(
+    "authScreen"
+  );
+
+const appScreen =
+  document.getElementById(
+    "appScreen"
+  );
+
+const authButton =
+  document.getElementById(
+    "authButton"
+  );
+
+const switchAuth =
+  document.getElementById(
+    "switchAuth"
+  );
+
+const authTitle =
+  document.getElementById(
+    "authTitle"
+  );
+
+const authMessage =
+  document.getElementById(
+    "authMessage"
+  );
+
+const username =
+  document.getElementById(
+    "username"
+  );
+
+const email =
+  document.getElementById(
+    "email"
+  );
+
+const password =
+  document.getElementById(
+    "password"
+  );
+
+const referralInput =
+  document.getElementById(
+    "referralInput"
+  );
+
+
+let loginMode = false;
+let currentUser = null;
+let unsubscribeUser = null;
+
+
+/* =====================================================
+   AUTH MODE
+===================================================== */
+
+switchAuth.addEventListener(
+  "click",
+  () => {
+
+    loginMode =
+      !loginMode;
+
+    username.classList.toggle(
+      "hidden",
+      loginMode
+    );
+
+    referralInput.classList.toggle(
+      "hidden",
+      loginMode
+    );
+
+    if(loginMode){
+
+      authTitle.textContent =
+        "Login";
+
+      authButton.textContent =
+        "Login";
+
+      switchAuth.textContent =
+        "Create a new account";
+
+    }
+    else{
+
+      authTitle.textContent =
+        "Create Account";
+
+      authButton.textContent =
+        "Create Account";
+
+      switchAuth.textContent =
+        "Already have an account? Login";
+
+    }
+
+    authMessage.textContent = "";
+
+  }
+);
+
+
+/* =====================================================
+   REFERRAL CODE
+===================================================== */
+
+function generateReferralCode(){
+
+  const chars =
+    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+  let result =
+    "CELEDIT-";
+
+  for(
+    let i = 0;
+    i < 6;
+    i++
+  ){
+
+    result +=
+      chars[
+        Math.floor(
+          Math.random() *
+          chars.length
+        )
+      ];
+
+  }
+
+  return result;
+
+}
+
+
+/* =====================================================
+   CREATE ACCOUNT / LOGIN
+===================================================== */
+
+authButton.addEventListener(
+  "click",
+  async () => {
+
+    authMessage.textContent =
+      "Please wait...";
+
+    try{
+
+      if(loginMode){
+
+        await signInWithEmailAndPassword(
+          auth,
+          email.value.trim(),
+          password.value
+        );
+
+      }
+      else{
+
+        if(
+          username.value.trim().length < 3
+        ){
+
+          throw new Error(
+            "Username must be at least 3 characters."
+          );
+
+        }
+
+
+        const credential =
+          await createUserWithEmailAndPassword(
+            auth,
+            email.value.trim(),
+            password.value
+          );
+
+
+        const user =
+          credential.user;
+
+
+        const code =
+          generateReferralCode();
+
+
+        /*
+          Create player profile.
+        */
+
+        await setDoc(
+          doc(
+            db,
+            "users",
+            user.uid
+          ),
+          {
+
+            username:
+              username.value.trim(),
+
+            email:
+              user.email,
+
+            points:
+              0,
+
+            currentLevel:
+              1,
+
+            unlockedLevel:
+              1,
+
+            referralCode:
+              code,
+
+            referralCount:
+              0,
+
+            createdAt:
+              Date.now()
+
+          }
+        );
+
+
+        /*
+          Referral processing.
+
+          For now we record the code.
+          The actual reward should be
+          granted only after qualifying
+          activity is verified server-side.
+        */
+
+        const ref =
+          referralInput.value
+            .trim()
+            .toUpperCase();
+
+
+        if(ref){
+
+          await setDoc(
+            doc(
+              db,
+              "referralClaims",
+              user.uid
+            ),
+            {
+
+              referralCode:
+                ref,
+
+              userId:
+                user.uid,
+
+              createdAt:
+                Date.now()
+
+            }
+          );
+
+        }
+
+      }
+
+    }
+    catch(error){
+
+      console.error(error);
+
+      authMessage.textContent =
+        friendlyError(
+          error.code,
+          error.message
+        );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   ERROR MESSAGES
+===================================================== */
+
+function friendlyError(
+  code,
+  fallback
+){
+
+  switch(code){
+
+    case
+    "auth/email-already-in-use":
+
+      return "That email is already registered.";
+
+    case
+    "auth/invalid-email":
+
+      return "Please enter a valid email.";
+
+    case
+    "auth/weak-password":
+
+      return "Password is too weak.";
+
+    case
+    "auth/invalid-credential":
+
+      return "Incorrect email or password.";
+
+    case
+    "auth/user-not-found":
+
+      return "Account not found.";
+
+    default:
+
+      return fallback ||
+        "Something went wrong.";
+
+  }
+
+}
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+onAuthStateChanged(
+  auth,
+  async user => {
+
+    if(
+      unsubscribeUser
+    ){
+
+      unsubscribeUser();
+
+      unsubscribeUser =
+        null;
+
+    }
+
+
+    currentUser =
+      user;
+
+
+    if(!user){
+
+      authScreen.classList.remove(
+        "hidden"
+      );
+
+      appScreen.classList.add(
+        "hidden"
+      );
+
+      return;
+
+    }
+
+
+    /*
+      Make sure profile exists.
+    */
+
+    const userRef =
+      doc(
+        db,
+        "users",
+        user.uid
+      );
+
+
+    const snapshot =
+      await getDoc(
+        userRef
+      );
+
+
+    if(!snapshot.exists()){
+
+      await setDoc(
+        userRef,
+        {
+
+          username:
+            user.email.split("@")[0],
+
+          email:
+            user.email,
+
+          points:
+            0,
+
+          currentLevel:
+            1,
+
+          unlockedLevel:
+            1,
+
+          referralCode:
+            generateReferralCode(),
+
+          referralCount:
+            0,
+
+          createdAt:
+            Date.now()
+
+        }
+      );
+
+    }
+
+
+    authScreen.classList.add(
+      "hidden"
+    );
+
+    appScreen.classList.remove(
+      "hidden"
+    );
+
+
+    /*
+      Real-time profile listener.
+    */
+
+    unsubscribeUser =
+      onSnapshot(
+        userRef,
+        snapshot => {
+
+          if(
+            snapshot.exists()
+          ){
+
+            renderProfile(
+              snapshot.data()
+            );
+
+          }
+
+        }
+      );
+
+  }
+);
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+function renderProfile(data){
+
+  const points =
+    Number(
+      data.points || 0
+    );
+
+  const level =
+    Number(
+      data.currentLevel || 1
+    );
+
+  const unlocked =
+    Number(
+      data.unlockedLevel || 1
+    );
+
+
+  document.getElementById(
+    "points"
+  ).textContent =
+    points.toLocaleString();
+
+
+  document.getElementById(
+    "level"
+  ).textContent =
+    level;
+
+
+  document.getElementById(
+    "referralCode"
+  ).textContent =
+    data.referralCode ||
+    "Unavailable";
+
+
+  document.getElementById(
+    "referralCount"
+  ).textContent =
+    Number(
+      data.referralCount || 0
+    );
+
+
+  document.getElementById(
+    "withdrawProgress"
+  ).textContent =
+    points.toLocaleString() +
+    " / 1,000,000";
+
+
+  renderLevels(
+    unlocked,
+    level
+  );
+
+}
+
+
+/* =====================================================
+   LEVELS
+===================================================== */
+
+function renderLevels(
+  unlocked,
+  current
+){
+
+  const container =
+    document.getElementById(
+      "levels"
+    );
+
+
+  container.innerHTML = "";
+
+
+  for(
+    let i = 1;
+    i <= 10;
+    i++
+  ){
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.className =
+      "level";
+
+
+    if(
+      i > unlocked
+    ){
+
+      button.textContent =
+        "🔒";
+
+      button.classList.add(
+        "locked"
+      );
+
+      button.disabled =
+        true;
+
+    }
+    else{
+
+      button.textContent =
+        i;
+
+      if(
+        i === current
+      ){
+
+        button.classList.add(
+          "active"
+        );
+
+      }
+
+      button.onclick =
+        () => {
+
+          currentGameLevel =
+            i;
+
+          startGame();
+
+        };
+
+    }
+
+
+    container.appendChild(
+      button
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+document
+  .getElementById(
+    "logout"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      await signOut(auth);
+
+    }
+  );
+
+
+/* =====================================================
+   TIC TAC TOE
+===================================================== */
+
+let gameBoard = [
   "",
   "",
   "",
@@ -656,48 +1157,18 @@ let player = "X";
 let computer = "O";
 
 let turn = "player";
-let active = true;
+let gameActive = false;
 
-let currentLevel =
-  Number(
-    localStorage.getItem(
-      "celedit_level"
-    )
-  ) || 1;
-
-let unlockedLevel =
-  Number(
-    localStorage.getItem(
-      "celedit_unlocked"
-    )
-  ) || 1;
-
-let points =
-  Number(
-    localStorage.getItem(
-      "celedit_points"
-    )
-  ) || 0;
+let currentGameLevel = 1;
 
 
-/*
-  Never allow saved level to be
-  higher than unlocked level.
-*/
-
-if(
-  currentLevel > unlockedLevel
-){
-  currentLevel =
-    unlockedLevel;
-}
+const cells =
+  document.querySelectorAll(
+    ".cell"
+  );
 
 
-/* =====================================================
-   WINNING LINES
-===================================================== */
-
-const wins = [
+const winningLines = [
 
   [0,1,2],
   [3,4,5],
@@ -713,244 +1184,23 @@ const wins = [
 ];
 
 
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-const cells =
-  document.querySelectorAll(
-    ".cell"
-  );
-
-const turnText =
-  document.getElementById(
-    "turn"
-  );
-
-const overlay =
-  document.getElementById(
-    "overlay"
-  );
-
-const levelGrid =
-  document.getElementById(
-    "levelGrid"
-  );
-
-
-/* =====================================================
-   SAVE
-===================================================== */
-
-function save(){
-
-  localStorage.setItem(
-    "celedit_points",
-    points
-  );
-
-  localStorage.setItem(
-    "celedit_level",
-    currentLevel
-  );
-
-  localStorage.setItem(
-    "celedit_unlocked",
-    unlockedLevel
-  );
-
-}
-
-
-/* =====================================================
-   UPDATE UI
-===================================================== */
-
-function updateUI(){
-
-  document.getElementById(
-    "points"
-  ).textContent =
-    points.toLocaleString();
-
-
-  document.getElementById(
-    "currentLevel"
-  ).textContent =
-    currentLevel;
-
-
-  document.getElementById(
-    "levelLabel"
-  ).textContent =
-    "Level " + currentLevel;
-
-
-  /*
-    Progress toward next level.
-  */
-
-  let levelProgress =
-    ((currentLevel - 1) / 9) * 100;
-
-
-  document.getElementById(
-    "levelProgress"
-  ).style.width =
-    Math.min(
-      levelProgress,
-      100
-    ) + "%";
-
-
-  /*
-    Withdrawal progress.
-  */
-
-  const withdrawalTarget =
-    1000000;
-
-
-  let withdrawalPercent =
-    (points / withdrawalTarget) * 100;
-
-
-  document.getElementById(
-    "withdrawBar"
-  ).style.width =
-    Math.min(
-      withdrawalPercent,
-      100
-    ) + "%";
-
-
-  document.getElementById(
-    "withdrawText"
-  ).textContent =
-    points.toLocaleString() +
-    " / 1,000,000 points";
-
-
-  renderLevels();
-
-}
-
-
-/* =====================================================
-   LEVEL BUTTONS
-===================================================== */
-
-function renderLevels(){
-
-  levelGrid.innerHTML = "";
-
-
-  for(
-    let i = 1;
-    i <= 10;
-    i++
-  ){
-
-    const button =
-      document.createElement(
-        "button"
-      );
-
-
-    button.type =
-      "button";
-
-
-    button.className =
-      "levelBtn";
-
-
-    /*
-      Locked level.
-    */
-
-    if(
-      i > unlockedLevel
-    ){
-
-      button.classList.add(
-        "locked"
-      );
-
-      button.textContent =
-        "🔒";
-
-      button.disabled =
-        true;
-
-    }
-
-    else{
-
-      button.textContent =
-        i;
-
-
-      if(
-        i === currentLevel
-      ){
-
-        button.classList.add(
-          "active"
-        );
-
-      }
-
-
-      button.addEventListener(
-        "click",
-        function(){
-
-          currentLevel =
-            i;
-
-          save();
-
-          updateUI();
-
-          newGame();
-
-        }
-      );
-
-    }
-
-
-    levelGrid.appendChild(
-      button
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   BOARD CLICK
-===================================================== */
-
 cells.forEach(
-  function(cell){
+  cell => {
 
     cell.addEventListener(
       "click",
-      function(){
+      () => {
 
-        const index =
+        const i =
           Number(
             cell.dataset.i
           );
 
 
         if(
-          !active ||
+          !gameActive ||
           turn !== "player" ||
-          board[index] !== ""
+          gameBoard[i] !== ""
         ){
 
           return;
@@ -958,11 +1208,11 @@ cells.forEach(
         }
 
 
-        board[index] =
+        gameBoard[i] =
           player;
 
 
-        draw();
+        drawBoard();
 
 
         if(
@@ -977,13 +1227,12 @@ cells.forEach(
         turn =
           "computer";
 
-
         showTurn();
 
 
         setTimeout(
           computerMove,
-          300
+          350
         );
 
       }
@@ -994,22 +1243,84 @@ cells.forEach(
 
 
 /* =====================================================
-   DRAW BOARD
+   START GAME
 ===================================================== */
 
-function draw(){
+document
+  .getElementById(
+    "startGame"
+  )
+  .addEventListener(
+    "click",
+    startGame
+  );
+
+
+document
+  .getElementById(
+    "newGame"
+  )
+  .addEventListener(
+    "click",
+    startGame
+  );
+
+
+function startGame(){
+
+  document
+    .getElementById(
+      "gameCard"
+    )
+    .classList.remove(
+      "hidden"
+    );
+
+
+  gameBoard = [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ];
+
+
+  gameActive =
+    true;
+
+  turn =
+    "player";
+
+
+  drawBoard();
+
+  showTurn();
+
+}
+
+
+/* =====================================================
+   DRAW
+===================================================== */
+
+function drawBoard(){
 
   cells.forEach(
-    function(cell){
+    cell => {
 
-      const index =
+      const i =
         Number(
           cell.dataset.i
         );
 
 
       cell.textContent =
-        board[index];
+        gameBoard[i];
 
 
       cell.classList.remove(
@@ -1019,7 +1330,7 @@ function draw(){
 
 
       if(
-        board[index] === "X"
+        gameBoard[i] === "X"
       ){
 
         cell.classList.add(
@@ -1030,7 +1341,7 @@ function draw(){
 
 
       if(
-        board[index] === "O"
+        gameBoard[i] === "O"
       ){
 
         cell.classList.add(
@@ -1046,13 +1357,13 @@ function draw(){
 
 
 /* =====================================================
-   COMPUTER
+   COMPUTER AI
 ===================================================== */
 
 function computerMove(){
 
   if(
-    !active
+    !gameActive
   )
     return;
 
@@ -1061,20 +1372,19 @@ function computerMove(){
 
 
   /*
-    Difficulty increases gradually.
+    Gradual difficulty.
   */
 
   if(
-    currentLevel <= 2
+    currentGameLevel <= 2
   ){
 
     move =
       randomMove();
 
   }
-
   else if(
-    currentLevel <= 4
+    currentGameLevel <= 4
   ){
 
     move =
@@ -1083,38 +1393,30 @@ function computerMove(){
         : randomMove();
 
   }
-
   else if(
-    currentLevel <= 6
+    currentGameLevel <= 6
   ){
 
     move =
-      Math.random() < .70
+      Math.random() < .65
         ? smartMove()
         : randomMove();
 
   }
-
   else if(
-    currentLevel <= 8
+    currentGameLevel <= 8
   ){
 
     move =
-      Math.random() < .85
+      Math.random() < .80
         ? smartMove()
         : randomMove();
 
   }
-
   else{
 
-    /*
-      Levels 9-10 are very difficult,
-      but not automatically unbeatable.
-    */
-
     move =
-      Math.random() < .92
+      Math.random() < .90
         ? smartMove()
         : randomMove();
 
@@ -1127,20 +1429,17 @@ function computerMove(){
     return;
 
 
-  board[move] =
+  gameBoard[move] =
     computer;
 
 
-  draw();
+  drawBoard();
 
 
   if(
     checkGame()
-  ){
-
+  )
     return;
-
-  }
 
 
   turn =
@@ -1153,7 +1452,7 @@ function computerMove(){
 
 
 /* =====================================================
-   RANDOM MOVE
+   RANDOM
 ===================================================== */
 
 function randomMove(){
@@ -1168,7 +1467,7 @@ function randomMove(){
   ){
 
     if(
-      board[i] === ""
+      gameBoard[i] === ""
     ){
 
       empty.push(i);
@@ -1198,435 +1497,4 @@ function randomMove(){
 
 
 /* =====================================================
-   SMART MOVE
-===================================================== */
-
-function smartMove(){
-
-  /*
-    Try to win.
-  */
-
-  for(
-    let i = 0;
-    i < 9;
-    i++
-  ){
-
-    if(
-      board[i] !== ""
-    )
-      continue;
-
-
-    board[i] =
-      computer;
-
-
-    if(
-      winner(computer)
-    ){
-
-      board[i] =
-        "";
-
-      return i;
-
-    }
-
-
-    board[i] =
-      "";
-
-  }
-
-
-  /*
-    Block player.
-  */
-
-  for(
-    let i = 0;
-    i < 9;
-    i++
-  ){
-
-    if(
-      board[i] !== ""
-    )
-      continue;
-
-
-    board[i] =
-      player;
-
-
-    if(
-      winner(player)
-    ){
-
-      board[i] =
-        "";
-
-      return i;
-
-    }
-
-
-    board[i] =
-      "";
-
-  }
-
-
-  /*
-    Take center.
-  */
-
-  if(
-    board[4] === ""
-  ){
-
-    return 4;
-
-  }
-
-
-  /*
-    Take corner.
-  */
-
-  const corners =
-    [0,2,6,8]
-      .filter(
-        function(i){
-
-          return board[i] === "";
-
-        }
-      );
-
-
-  if(
-    corners.length
-  ){
-
-    return corners[
-      Math.floor(
-        Math.random() *
-        corners.length
-      )
-    ];
-
-  }
-
-
-  return randomMove();
-
-}
-
-
-/* =====================================================
-   WINNER
-===================================================== */
-
-function winner(symbol){
-
-  return wins.some(
-    function(line){
-
-      return (
-        board[line[0]] === symbol &&
-        board[line[1]] === symbol &&
-        board[line[2]] === symbol
-      );
-
-    }
-  );
-
-}
-
-
-/* =====================================================
-   CHECK GAME
-===================================================== */
-
-function checkGame(){
-
-  /*
-    WINNING LINE
-  */
-
-  for(
-    const line of wins
-  ){
-
-    if(
-      board[line[0]] !== "" &&
-      board[line[0]] === board[line[1]] &&
-      board[line[1]] === board[line[2]]
-    ){
-
-      active =
-        false;
-
-
-      line.forEach(
-        function(index){
-
-          cells[index]
-            .classList.add(
-              "win"
-            );
-
-        }
-      );
-
-
-      const winnerSymbol =
-        board[line[0]];
-
-
-      if(
-        winnerSymbol === player
-      ){
-
-        levelWon();
-
-      }
-
-      else{
-
-        showResult(
-          "🤖",
-          "Computer Wins",
-          "Stay on Level " +
-          currentLevel +
-          " and try again."
-        );
-
-      }
-
-
-      return true;
-
-    }
-
-  }
-
-
-  /*
-    DRAW
-  */
-
-  if(
-    board.every(
-      function(cell){
-
-        return cell !== "";
-
-      }
-    )
-  ){
-
-    active =
-      false;
-
-
-    showResult(
-      "🤝",
-      "Draw!",
-      "Try again to beat Level " +
-      currentLevel +
-      "."
-    );
-
-
-    return true;
-
-  }
-
-
-  return false;
-
-}
-
-
-/* =====================================================
-   LEVEL WON
-===================================================== */
-
-function levelWon(){
-
-  /*
-    Give 50 points.
-  */
-
-  points += 50;
-
-
-  /*
-    Unlock next level.
-  */
-
-  let unlockedNext =
-    false;
-
-
-  if(
-    currentLevel < 10 &&
-    unlockedLevel <= currentLevel
-  ){
-
-    unlockedLevel =
-      currentLevel + 1;
-
-    unlockedNext =
-      true;
-
-  }
-
-
-  save();
-
-  updateUI();
-
-
-  if(
-    unlockedNext
-  ){
-
-    showResult(
-      "🏆",
-      "Level Complete!",
-      "+50 points! Level " +
-      (currentLevel + 1) +
-      " is now unlocked."
-    );
-
-  }
-  else if(
-    currentLevel === 10
-  ){
-
-    showResult(
-      "👑",
-      "All Levels Complete!",
-      "+50 points! You completed every level."
-    );
-
-  }
-  else{
-
-    showResult(
-      "🏆",
-      "Level Complete!",
-      "+50 points!"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   SHOW RESULT
-===================================================== */
-
-function showResult(
-  icon,
-  title,
-  message
-){
-
-  document.getElementById(
-    "popupIcon"
-  ).textContent =
-    icon;
-
-
-  document.getElementById(
-    "popupTitle"
-  ).textContent =
-    title;
-
-
-  document.getElementById(
-    "popupMessage"
-  ).textContent =
-    message;
-
-
-  overlay.classList.add(
-    "show"
-  );
-
-}
-
-
-/* =====================================================
-   CONTINUE
-===================================================== */
-
-document
-  .getElementById(
-    "continue"
-  )
-  .addEventListener(
-    "click",
-    function(){
-
-      overlay.classList.remove(
-        "show"
-      );
-
-
-      /*
-        Move to next level ONLY
-        if it was actually unlocked.
-      */
-
-      if(
-        currentLevel < unlockedLevel
-      ){
-
-        currentLevel++;
-
-        save();
-
-      }
-
-
-      updateUI();
-
-      newGame();
-
-    }
-  );
-
-
-/* =====================================================
-   NEW GAME
-===================================================== */
-
-function newGame(){
-
-  board = [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    ""
-  ];
-
-
-  active =
-    true;
-
-
-  cells.forEach(
- 
+  
