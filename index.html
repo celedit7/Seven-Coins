@@ -2,270 +2,504 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#111">
-<title>Seven Movies</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0b1020">
+<title>Color Water Sort 3D</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  -webkit-tap-highlight-color:transparent;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  background: #0b0b0b;
-  color: #fff;
+body{
+  font-family:Arial,sans-serif;
+  background:
+    radial-gradient(circle at 50% -10%,#263b65 0,#10172a 35%,#070a12 75%);
+  color:#fff;
+  min-height:100vh;
+  overflow-x:hidden;
 }
 
-button,
-input {
-  font: inherit;
+button{
+  font-family:inherit;
 }
 
-.app {
-  max-width: 1100px;
-  margin: auto;
-  min-height: 100vh;
-  padding: 18px;
+.app{
+  width:100%;
+  max-width:520px;
+  min-height:100vh;
+  margin:auto;
+  padding:16px 15px 30px;
 }
 
-/* HEADER */
+/* TOP */
 
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  margin-bottom: 22px;
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;
 }
 
-.logo {
-  font-size: 25px;
-  font-weight: 800;
-  white-space: nowrap;
+.logo{
+  font-size:21px;
+  font-weight:900;
 }
 
-.logo span {
-  font-size: 20px;
+.top-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
 }
 
-.search {
-  flex: 1;
-  max-width: 450px;
+.coin-box,
+.sound-btn{
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  border-radius:14px;
+  padding:9px 12px;
+  backdrop-filter:blur(10px);
 }
 
-.search input {
-  width: 100%;
-  padding: 13px 16px;
-  border: 1px solid #333;
-  border-radius: 25px;
-  background: #181818;
-  color: #fff;
-  outline: none;
+.sound-btn{
+  width:42px;
+  height:40px;
+  padding:0;
+  font-size:18px;
 }
 
-.search input::placeholder {
-  color: #888;
+/* LEVEL HEADER */
+
+.level-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:13px;
 }
 
-/* HERO */
-
-.hero {
-  background: linear-gradient(135deg, #222, #111);
-  border-radius: 20px;
-  padding: 30px;
-  margin-bottom: 25px;
+.level-name{
+  font-size:25px;
+  font-weight:900;
 }
 
-.hero h1 {
-  font-size: 34px;
-  margin-bottom: 10px;
+.moves{
+  color:#b8c1d8;
+  font-size:13px;
 }
 
-.hero p {
-  color: #aaa;
-  max-width: 600px;
-  line-height: 1.5;
+/* PROGRESS */
+
+.progress-wrap{
+  height:7px;
+  border-radius:20px;
+  background:rgba(255,255,255,.09);
+  overflow:hidden;
+  margin-bottom:20px;
 }
 
-.hero button {
-  margin-top: 18px;
-  padding: 12px 18px;
-  border: none;
-  border-radius: 10px;
-  background: #fff;
-  color: #111;
-  cursor: pointer;
-  font-weight: bold;
+.progress{
+  height:100%;
+  width:0%;
+  background:#fff;
+  border-radius:20px;
+  transition:width .35s ease;
 }
 
-/* CATEGORIES */
+/* GAME BOARD */
 
-.categories {
-  display: flex;
-  gap: 9px;
-  overflow-x: auto;
-  padding-bottom: 8px;
-  margin-bottom: 25px;
+.board{
+  min-height:475px;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:23px 18px;
+  padding:22px 8px;
+  perspective:900px;
 }
 
-.category {
-  border: 1px solid #333;
-  background: #151515;
-  color: #ddd;
-  padding: 9px 15px;
-  border-radius: 20px;
-  white-space: nowrap;
-  cursor: pointer;
+/* TUBE */
+
+.tube-wrap{
+  width:67px;
+  height:215px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  transition:.2s ease;
 }
 
-.category.active,
-.category:hover {
-  background: #fff;
-  color: #111;
+.tube-wrap.selected{
+  transform:translateY(-12px);
 }
 
-/* SECTION */
-
-.section-title {
-  font-size: 22px;
-  margin-bottom: 15px;
+.tube-wrap.hint{
+  animation:hintPulse .7s infinite alternate;
 }
 
-/* MOVIE GRID */
-
-.movie-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+@keyframes hintPulse{
+  from{filter:brightness(1)}
+  to{filter:brightness(1.7)}
 }
 
-.movie {
-  background: #151515;
-  border-radius: 15px;
-  overflow: hidden;
-  border: 1px solid #252525;
+.tube{
+  width:59px;
+  height:190px;
+  position:relative;
+  overflow:hidden;
+
+  border:2px solid rgba(255,255,255,.55);
+  border-top:3px solid rgba(255,255,255,.72);
+  border-radius:30px 30px 25px 25px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.20),
+      rgba(255,255,255,.04) 25%,
+      rgba(255,255,255,.10) 50%,
+      rgba(255,255,255,.02) 75%,
+      rgba(255,255,255,.17)
+    );
+
+  box-shadow:
+    inset 8px 0 12px rgba(255,255,255,.08),
+    inset -8px 0 12px rgba(0,0,0,.25),
+    0 18px 28px rgba(0,0,0,.4);
+
+  display:flex;
+  flex-direction:column-reverse;
+  justify-content:flex-start;
 }
 
-.poster {
-  width: 100%;
-  aspect-ratio: 2 / 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 15px;
-  font-size: 22px;
-  font-weight: bold;
-  background: linear-gradient(145deg, #444, #151515);
+.tube:before{
+  content:"";
+  position:absolute;
+  left:9px;
+  top:8px;
+  bottom:12px;
+  width:5px;
+  border-radius:10px;
+  background:rgba(255,255,255,.22);
+  z-index:5;
+  pointer-events:none;
 }
 
-.movie-info {
-  padding: 13px;
+.tube:after{
+  content:"";
+  position:absolute;
+  left:6px;
+  right:6px;
+  top:-4px;
+  height:8px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.55);
+  background:rgba(255,255,255,.08);
+  z-index:10;
 }
 
-.movie-title {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 6px;
+/* WATER */
+
+.water{
+  width:100%;
+  height:25%;
+  position:relative;
+  border-top:1px solid rgba(255,255,255,.3);
+  overflow:hidden;
+  flex-shrink:0;
 }
 
-.movie-meta {
-  color: #888;
-  font-size: 12px;
-  margin-bottom: 12px;
+.water:first-child{
+  border-radius:0 0 22px 22px;
 }
 
-.movie-description {
-  color: #aaa;
-  font-size: 12px;
-  line-height: 1.4;
-  margin-bottom: 12px;
+.water:before{
+  content:"";
+  position:absolute;
+  left:-15%;
+  top:-5px;
+  width:130%;
+  height:12px;
+  border-radius:50%;
+  background:rgba(255,255,255,.24);
+  animation:wave 1.5s ease-in-out infinite;
 }
 
-.movie button {
-  width: 100%;
-  border: none;
-  border-radius: 9px;
-  padding: 10px;
-  background: #fff;
-  color: #111;
-  cursor: pointer;
-  font-weight: bold;
+@keyframes wave{
+  0%,100%{transform:translateX(-3%)}
+  50%{transform:translateX(3%)}
 }
 
-.movie button:hover {
-  opacity: .85;
+.red{
+  background:linear-gradient(90deg,#9f1e2d,#ff5364,#b82032);
 }
 
-/* EMPTY */
-
-.empty {
-  display: none;
-  text-align: center;
-  color: #888;
-  padding: 50px 0;
+.blue{
+  background:linear-gradient(90deg,#1264ae,#54b9ff,#1874bd);
 }
 
-/* FOOTER */
+.green{
+  background:linear-gradient(90deg,#16864c,#52e28d,#159657);
+}
 
-footer {
-  border-top: 1px solid #222;
-  margin-top: 40px;
-  padding: 25px 0;
-  text-align: center;
-  color: #777;
-  font-size: 13px;
+.yellow{
+  background:linear-gradient(90deg,#b98708,#ffe34f,#d0a20c);
+}
+
+.purple{
+  background:linear-gradient(90deg,#6426a5,#c06aff,#762fc0);
+}
+
+.orange{
+  background:linear-gradient(90deg,#bd5b0d,#ff9d3c,#d96c12);
+}
+
+.pink{
+  background:linear-gradient(90deg,#b52c6e,#ff72b2,#c73479);
+}
+
+.cyan{
+  background:linear-gradient(90deg,#0d8e9c,#53e6ee,#1099a6);
+}
+
+/* CONTROLS */
+
+.controls{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+  margin-top:8px;
+}
+
+.control{
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  padding:13px 5px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.control:active{
+  transform:scale(.97);
+}
+
+.control.primary{
+  background:#fff;
+  color:#101010;
+}
+
+/* LEVEL BUTTON */
+
+.level-button{
+  margin-top:13px;
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:14px;
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+  font-weight:bold;
+}
+
+/* INSTRUCTIONS */
+
+.instructions{
+  text-align:center;
+  color:#8e99b3;
+  font-size:12px;
+  margin-top:15px;
+  line-height:1.5;
+}
+
+/* LEVEL SELECT */
+
+.level-screen{
+  display:none;
+}
+
+.level-screen.active{
+  display:block;
+}
+
+.game-screen.hidden{
+  display:none;
+}
+
+.level-top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:25px;
+}
+
+.back{
+  border:0;
+  background:rgba(255,255,255,.09);
+  color:#fff;
+  padding:10px 14px;
+  border-radius:12px;
+}
+
+.level-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:11px;
+}
+
+.level-card{
+  min-height:78px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:16px;
+  background:rgba(255,255,255,.07);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+}
+
+.level-card.locked{
+  opacity:.35;
+}
+
+.level-card.current{
+  border-color:#fff;
+}
+
+.level-number{
+  font-size:20px;
+  font-weight:900;
+}
+
+.stars{
+  font-size:12px;
+}
+
+/* POPUP */
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.78);
+  backdrop-filter:blur(7px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
+  padding:20px;
+}
+
+.overlay.show{
+  display:flex;
+}
+
+.popup{
+  width:100%;
+  max-width:350px;
+  background:#151c2d;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:25px;
+  padding:28px 22px;
+  text-align:center;
+  box-shadow:0 25px 70px rgba(0,0,0,.5);
+}
+
+.popup-icon{
+  font-size:65px;
+  margin-bottom:10px;
+}
+
+.popup h2{
+  font-size:25px;
+  margin-bottom:8px;
+}
+
+.popup p{
+  color:#aab4ca;
+  line-height:1.5;
+  font-size:14px;
+  margin-bottom:18px;
+}
+
+.popup button{
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:13px;
+  background:#fff;
+  color:#111;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+.popup .secondary{
+  background:rgba(255,255,255,.08);
+  color:#fff;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  transform:translate(-50%,20px);
+  background:#fff;
+  color:#111;
+  padding:11px 17px;
+  border-radius:30px;
+  font-size:13px;
+  font-weight:bold;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  z-index:200;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* POUR ANIMATION */
+
+.tube-wrap.pouring{
+  animation:pour .45s ease;
+}
+
+@keyframes pour{
+  0%{transform:rotate(0)}
+  50%{transform:rotate(10deg) translateY(-5px)}
+  100%{transform:rotate(0)}
 }
 
 /* MOBILE */
 
-@media (max-width: 800px) {
-  .movie-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
+@media(max-width:380px){
 
-@media (max-width: 600px) {
-
-  header {
-    flex-direction: column;
-    align-items: stretch;
+  .board{
+    gap:20px 12px;
   }
 
-  .search {
-    max-width: none;
+  .tube-wrap{
+    width:61px;
   }
 
-  .hero {
-    padding: 22px;
+  .tube{
+    width:54px;
   }
 
-  .hero h1 {
-    font-size: 27px;
-  }
-
-  .movie-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-
-  .movie-info {
-    padding: 10px;
-  }
-
-  .movie-description {
-    display: none;
-  }
-
-}
-
-@media (max-width: 350px) {
-  .movie-grid {
-    grid-template-columns: 1fr;
-  }
 }
 </style>
 </head>
@@ -274,306 +508,946 @@ footer {
 
 <div class="app">
 
-<header>
+  <!-- GAME SCREEN -->
 
-  <div class="logo">
-    🎬 Seven Movies
-  </div>
+  <section id="gameScreen" class="game-screen">
 
-  <div class="search">
-    <input
-      id="searchInput"
-      type="search"
-      placeholder="Search movies..."
-      oninput="searchMovies()"
-    >
-  </div>
+    <div class="top">
 
-</header>
+      <div class="logo">
+        💧 Color Water 3D
+      </div>
 
+      <div class="top-right">
 
-<section class="hero">
+        <button
+          class="sound-btn"
+          id="soundButton"
+          onclick="toggleSound()">
+          🔊
+        </button>
 
-  <h1>Watch. Discover. Enjoy.</h1>
+        <div class="coin-box">
+          🪙 <span id="coins">0</span>
+        </div>
 
-  <p>
-    Discover classic and public-domain movies in this Seven Movies prototype.
-    Download buttons are provided only for movies or files that you are
-    authorized to distribute.
-  </p>
+      </div>
 
-  <button onclick="scrollToMovies()">
-    Browse Movies
-  </button>
-
-</section>
+    </div>
 
 
-<div class="categories">
+    <div class="level-header">
 
-  <button
-    class="category active"
-    onclick="filterCategory('All', this)">
-    All
-  </button>
+      <div class="level-name">
+        Level <span id="levelNumber">1</span>
+      </div>
 
-  <button
-    class="category"
-    onclick="filterCategory('Action', this)">
-    Action
-  </button>
+      <div class="moves">
+        Moves: <strong id="moveCount">0</strong>
+      </div>
 
-  <button
-    class="category"
-    onclick="filterCategory('Comedy', this)">
-    Comedy
-  </button>
+    </div>
 
-  <button
-    class="category"
-    onclick="filterCategory('Drama', this)">
-    Drama
-  </button>
 
-  <button
-    class="category"
-    onclick="filterCategory('Horror', this)">
-    Horror
-  </button>
+    <div class="progress-wrap">
+      <div class="progress" id="progress"></div>
+    </div>
 
-  <button
-    class="category"
-    onclick="filterCategory('Animation', this)">
-    Animation
-  </button>
 
-  <button
-    class="category"
-    onclick="filterCategory('Classic', this)">
-    Classic
-  </button>
+    <div
+      class="board"
+      id="board">
+    </div>
+
+
+    <div class="controls">
+
+      <button
+        class="control"
+        onclick="undoMove()">
+        ↩️ Undo
+      </button>
+
+      <button
+        class="control"
+        onclick="showHint()">
+        💡 Hint
+      </button>
+
+      <button
+        class="control"
+        onclick="resetCurrentLevel()">
+        🔄 Reset
+      </button>
+
+    </div>
+
+
+    <button
+      class="level-button"
+      onclick="openLevels()">
+
+      📋 Level Select
+
+    </button>
+
+
+    <div class="instructions">
+      Tap a tube, then tap another tube to pour.<br>
+      Match colors or pour into an empty tube.
+    </div>
+
+  </section>
+
+
+  <!-- LEVEL SCREEN -->
+
+  <section
+    id="levelScreen"
+    class="level-screen">
+
+    <div class="level-top">
+
+      <button
+        class="back"
+        onclick="closeLevels()">
+
+        ← Back
+
+      </button>
+
+      <h2>Levels</h2>
+
+    </div>
+
+    <div
+      class="level-grid"
+      id="levelGrid">
+    </div>
+
+  </section>
 
 </div>
 
 
-<section id="moviesSection">
+<!-- WIN -->
 
-  <h2 class="section-title">
-    🎥 Movies
-  </h2>
+<div
+  class="overlay"
+  id="winOverlay">
 
-  <div id="movieGrid" class="movie-grid"></div>
+  <div class="popup">
 
-  <div id="empty" class="empty">
-    No movies found.
+    <div class="popup-icon">
+      🎉
+    </div>
+
+    <h2>Level Complete!</h2>
+
+    <p id="winText">
+      Great job!
+    </p>
+
+    <button onclick="nextLevel()">
+      ➡️ Next Level
+    </button>
+
+    <button
+      class="secondary"
+      onclick="closeWinAndLevels()">
+
+      📋 Level Select
+
+    </button>
+
   </div>
 
-</section>
+</div>
 
 
-<footer>
+<!-- LOCKED -->
 
-  <p>© 2026 Seven Movies</p>
+<div
+  class="overlay"
+  id="lockedOverlay">
 
-  <p style="margin-top:8px;">
-    Only authorized, public-domain, or properly licensed content should
-    be distributed through this website.
-  </p>
+  <div class="popup">
 
-</footer>
+    <div class="popup-icon">
+      🔒
+    </div>
 
+    <h2>Level Locked</h2>
+
+    <p>
+      Complete the previous level to unlock this one.
+    </p>
+
+    <button onclick="closeLocked()">
+      Okay
+    </button>
+
+  </div>
+
+</div>
+
+
+<div
+  class="toast"
+  id="toast">
 </div>
 
 
 <script>
 
 /* =========================================
-   MOVIE DATABASE
-   ========================================= */
+   TELEGRAM
+========================================= */
 
-const movies = [
+const tg = window.Telegram?.WebApp;
 
-  {
-    title: "The General",
-    year: "1926",
-    genre: "Comedy",
-    type: "Classic",
-    description:
-      "A classic silent comedy featuring Buster Keaton.",
-    poster:
-      "🎬",
-    download:
-      "https://archive.org/download/TheGeneral1926_0/TheGeneral1926_0.mp4"
-  },
+if(tg){
+  tg.ready();
+  tg.expand();
+}
 
-  {
-    title: "His Girl Friday",
-    year: "1940",
-    genre: "Comedy",
-    type: "Classic",
-    description:
-      "A fast-paced classic comedy-drama.",
-    poster:
-      "📰",
-    download:
-      "https://archive.org/"
-  },
 
-  {
-    title: "Night of the Living Dead",
-    year: "1968",
-    genre: "Horror",
-    type: "Classic",
-    description:
-      "A landmark independent horror film.",
-    poster:
-      "🧟",
-    download:
-      "https://archive.org/"
-  },
+/* =========================================
+   GAME SETTINGS
+========================================= */
 
-  {
-    title: "Charade",
-    year: "1963",
-    genre: "Drama",
-    type: "Classic",
-    description:
-      "A mystery thriller starring Audrey Hepburn and Cary Grant.",
-    poster:
-      "🕵️",
-    download:
-      "https://archive.org/"
-  },
+const MAX_LEVEL = 100;
 
-  {
-    title: "Sherlock Jr.",
-    year: "1924",
-    genre: "Comedy",
-    type: "Classic",
-    description:
-      "A silent comedy classic starring Buster Keaton.",
-    poster:
-      "🔎",
-    download:
-      "https://archive.org/"
-  },
-
-  {
-    title: "The Phantom of the Opera",
-    year: "1925",
-    genre: "Drama",
-    type: "Classic",
-    description:
-      "A landmark silent-era adaptation of the famous story.",
-    poster:
-      "🎭",
-    download:
-      "https://archive.org/"
-  },
-
-  {
-    title: "Plan 9 from Outer Space",
-    year: "1959",
-    genre: "Action",
-    type: "Classic",
-    description:
-      "A famous low-budget science-fiction cult classic.",
-    poster:
-      "👽",
-    download:
-      "https://archive.org/"
-  },
-
-  {
-    title: "The Last Man on Earth",
-    year: "1964",
-    genre: "Horror",
-    type: "Classic",
-    description:
-      "A classic science-fiction horror story.",
-    poster:
-      "🌙",
-    download:
-      "https://archive.org/"
-  }
-
+const COLORS = [
+  "red",
+  "blue",
+  "green",
+  "yellow",
+  "purple",
+  "orange",
+  "pink",
+  "cyan"
 ];
 
 
 /* =========================================
-   STATE
-   ========================================= */
+   SAVED PROGRESS
+========================================= */
 
-let currentCategory = "All";
+let currentLevel =
+  Number(localStorage.getItem("cws_current_level")) || 1;
+
+let unlockedLevel =
+  Number(localStorage.getItem("cws_unlocked_level")) || 1;
+
+let coins =
+  Number(localStorage.getItem("cws_coins")) || 0;
+
+let soundOn =
+  localStorage.getItem("cws_sound") !== "off";
+
+let starsData =
+  JSON.parse(
+    localStorage.getItem("cws_stars") || "{}"
+  );
+
+
+/*
+  Safety check.
+*/
+
+if(currentLevel > unlockedLevel){
+  currentLevel = unlockedLevel;
+}
 
 
 /* =========================================
-   DISPLAY MOVIES
-   ========================================= */
+   CURRENT GAME
+========================================= */
 
-function displayMovies(list) {
+let tubes = [];
 
-  const grid =
-    document.getElementById("movieGrid");
+let originalTubes = [];
 
-  const empty =
-    document.getElementById("empty");
+let history = [];
+
+let selectedTube = null;
+
+let moves = 0;
+
+let hintTimer = null;
 
 
-  grid.innerHTML = "";
+/* =========================================
+   AUDIO
+========================================= */
+
+let audioContext = null;
 
 
-  if (list.length === 0) {
+function getAudio(){
 
-    empty.style.display = "block";
+  if(!soundOn) return null;
+
+  if(!audioContext){
+
+    const AudioCtx =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+    if(!AudioCtx) return null;
+
+    audioContext = new AudioCtx();
+
+  }
+
+  if(audioContext.state === "suspended"){
+    audioContext.resume();
+  }
+
+  return audioContext;
+}
+
+
+function beep(
+  frequency,
+  duration,
+  type="sine",
+  volume=.05
+){
+
+  const ctx = getAudio();
+
+  if(!ctx) return;
+
+  const oscillator =
+    ctx.createOscillator();
+
+  const gain =
+    ctx.createGain();
+
+  oscillator.type = type;
+
+  oscillator.frequency.value =
+    frequency;
+
+  gain.gain.setValueAtTime(
+    volume,
+    ctx.currentTime
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    .001,
+    ctx.currentTime + duration
+  );
+
+  oscillator.connect(gain);
+
+  gain.connect(ctx.destination);
+
+  oscillator.start();
+
+  oscillator.stop(
+    ctx.currentTime + duration
+  );
+
+}
+
+
+function selectSound(){
+  beep(520,.08,"sine",.04);
+}
+
+
+function pourSound(){
+
+  beep(300,.12,"triangle",.045);
+
+  setTimeout(
+    () => beep(420,.14,"triangle",.04),
+    80
+  );
+
+}
+
+
+function invalidSound(){
+
+  beep(120,.15,"square",.035);
+
+}
+
+
+function winSound(){
+
+  beep(523,.12,"sine",.05);
+
+  setTimeout(
+    () => beep(659,.12,"sine",.05),
+    120
+  );
+
+  setTimeout(
+    () => beep(784,.22,"sine",.05),
+    240
+  );
+
+}
+
+
+function lockedSound(){
+
+  beep(130,.15,"square",.03);
+
+}
+
+
+/* =========================================
+   SOUND TOGGLE
+========================================= */
+
+function toggleSound(){
+
+  soundOn = !soundOn;
+
+  localStorage.setItem(
+    "cws_sound",
+    soundOn ? "on" : "off"
+  );
+
+  updateSoundButton();
+
+  if(soundOn){
+    beep(600,.1);
+  }
+
+}
+
+
+function updateSoundButton(){
+
+  document.getElementById(
+    "soundButton"
+  ).textContent =
+    soundOn ? "🔊" : "🔇";
+
+}
+
+
+/* =========================================
+   SAVE
+========================================= */
+
+function save(){
+
+  localStorage.setItem(
+    "cws_current_level",
+    currentLevel
+  );
+
+  localStorage.setItem(
+    "cws_unlocked_level",
+    unlockedLevel
+  );
+
+  localStorage.setItem(
+    "cws_coins",
+    coins
+  );
+
+  localStorage.setItem(
+    "cws_sound",
+    soundOn ? "on" : "off"
+  );
+
+  localStorage.setItem(
+    "cws_stars",
+    JSON.stringify(starsData)
+  );
+
+}
+
+
+/* =========================================
+   LEVEL GENERATOR
+========================================= */
+
+function generateLevel(level){
+
+  /*
+    Difficulty increases gradually.
+
+    Level 1-5: 3 colors
+    Level 6-10: 4 colors
+    Level 11-20: 5 colors
+    Level 21-35: 6 colors
+    Level 36+: 7-8 colors
+  */
+
+  let colorCount;
+
+  if(level <= 5){
+    colorCount = 3;
+  }
+  else if(level <= 10){
+    colorCount = 4;
+  }
+  else if(level <= 20){
+    colorCount = 5;
+  }
+  else if(level <= 35){
+    colorCount = 6;
+  }
+  else if(level <= 60){
+    colorCount = 7;
+  }
+  else{
+    colorCount = 8;
+  }
+
+  const colors =
+    COLORS.slice(0,colorCount);
+
+  let pieces = [];
+
+  colors.forEach(color => {
+
+    for(let i=0;i<4;i++){
+      pieces.push(color);
+    }
+
+  });
+
+
+  /*
+    Deterministic-ish shuffle based on level.
+  */
+
+  for(let i=pieces.length-1;i>0;i--){
+
+    const j =
+      Math.floor(Math.random()*(i+1));
+
+    [pieces[i],pieces[j]] =
+      [pieces[j],pieces[i]];
+
+  }
+
+
+  let result = [];
+
+  for(let i=0;i<colorCount;i++){
+
+    result.push(
+      pieces.slice(
+        i*4,
+        i*4+4
+      )
+    );
+
+  }
+
+
+  /*
+    Two empty tubes.
+  */
+
+  result.push([]);
+  result.push([]);
+
+
+  return result;
+
+}
+
+
+/* =========================================
+   LOAD LEVEL
+========================================= */
+
+function loadLevel(level){
+
+  currentLevel = level;
+
+  tubes =
+    generateLevel(level);
+
+  originalTubes =
+    JSON.parse(
+      JSON.stringify(tubes)
+    );
+
+  history = [];
+
+  selectedTube = null;
+
+  moves = 0;
+
+  save();
+
+  updateHeader();
+
+  render();
+
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+function updateHeader(){
+
+  document.getElementById(
+    "levelNumber"
+  ).textContent = currentLevel;
+
+  document.getElementById(
+    "moveCount"
+  ).textContent = moves;
+
+  document.getElementById(
+    "coins"
+  ).textContent = coins;
+
+  updateSoundButton();
+
+  const progress =
+    Math.min(
+      100,
+      ((currentLevel-1) / MAX_LEVEL) * 100
+    );
+
+  document.getElementById(
+    "progress"
+  ).style.width =
+    progress + "%";
+
+}
+
+
+/* =========================================
+   RENDER TUBES
+========================================= */
+
+function render(){
+
+  const board =
+    document.getElementById("board");
+
+  board.innerHTML = "";
+
+  tubes.forEach(
+    (tube,index) => {
+
+      const wrap =
+        document.createElement("div");
+
+      wrap.className =
+        "tube-wrap";
+
+      if(selectedTube === index){
+        wrap.classList.add("selected");
+      }
+
+      wrap.dataset.index = index;
+
+
+      const tubeElement =
+        document.createElement("div");
+
+      tubeElement.className = "tube";
+
+
+      tube.forEach(color => {
+
+        const water =
+          document.createElement("div");
+
+        water.className =
+          "water " + color;
+
+        tubeElement.appendChild(water);
+
+      });
+
+
+      wrap.appendChild(tubeElement);
+
+      wrap.addEventListener(
+        "click",
+        () => selectTube(index)
+      );
+
+
+      board.appendChild(wrap);
+
+    }
+  );
+
+  updateHeader();
+
+}
+
+
+/* =========================================
+   SELECT TUBE
+========================================= */
+
+function selectTube(index){
+
+  clearHint();
+
+  const tube =
+    tubes[index];
+
+
+  /*
+    First selection.
+  */
+
+  if(selectedTube === null){
+
+    if(tube.length === 0){
+
+      invalidSound();
+
+      showToast(
+        "Choose a tube with water."
+      );
+
+      return;
+
+    }
+
+    selectedTube = index;
+
+    selectSound();
+
+    render();
 
     return;
 
   }
 
 
-  empty.style.display = "none";
+  /*
+    Tapping same tube deselects.
+  */
+
+  if(selectedTube === index){
+
+    selectedTube = null;
+
+    render();
+
+    return;
+
+  }
 
 
-  list.forEach(movie => {
+  /*
+    Try pouring.
+  */
 
-    const card =
-      document.createElement("div");
+  tryPour(
+    selectedTube,
+    index
+  );
 
-    card.className = "movie";
-
-
-    card.innerHTML = `
-
-      <div class="poster">
-        ${movie.poster}
-      </div>
-
-      <div class="movie-info">
-
-        <div class="movie-title">
-          ${movie.title}
-        </div>
-
-        <div class="movie-meta">
-          ${movie.year} • ${movie.genre}
-        </div>
-
-        <div class="movie-description">
-          ${movie.description}
-        </div>
-
-        <button
-          onclick="downloadMovie('${movie.download}')">
-          ⬇ Download
-        </button>
-
-      </div>
-
-    `;
+}
 
 
-    grid.appendChild(card);
+/* =========================================
+   POUR
+========================================= */
+
+function tryPour(from,to){
+
+  const source =
+    tubes[from];
+
+  const target =
+    tubes[to];
+
+
+  if(source.length === 0){
+
+    selectedTube = null;
+
+    render();
+
+    return;
+
+  }
+
+
+  if(target.length >= 4){
+
+    invalidSound();
+
+    showToast(
+      "That tube is full."
+    );
+
+    selectedTube = null;
+
+    render();
+
+    return;
+
+  }
+
+
+  const color =
+    source[source.length-1];
+
+
+  if(
+    target.length > 0 &&
+    target[target.length-1] !== color
+  ){
+
+    invalidSound();
+
+    showToast(
+      "Only matching colors can mix."
+    );
+
+    selectedTube = null;
+
+    render();
+
+    return;
+
+  }
+
+
+  /*
+    Save state for Undo.
+  */
+
+  history.push(
+    JSON.parse(
+      JSON.stringify(tubes)
+    )
+  );
+
+
+  /*
+    Count matching top pieces.
+  */
+
+  let amount = 0;
+
+  for(
+    let i=source.length-1;
+    i>=0;
+    i--
+  ){
+
+    if(source[i] === color){
+      amount++;
+    }
+    else{
+      break;
+    }
+
+  }
+
+
+  const space =
+    4 - target.length;
+
+  amount =
+    Math.min(
+      amount,
+      space
+    );
+
+
+  for(let i=0;i<amount;i++){
+
+    target.push(
+      source.pop()
+    );
+
+  }
+
+
+  moves++;
+
+  selectedTube = null;
+
+  pourSound();
+
+  animatePour(
+    from,
+    to
+  );
+
+  render();
+
+
+  if(checkWin()){
+
+    setTimeout(
+      completeLevel,
+      450
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   POUR ANIMATION
+========================================= */
+
+function animatePour(from,to){
+
+  const elements =
+    document.querySelectorAll(
+      ".tube-wrap"
+    );
+
+  if(elements[from]){
+    elements[from].classList.add(
+      "pouring"
+    );
+  }
+
+  setTimeout(() => {
+
+    if(elements[from]){
+      elements[from].classList.remove(
+        "pouring"
+      );
+    }
+
+  },500);
+
+}
+
+
+/* =========================================
+   CHECK WIN
+========================================= */
+
+function checkWin(){
+
+  return tubes.every(tube => {
+
+    if(tube.length === 0)
+      return true;
+
+    if(tube.length !== 4)
+      return false;
+
+    return tube.every(
+      color => color === tube[0]
+    );
 
   });
 
@@ -581,126 +1455,16 @@ function displayMovies(list) {
 
 
 /* =========================================
-   CATEGORY FILTER
-   ========================================= */
+   COMPLETE
+========================================= */
 
-function filterCategory(category, button) {
+function completeLevel(){
 
-  currentCategory = category;
-
-
-  document
-    .querySelectorAll(".category")
-    .forEach(btn => {
-      btn.classList.remove("active");
-    });
-
-
-  button.classList.add("active");
-
-
-  searchMovies();
-
-}
-
-
-/* =========================================
-   SEARCH
-   ========================================= */
-
-function searchMovies() {
-
-  const query =
-    document
-      .getElementById("searchInput")
-      .value
-      .toLowerCase()
-      .trim();
-
-
-  let results =
-    movies.filter(movie => {
-
-      const matchesSearch =
-        movie.title
-          .toLowerCase()
-          .includes(query) ||
-
-        movie.genre
-          .toLowerCase()
-          .includes(query) ||
-
-        movie.description
-          .toLowerCase()
-          .includes(query);
-
-
-      const matchesCategory =
-        currentCategory === "All" ||
-
-        movie.genre === currentCategory ||
-
-        movie.type === currentCategory;
-
-
-      return matchesSearch && matchesCategory;
-
-    });
-
-
-  displayMovies(results);
-
-}
-
-
-/* =========================================
-   DOWNLOAD
-   ========================================= */
-
-function downloadMovie(url) {
-
-  if (!url) {
-
-    alert(
-      "A download file has not been added yet."
-    );
-
+  if(starsData[currentLevel])
     return;
 
-  }
+  let stars = 3;
 
-
-  window.open(
-    url,
-    "_blank",
-    "noopener,noreferrer"
-  );
-
-}
-
-
-/* =========================================
-   SCROLL
-   ========================================= */
-
-function scrollToMovies() {
-
-  document
-    .getElementById("moviesSection")
-    .scrollIntoView({
-      behavior: "smooth"
-    });
-
-}
-
-
-/* =========================================
-   START
-   ========================================= */
-
-displayMovies(movies);
-
-</script>
-
-</body>
-</html>
+  const colorCount =
+    tubes.filter(
+      t => t.length
