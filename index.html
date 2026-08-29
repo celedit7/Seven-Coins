@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0b1020">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#080d1c">
 <title>Color Water Sort 3D</title>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
 *{
@@ -17,29 +15,28 @@
 }
 
 body{
-  font-family:Arial,sans-serif;
-  background:
-    radial-gradient(circle at 50% -10%,#263b65 0,#10172a 35%,#070a12 75%);
-  color:#fff;
   min-height:100vh;
+  background:
+    radial-gradient(circle at 50% 0%,#263b68 0%,#11182c 38%,#060914 100%);
+  color:white;
+  font-family:Arial,sans-serif;
   overflow-x:hidden;
 }
 
 button{
-  font-family:inherit;
+  font:inherit;
 }
 
 .app{
-  width:100%;
   max-width:520px;
   min-height:100vh;
   margin:auto;
-  padding:16px 15px 30px;
+  padding:15px;
 }
 
-/* TOP */
+/* HEADER */
 
-.top{
+.header{
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -51,158 +48,160 @@ button{
   font-weight:900;
 }
 
-.top-right{
+.stats{
   display:flex;
+  gap:7px;
   align-items:center;
-  gap:8px;
 }
 
-.coin-box,
-.sound-btn{
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.08);
-  color:#fff;
-  border-radius:14px;
-  padding:9px 12px;
-  backdrop-filter:blur(10px);
+.stat{
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:13px;
+  padding:9px 11px;
+  font-size:13px;
 }
 
-.sound-btn{
-  width:42px;
+.icon-btn{
+  width:40px;
   height:40px;
-  padding:0;
-  font-size:18px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:13px;
+  background:rgba(255,255,255,.09);
+  color:white;
 }
 
-/* LEVEL HEADER */
+/* LEVEL */
 
-.level-header{
+.level-row{
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  margin-bottom:13px;
+  align-items:end;
+  margin-bottom:9px;
 }
 
-.level-name{
-  font-size:25px;
+.level{
+  font-size:26px;
   font-weight:900;
 }
 
 .moves{
-  color:#b8c1d8;
+  color:#aeb8d0;
   font-size:13px;
 }
 
-/* PROGRESS */
-
-.progress-wrap{
-  height:7px;
+.progress-bg{
+  height:6px;
+  background:rgba(255,255,255,.08);
   border-radius:20px;
-  background:rgba(255,255,255,.09);
   overflow:hidden;
   margin-bottom:20px;
 }
 
 .progress{
   height:100%;
-  width:0%;
-  background:#fff;
-  border-radius:20px;
-  transition:width .35s ease;
+  background:white;
+  width:0;
+  transition:.3s;
 }
 
-/* GAME BOARD */
+/* GAME */
+
+.game{
+  min-height:465px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
 .board{
-  min-height:475px;
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  justify-content:center;
-  gap:23px 18px;
-  padding:22px 8px;
-  perspective:900px;
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:30px 12px;
+  justify-items:center;
+  align-items:end;
+  padding:20px 3px;
 }
 
-/* TUBE */
+/* BOTTLE */
 
-.tube-wrap{
-  width:67px;
-  height:215px;
+.bottle-box{
+  width:75px;
+  height:210px;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:flex-end;
   position:relative;
-  transition:.2s ease;
+  cursor:pointer;
+  transition:.2s;
 }
 
-.tube-wrap.selected{
-  transform:translateY(-12px);
+.bottle-box.selected{
+  transform:translateY(-13px);
 }
 
-.tube-wrap.hint{
-  animation:hintPulse .7s infinite alternate;
+.bottle-box.hint{
+  animation:pulse .65s infinite alternate;
 }
 
-@keyframes hintPulse{
-  from{filter:brightness(1)}
-  to{filter:brightness(1.7)}
+@keyframes pulse{
+  from{
+    filter:brightness(1);
+  }
+  to{
+    filter:brightness(1.8);
+  }
 }
 
-.tube{
-  width:59px;
+.bottle{
+  width:61px;
   height:190px;
   position:relative;
+  border:2px solid rgba(255,255,255,.62);
+  border-radius:29px 29px 20px 20px;
   overflow:hidden;
-
-  border:2px solid rgba(255,255,255,.55);
-  border-top:3px solid rgba(255,255,255,.72);
-  border-radius:30px 30px 25px 25px;
 
   background:
     linear-gradient(
       90deg,
-      rgba(255,255,255,.20),
-      rgba(255,255,255,.04) 25%,
+      rgba(255,255,255,.24),
+      rgba(255,255,255,.04) 24%,
       rgba(255,255,255,.10) 50%,
-      rgba(255,255,255,.02) 75%,
-      rgba(255,255,255,.17)
+      rgba(0,0,0,.10) 78%,
+      rgba(255,255,255,.20)
     );
 
   box-shadow:
-    inset 8px 0 12px rgba(255,255,255,.08),
-    inset -8px 0 12px rgba(0,0,0,.25),
-    0 18px 28px rgba(0,0,0,.4);
-
-  display:flex;
-  flex-direction:column-reverse;
-  justify-content:flex-start;
+    inset 6px 0 10px rgba(255,255,255,.12),
+    inset -8px 0 12px rgba(0,0,0,.24),
+    0 15px 25px rgba(0,0,0,.45);
 }
 
-.tube:before{
+.bottle::before{
   content:"";
   position:absolute;
-  left:9px;
   top:8px;
-  bottom:12px;
+  bottom:10px;
+  left:8px;
   width:5px;
   border-radius:10px;
-  background:rgba(255,255,255,.22);
-  z-index:5;
+  background:rgba(255,255,255,.28);
+  z-index:10;
   pointer-events:none;
 }
 
-.tube:after{
+.bottle::after{
   content:"";
   position:absolute;
-  left:6px;
-  right:6px;
-  top:-4px;
-  height:8px;
+  left:5px;
+  right:5px;
+  top:-5px;
+  height:10px;
+  border:2px solid rgba(255,255,255,.62);
   border-radius:50%;
-  border:2px solid rgba(255,255,255,.55);
   background:rgba(255,255,255,.08);
-  z-index:10;
+  z-index:20;
 }
 
 /* WATER */
@@ -210,26 +209,26 @@ button{
 .water{
   width:100%;
   height:25%;
-  position:relative;
-  border-top:1px solid rgba(255,255,255,.3);
-  overflow:hidden;
   flex-shrink:0;
+  position:relative;
+  border-top:1px solid rgba(255,255,255,.35);
+  animation:waterAppear .18s ease;
 }
 
 .water:first-child{
-  border-radius:0 0 22px 22px;
+  border-radius:0 0 18px 18px;
 }
 
-.water:before{
+.water::before{
   content:"";
   position:absolute;
-  left:-15%;
-  top:-5px;
-  width:130%;
-  height:12px;
+  left:-10%;
+  width:120%;
+  top:-4px;
+  height:10px;
   border-radius:50%;
-  background:rgba(255,255,255,.24);
-  animation:wave 1.5s ease-in-out infinite;
+  background:rgba(255,255,255,.25);
+  animation:wave 1.3s ease-in-out infinite;
 }
 
 @keyframes wave{
@@ -237,36 +236,43 @@ button{
   50%{transform:translateX(3%)}
 }
 
+@keyframes waterAppear{
+  from{transform:scaleY(.2);transform-origin:bottom}
+  to{transform:scaleY(1);transform-origin:bottom}
+}
+
+/* COLORS */
+
 .red{
-  background:linear-gradient(90deg,#9f1e2d,#ff5364,#b82032);
+  background:linear-gradient(90deg,#9b1829,#ff5264,#b61f33);
 }
 
 .blue{
-  background:linear-gradient(90deg,#1264ae,#54b9ff,#1874bd);
+  background:linear-gradient(90deg,#1260a8,#4db7ff,#1975be);
 }
 
 .green{
-  background:linear-gradient(90deg,#16864c,#52e28d,#159657);
+  background:linear-gradient(90deg,#137846,#52df8a,#149456);
 }
 
 .yellow{
-  background:linear-gradient(90deg,#b98708,#ffe34f,#d0a20c);
+  background:linear-gradient(90deg,#b07c05,#ffe34c,#d19f08);
 }
 
 .purple{
-  background:linear-gradient(90deg,#6426a5,#c06aff,#762fc0);
+  background:linear-gradient(90deg,#60249d,#c06aff,#7932c1);
 }
 
 .orange{
-  background:linear-gradient(90deg,#bd5b0d,#ff9d3c,#d96c12);
+  background:linear-gradient(90deg,#b85009,#ff9b3d,#d66a12);
 }
 
 .pink{
-  background:linear-gradient(90deg,#b52c6e,#ff72b2,#c73479);
+  background:linear-gradient(90deg,#ae2868,#ff70b0,#c9367d);
 }
 
 .cyan{
-  background:linear-gradient(90deg,#0d8e9c,#53e6ee,#1099a6);
+  background:linear-gradient(90deg,#087d8b,#55e8ef,#109ba7);
 }
 
 /* CONTROLS */
@@ -275,53 +281,43 @@ button{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:9px;
-  margin-top:8px;
 }
 
 .control{
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:14px;
-  background:rgba(255,255,255,.08);
-  color:#fff;
+  border:1px solid rgba(255,255,255,.13);
+  background:rgba(255,255,255,.09);
+  color:white;
   padding:13px 5px;
-  font-size:13px;
+  border-radius:14px;
   font-weight:bold;
 }
 
-.control:active{
+.control:active,
+.level-select:active,
+.popup button:active{
   transform:scale(.97);
 }
 
-.control.primary{
-  background:#fff;
-  color:#101010;
-}
-
-/* LEVEL BUTTON */
-
-.level-button{
-  margin-top:13px;
+.level-select{
   width:100%;
+  margin-top:11px;
   padding:14px;
-  border:0;
+  border:1px solid rgba(255,255,255,.13);
   border-radius:14px;
-  background:rgba(255,255,255,.08);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.09);
+  color:white;
   font-weight:bold;
 }
 
-/* INSTRUCTIONS */
-
-.instructions{
+.tip{
+  color:#8994ad;
   text-align:center;
-  color:#8e99b3;
   font-size:12px;
-  margin-top:15px;
   line-height:1.5;
+  margin-top:14px;
 }
 
-/* LEVEL SELECT */
+/* LEVEL SCREEN */
 
 .level-screen{
   display:none;
@@ -335,69 +331,69 @@ button{
   display:none;
 }
 
-.level-top{
+.level-header{
   display:flex;
   align-items:center;
   gap:12px;
-  margin-bottom:25px;
+  margin-bottom:22px;
 }
 
 .back{
   border:0;
-  background:rgba(255,255,255,.09);
-  color:#fff;
-  padding:10px 14px;
   border-radius:12px;
+  padding:10px 14px;
+  background:rgba(255,255,255,.09);
+  color:white;
 }
 
 .level-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:11px;
+  gap:10px;
 }
 
 .level-card{
-  min-height:78px;
+  min-height:75px;
   border:1px solid rgba(255,255,255,.1);
-  border-radius:16px;
+  border-radius:15px;
   background:rgba(255,255,255,.07);
-  color:#fff;
+  color:white;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:5px;
 }
 
 .level-card.locked{
-  opacity:.35;
+  opacity:.3;
 }
 
 .level-card.current{
-  border-color:#fff;
+  border-color:white;
 }
 
-.level-number{
+.number{
   font-size:20px;
   font-weight:900;
 }
 
-.stars{
-  font-size:12px;
+.small-stars{
+  font-size:11px;
+  margin-top:4px;
 }
 
-/* POPUP */
+/* POPUPS */
 
 .overlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.78);
-  backdrop-filter:blur(7px);
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:100;
   padding:20px;
+  background:rgba(0,0,0,.78);
+  backdrop-filter:blur(7px);
+  z-index:100;
 }
 
 .overlay.show{
@@ -407,45 +403,44 @@ button{
 .popup{
   width:100%;
   max-width:350px;
-  background:#151c2d;
+  background:#151d31;
   border:1px solid rgba(255,255,255,.15);
   border-radius:25px;
-  padding:28px 22px;
+  padding:27px 21px;
   text-align:center;
   box-shadow:0 25px 70px rgba(0,0,0,.5);
 }
 
 .popup-icon{
-  font-size:65px;
-  margin-bottom:10px;
-}
-
-.popup h2{
-  font-size:25px;
+  font-size:60px;
   margin-bottom:8px;
 }
 
+.popup h2{
+  margin-bottom:9px;
+}
+
 .popup p{
-  color:#aab4ca;
-  line-height:1.5;
+  color:#aeb8cd;
   font-size:14px;
-  margin-bottom:18px;
+  line-height:1.5;
+  margin-bottom:15px;
 }
 
 .popup button{
   width:100%;
+  padding:13px;
+  margin-top:8px;
   border:0;
   border-radius:13px;
-  padding:13px;
-  background:#fff;
+  background:white;
   color:#111;
   font-weight:bold;
-  margin-top:8px;
 }
 
 .popup .secondary{
-  background:rgba(255,255,255,.08);
-  color:#fff;
+  background:rgba(255,255,255,.09);
+  color:white;
 }
 
 /* TOAST */
@@ -455,7 +450,7 @@ button{
   left:50%;
   bottom:25px;
   transform:translate(-50%,20px);
-  background:#fff;
+  background:white;
   color:#111;
   padding:11px 17px;
   border-radius:30px;
@@ -472,32 +467,30 @@ button{
   transform:translate(-50%,0);
 }
 
-/* POUR ANIMATION */
+/* POUR */
 
-.tube-wrap.pouring{
-  animation:pour .45s ease;
+.bottle-box.pouring{
+  animation:pour .5s ease;
 }
 
 @keyframes pour{
   0%{transform:rotate(0)}
-  50%{transform:rotate(10deg) translateY(-5px)}
+  50%{transform:rotate(12deg) translateY(-7px)}
   100%{transform:rotate(0)}
 }
 
-/* MOBILE */
-
-@media(max-width:380px){
+@media(max-width:390px){
 
   .board{
-    gap:20px 12px;
+    gap:25px 7px;
   }
 
-  .tube-wrap{
-    width:61px;
+  .bottle-box{
+    width:67px;
   }
 
-  .tube{
-    width:54px;
+  .bottle{
+    width:56px;
   }
 
 }
@@ -508,124 +501,125 @@ button{
 
 <div class="app">
 
-  <!-- GAME SCREEN -->
+<section id="gameScreen">
 
-  <section id="gameScreen" class="game-screen">
+  <div class="header">
 
-    <div class="top">
+    <div class="logo">
+      💧 Color Water 3D
+    </div>
 
-      <div class="logo">
-        💧 Color Water 3D
-      </div>
+    <div class="stats">
 
-      <div class="top-right">
+      <button
+        class="icon-btn"
+        id="soundBtn"
+        onclick="toggleSound()">
+        🔊
+      </button>
 
-        <button
-          class="sound-btn"
-          id="soundButton"
-          onclick="toggleSound()">
-          🔊
-        </button>
-
-        <div class="coin-box">
-          🪙 <span id="coins">0</span>
-        </div>
-
+      <div class="stat">
+        🪙 <span id="coins">0</span>
       </div>
 
     </div>
 
+  </div>
 
-    <div class="level-header">
 
-      <div class="level-name">
-        Level <span id="levelNumber">1</span>
-      </div>
+  <div class="level-row">
 
-      <div class="moves">
-        Moves: <strong id="moveCount">0</strong>
-      </div>
-
+    <div class="level">
+      Level <span id="level">1</span>
     </div>
 
-
-    <div class="progress-wrap">
-      <div class="progress" id="progress"></div>
+    <div class="moves">
+      Moves: <b id="moves">0</b>
     </div>
 
+  </div>
+
+
+  <div class="progress-bg">
+    <div
+      class="progress"
+      id="progress">
+    </div>
+  </div>
+
+
+  <div class="game">
 
     <div
       class="board"
       id="board">
     </div>
 
+  </div>
 
-    <div class="controls">
 
-      <button
-        class="control"
-        onclick="undoMove()">
-        ↩️ Undo
-      </button>
-
-      <button
-        class="control"
-        onclick="showHint()">
-        💡 Hint
-      </button>
-
-      <button
-        class="control"
-        onclick="resetCurrentLevel()">
-        🔄 Reset
-      </button>
-
-    </div>
-
+  <div class="controls">
 
     <button
-      class="level-button"
-      onclick="openLevels()">
-
-      📋 Level Select
-
+      class="control"
+      onclick="undo()">
+      ↩️ Undo
     </button>
 
+    <button
+      class="control"
+      onclick="hint()">
+      💡 Hint
+    </button>
 
-    <div class="instructions">
-      Tap a tube, then tap another tube to pour.<br>
-      Match colors or pour into an empty tube.
-    </div>
+    <button
+      class="control"
+      onclick="resetLevel()">
+      🔄 Reset
+    </button>
 
-  </section>
+  </div>
 
 
-  <!-- LEVEL SCREEN -->
+  <button
+    class="level-select"
+    onclick="openLevels()">
 
-  <section
-    id="levelScreen"
-    class="level-screen">
+    📋 Choose Level
 
-    <div class="level-top">
+  </button>
 
-      <button
-        class="back"
-        onclick="closeLevels()">
 
-        ← Back
+  <div class="tip">
+    Tap a bottle, then tap another bottle to pour.<br>
+    Match colors or pour into an empty bottle.
+  </div>
 
-      </button>
+</section>
 
-      <h2>Levels</h2>
 
-    </div>
+<section
+  id="levelScreen"
+  class="level-screen">
 
-    <div
-      class="level-grid"
-      id="levelGrid">
-    </div>
+  <div class="level-header">
 
-  </section>
+    <button
+      class="back"
+      onclick="closeLevels()">
+      ← Back
+    </button>
+
+    <h2>Levels</h2>
+
+  </div>
+
+  <div
+    class="level-grid"
+    id="levelGrid">
+  </div>
+
+</section>
 
 </div>
 
@@ -634,7 +628,7 @@ button{
 
 <div
   class="overlay"
-  id="winOverlay">
+  id="win">
 
   <div class="popup">
 
@@ -644,9 +638,7 @@ button{
 
     <h2>Level Complete!</h2>
 
-    <p id="winText">
-      Great job!
-    </p>
+    <p id="winMessage"></p>
 
     <button onclick="nextLevel()">
       ➡️ Next Level
@@ -654,7 +646,7 @@ button{
 
     <button
       class="secondary"
-      onclick="closeWinAndLevels()">
+      onclick="showLevelSelect()">
 
       📋 Level Select
 
@@ -669,7 +661,7 @@ button{
 
 <div
   class="overlay"
-  id="lockedOverlay">
+  id="locked">
 
   <div class="popup">
 
@@ -680,7 +672,7 @@ button{
     <h2>Level Locked</h2>
 
     <p>
-      Complete the previous level to unlock this one.
+      Complete the previous level first.
     </p>
 
     <button onclick="closeLocked()">
@@ -700,23 +692,11 @@ button{
 
 <script>
 
-/* =========================================
-   TELEGRAM
-========================================= */
+/* ==================================================
+   SETTINGS
+================================================== */
 
-const tg = window.Telegram?.WebApp;
-
-if(tg){
-  tg.ready();
-  tg.expand();
-}
-
-
-/* =========================================
-   GAME SETTINGS
-========================================= */
-
-const MAX_LEVEL = 100;
+const CAPACITY = 4;
 
 const COLORS = [
   "red",
@@ -729,110 +709,119 @@ const COLORS = [
   "cyan"
 ];
 
+const MAX_LEVEL = 100;
 
-/* =========================================
-   SAVED PROGRESS
-========================================= */
+
+/* ==================================================
+   SAVE DATA
+================================================== */
 
 let currentLevel =
-  Number(localStorage.getItem("cws_current_level")) || 1;
+  Number(localStorage.getItem(
+    "water_current_level"
+  )) || 1;
 
 let unlockedLevel =
-  Number(localStorage.getItem("cws_unlocked_level")) || 1;
+  Number(localStorage.getItem(
+    "water_unlocked_level"
+  )) || 1;
 
 let coins =
-  Number(localStorage.getItem("cws_coins")) || 0;
+  Number(localStorage.getItem(
+    "water_coins"
+  )) || 0;
 
 let soundOn =
-  localStorage.getItem("cws_sound") !== "off";
+  localStorage.getItem(
+    "water_sound"
+  ) !== "off";
 
-let starsData =
+let stars =
   JSON.parse(
-    localStorage.getItem("cws_stars") || "{}"
+    localStorage.getItem(
+      "water_stars"
+    ) || "{}"
   );
 
-
-/*
-  Safety check.
-*/
 
 if(currentLevel > unlockedLevel){
   currentLevel = unlockedLevel;
 }
 
 
-/* =========================================
-   CURRENT GAME
-========================================= */
+/* ==================================================
+   GAME VARIABLES
+================================================== */
 
-let tubes = [];
+let bottles = [];
 
-let originalTubes = [];
+let startingBottles = [];
 
 let history = [];
 
-let selectedTube = null;
+let selected = null;
 
-let moves = 0;
+let moveCount = 0;
 
-let hintTimer = null;
+let hintTimeout;
 
 
-/* =========================================
+/* ==================================================
    AUDIO
-========================================= */
+================================================== */
 
-let audioContext = null;
+let audio = null;
 
 
 function getAudio(){
 
   if(!soundOn) return null;
 
-  if(!audioContext){
+  if(!audio){
 
-    const AudioCtx =
+    const AudioContext =
       window.AudioContext ||
       window.webkitAudioContext;
 
-    if(!AudioCtx) return null;
+    if(!AudioContext) return null;
 
-    audioContext = new AudioCtx();
+    audio =
+      new AudioContext();
 
   }
 
-  if(audioContext.state === "suspended"){
-    audioContext.resume();
+  if(audio.state === "suspended"){
+    audio.resume();
   }
 
-  return audioContext;
+  return audio;
+
 }
 
 
-function beep(
+function sound(
   frequency,
   duration,
-  type="sine",
-  volume=.05
+  type="sine"
 ){
 
   const ctx = getAudio();
 
   if(!ctx) return;
 
-  const oscillator =
+  const osc =
     ctx.createOscillator();
 
   const gain =
     ctx.createGain();
 
-  oscillator.type = type;
+  osc.type = type;
 
-  oscillator.frequency.value =
+  osc.frequency.value =
     frequency;
 
   gain.gain.setValueAtTime(
-    volume,
+    .045,
     ctx.currentTime
   );
 
@@ -841,13 +830,13 @@ function beep(
     ctx.currentTime + duration
   );
 
-  oscillator.connect(gain);
+  osc.connect(gain);
 
   gain.connect(ctx.destination);
 
-  oscillator.start();
+  osc.start();
 
-  oscillator.stop(
+  osc.stop(
     ctx.currentTime + duration
   );
 
@@ -855,70 +844,61 @@ function beep(
 
 
 function selectSound(){
-  beep(520,.08,"sine",.04);
+  sound(550,.08);
 }
 
 
 function pourSound(){
 
-  beep(300,.12,"triangle",.045);
+  sound(280,.12,"triangle");
 
   setTimeout(
-    () => beep(420,.14,"triangle",.04),
+    () => sound(400,.14,"triangle"),
     80
   );
 
 }
 
 
-function invalidSound(){
-
-  beep(120,.15,"square",.035);
-
+function badSound(){
+  sound(130,.16,"square");
 }
 
 
 function winSound(){
 
-  beep(523,.12,"sine",.05);
+  sound(523,.12);
 
   setTimeout(
-    () => beep(659,.12,"sine",.05),
+    () => sound(659,.12),
     120
   );
 
   setTimeout(
-    () => beep(784,.22,"sine",.05),
+    () => sound(784,.22),
     240
   );
 
 }
 
 
-function lockedSound(){
-
-  beep(130,.15,"square",.03);
-
-}
-
-
-/* =========================================
-   SOUND TOGGLE
-========================================= */
+/* ==================================================
+   SOUND BUTTON
+================================================== */
 
 function toggleSound(){
 
   soundOn = !soundOn;
 
   localStorage.setItem(
-    "cws_sound",
+    "water_sound",
     soundOn ? "on" : "off"
   );
 
   updateSoundButton();
 
   if(soundOn){
-    beep(600,.1);
+    sound(600,.1);
   }
 
 }
@@ -927,300 +907,492 @@ function toggleSound(){
 function updateSoundButton(){
 
   document.getElementById(
-    "soundButton"
+    "soundBtn"
   ).textContent =
     soundOn ? "🔊" : "🔇";
 
 }
 
 
-/* =========================================
+/* ==================================================
    SAVE
-========================================= */
+================================================== */
 
 function save(){
 
   localStorage.setItem(
-    "cws_current_level",
+    "water_current_level",
     currentLevel
   );
 
   localStorage.setItem(
-    "cws_unlocked_level",
+    "water_unlocked_level",
     unlockedLevel
   );
 
   localStorage.setItem(
-    "cws_coins",
+    "water_coins",
     coins
   );
 
   localStorage.setItem(
-    "cws_sound",
+    "water_sound",
     soundOn ? "on" : "off"
   );
 
   localStorage.setItem(
-    "cws_stars",
-    JSON.stringify(starsData)
+    "water_stars",
+    JSON.stringify(stars)
   );
 
 }
 
 
-/* =========================================
-   LEVEL GENERATOR
-========================================= */
+/* ==================================================
+   GUARANTEED-SOLVABLE LEVELS
+================================================== */
 
-function generateLevel(level){
+/*
+  Instead of randomly scrambling a puzzle,
+  we START from solved bottles and perform
+  legal reverse moves.
 
-  /*
-    Difficulty increases gradually.
+  Every generated puzzle therefore has a
+  valid solution.
+*/
 
-    Level 1-5: 3 colors
-    Level 6-10: 4 colors
-    Level 11-20: 5 colors
-    Level 21-35: 6 colors
-    Level 36+: 7-8 colors
-  */
-
-  let colorCount;
-
-  if(level <= 5){
-    colorCount = 3;
-  }
-  else if(level <= 10){
-    colorCount = 4;
-  }
-  else if(level <= 20){
-    colorCount = 5;
-  }
-  else if(level <= 35){
-    colorCount = 6;
-  }
-  else if(level <= 60){
-    colorCount = 7;
-  }
-  else{
-    colorCount = 8;
-  }
-
-  const colors =
-    COLORS.slice(0,colorCount);
-
-  let pieces = [];
-
-  colors.forEach(color => {
-
-    for(let i=0;i<4;i++){
-      pieces.push(color);
-    }
-
-  });
-
-
-  /*
-    Deterministic-ish shuffle based on level.
-  */
-
-  for(let i=pieces.length-1;i>0;i--){
-
-    const j =
-      Math.floor(Math.random()*(i+1));
-
-    [pieces[i],pieces[j]] =
-      [pieces[j],pieces[i]];
-
-  }
-
+function createSolvedState(colorCount){
 
   let result = [];
 
-  for(let i=0;i<colorCount;i++){
+  for(
+    let c=0;
+    c<colorCount;
+    c++
+  ){
 
-    result.push(
-      pieces.slice(
-        i*4,
-        i*4+4
-      )
-    );
+    result.push([
+      COLORS[c],
+      COLORS[c],
+      COLORS[c],
+      COLORS[c]
+    ]);
 
   }
 
-
-  /*
-    Two empty tubes.
-  */
-
   result.push([]);
   result.push([]);
-
 
   return result;
 
 }
 
 
-/* =========================================
-   LOAD LEVEL
-========================================= */
+function legalMoves(state){
+
+  const moves = [];
+
+  for(
+    let from=0;
+    from<state.length;
+    from++
+  ){
+
+    if(state[from].length === 0)
+      continue;
+
+    const color =
+      state[from][
+        state[from].length-1
+      ];
+
+    let amount = 0;
+
+    for(
+      let i=state[from].length-1;
+      i>=0;
+      i--
+    ){
+
+      if(state[from][i] === color)
+        amount++;
+      else
+        break;
+
+    }
+
+
+    for(
+      let to=0;
+      to<state.length;
+      to++
+    ){
+
+      if(from === to)
+        continue;
+
+      if(state[to].length >= CAPACITY)
+        continue;
+
+      if(
+        state[to].length === 0 ||
+        state[to][state[to].length-1] === color
+      ){
+
+        moves.push({
+          from,
+          to,
+          amount
+        });
+
+      }
+
+    }
+
+  }
+
+  return moves;
+
+}
+
+
+function reverseMove(state,move){
+
+  /*
+    To scramble while preserving
+    solvability, we move the top pieces
+    in the opposite direction.
+  */
+
+  const from =
+    state[move.from];
+
+  const to =
+    state[move.to];
+
+  if(
+    from.length === 0 ||
+    to.length >= CAPACITY
+  ){
+    return false;
+  }
+
+  const color =
+    from[from.length-1];
+
+  let amount = 1;
+
+  /*
+    Move only part of a stack when possible.
+  */
+
+  if(
+    from.length > 1 &&
+    Math.random() > .45
+  ){
+
+    amount =
+      Math.min(
+        move.amount,
+        CAPACITY - to.length
+      );
+
+  }
+
+  for(let i=0;i<amount;i++){
+
+    to.push(
+      from.pop()
+    );
+
+  }
+
+  return true;
+
+}
+
+
+function generatePuzzle(level){
+
+  let colorCount;
+
+  if(level <= 5)
+    colorCount = 3;
+  else if(level <= 12)
+    colorCount = 4;
+  else if(level <= 22)
+    colorCount = 5;
+  else if(level <= 38)
+    colorCount = 6;
+  else if(level <= 60)
+    colorCount = 7;
+  else
+    colorCount = 8;
+
+
+  let state =
+    createSolvedState(
+      colorCount
+    );
+
+
+  /*
+    More scrambling as level increases.
+  */
+
+  const scrambleCount =
+    Math.min(
+      10 + level * 2,
+      100
+    );
+
+
+  let previous = null;
+
+
+  for(
+    let i=0;
+    i<scrambleCount;
+    i++
+  ){
+
+    const possible =
+      legalMoves(state)
+      .filter(move => {
+
+        /*
+          Avoid immediately undoing
+          the previous move.
+        */
+
+        if(
+          previous &&
+          move.from === previous.to &&
+          move.to === previous.from
+        ){
+          return false;
+        }
+
+        return true;
+
+      });
+
+
+    if(possible.length === 0)
+      break;
+
+
+    const move =
+      possible[
+        Math.floor(
+          Math.random() *
+          possible.length
+        )
+      ];
+
+
+    reverseMove(
+      state,
+      move
+    );
+
+
+    previous = move;
+
+  }
+
+
+  return state;
+
+}
+
+
+/* ==================================================
+   LOAD
+================================================== */
 
 function loadLevel(level){
 
   currentLevel = level;
 
-  tubes =
-    generateLevel(level);
+  bottles =
+    generatePuzzle(level);
 
-  originalTubes =
+  startingBottles =
     JSON.parse(
-      JSON.stringify(tubes)
+      JSON.stringify(bottles)
     );
 
   history = [];
 
-  selectedTube = null;
+  selected = null;
 
-  moves = 0;
+  moveCount = 0;
 
   save();
-
-  updateHeader();
 
   render();
 
 }
 
 
-/* =========================================
-   HEADER
-========================================= */
+/* ==================================================
+   RENDER
+================================================== */
 
-function updateHeader(){
+function render(){
+
+  const board =
+    document.getElementById(
+      "board"
+    );
+
+  board.innerHTML = "";
+
+
+  bottles.forEach(
+    (water,index) => {
+
+      const wrapper =
+        document.createElement(
+          "div"
+        );
+
+      wrapper.className =
+        "bottle-box";
+
+
+      if(selected === index){
+
+        wrapper.classList.add(
+          "selected"
+        );
+
+      }
+
+
+      wrapper.addEventListener(
+        "click",
+        () => tapBottle(index)
+      );
+
+
+      const bottle =
+        document.createElement(
+          "div"
+        );
+
+      bottle.className =
+        "bottle";
+
+
+      /*
+        Water is rendered bottom-up.
+      */
+
+      water.forEach(color => {
+
+        const segment =
+          document.createElement(
+            "div"
+          );
+
+        segment.className =
+          "water " + color;
+
+        bottle.appendChild(
+          segment
+        );
+
+      });
+
+
+      wrapper.appendChild(
+        bottle
+      );
+
+      board.appendChild(
+        wrapper
+      );
+
+    }
+  );
+
+
+  updateUI();
+
+}
+
+
+/* ==================================================
+   UI
+================================================== */
+
+function updateUI(){
 
   document.getElementById(
-    "levelNumber"
-  ).textContent = currentLevel;
+    "level"
+  ).textContent =
+    currentLevel;
 
   document.getElementById(
-    "moveCount"
-  ).textContent = moves;
+    "moves"
+  ).textContent =
+    moveCount;
 
   document.getElementById(
     "coins"
-  ).textContent = coins;
+  ).textContent =
+    coins;
 
   updateSoundButton();
 
-  const progress =
+
+  const percentage =
     Math.min(
       100,
-      ((currentLevel-1) / MAX_LEVEL) * 100
+      ((currentLevel - 1) /
+      MAX_LEVEL) * 100
     );
 
   document.getElementById(
     "progress"
   ).style.width =
-    progress + "%";
+    percentage + "%";
 
 }
 
 
-/* =========================================
-   RENDER TUBES
-========================================= */
+/* ==================================================
+   TAP BOTTLE
+================================================== */
 
-function render(){
-
-  const board =
-    document.getElementById("board");
-
-  board.innerHTML = "";
-
-  tubes.forEach(
-    (tube,index) => {
-
-      const wrap =
-        document.createElement("div");
-
-      wrap.className =
-        "tube-wrap";
-
-      if(selectedTube === index){
-        wrap.classList.add("selected");
-      }
-
-      wrap.dataset.index = index;
-
-
-      const tubeElement =
-        document.createElement("div");
-
-      tubeElement.className = "tube";
-
-
-      tube.forEach(color => {
-
-        const water =
-          document.createElement("div");
-
-        water.className =
-          "water " + color;
-
-        tubeElement.appendChild(water);
-
-      });
-
-
-      wrap.appendChild(tubeElement);
-
-      wrap.addEventListener(
-        "click",
-        () => selectTube(index)
-      );
-
-
-      board.appendChild(wrap);
-
-    }
-  );
-
-  updateHeader();
-
-}
-
-
-/* =========================================
-   SELECT TUBE
-========================================= */
-
-function selectTube(index){
+function tapBottle(index){
 
   clearHint();
 
-  const tube =
-    tubes[index];
-
-
   /*
-    First selection.
+    First bottle.
   */
 
-  if(selectedTube === null){
+  if(selected === null){
 
-    if(tube.length === 0){
+    if(
+      bottles[index].length === 0
+    ){
 
-      invalidSound();
+      badSound();
 
-      showToast(
-        "Choose a tube with water."
+      toast(
+        "Choose a bottle with water."
       );
 
       return;
 
     }
 
-    selectedTube = index;
+
+    selected = index;
 
     selectSound();
 
@@ -1232,12 +1404,12 @@ function selectTube(index){
 
 
   /*
-    Tapping same tube deselects.
+    Tap same bottle.
   */
 
-  if(selectedTube === index){
+  if(selected === index){
 
-    selectedTube = null;
+    selected = null;
 
     render();
 
@@ -1246,51 +1418,43 @@ function selectTube(index){
   }
 
 
-  /*
-    Try pouring.
-  */
-
-  tryPour(
-    selectedTube,
+  pour(
+    selected,
     index
   );
 
 }
 
 
-/* =========================================
+/* ==================================================
    POUR
-========================================= */
+================================================== */
 
-function tryPour(from,to){
+function pour(fromIndex,toIndex){
 
-  const source =
-    tubes[from];
+  const from =
+    bottles[fromIndex];
 
-  const target =
-    tubes[to];
+  const to =
+    bottles[toIndex];
 
 
-  if(source.length === 0){
-
-    selectedTube = null;
-
+  if(from.length === 0){
+    selected = null;
     render();
-
     return;
-
   }
 
 
-  if(target.length >= 4){
+  if(to.length >= CAPACITY){
 
-    invalidSound();
+    badSound();
 
-    showToast(
-      "That tube is full."
+    toast(
+      "That bottle is full."
     );
 
-    selectedTube = null;
+    selected = null;
 
     render();
 
@@ -1300,21 +1464,21 @@ function tryPour(from,to){
 
 
   const color =
-    source[source.length-1];
+    from[from.length-1];
 
 
   if(
-    target.length > 0 &&
-    target[target.length-1] !== color
+    to.length > 0 &&
+    to[to.length-1] !== color
   ){
 
-    invalidSound();
+    badSound();
 
-    showToast(
-      "Only matching colors can mix."
+    toast(
+      "Colors don't match."
     );
 
-    selectedTube = null;
+    selected = null;
 
     render();
 
@@ -1329,142 +1493,10 @@ function tryPour(from,to){
 
   history.push(
     JSON.parse(
-      JSON.stringify(tubes)
+      JSON.stringify(bottles)
     )
   );
 
 
   /*
-    Count matching top pieces.
-  */
-
-  let amount = 0;
-
-  for(
-    let i=source.length-1;
-    i>=0;
-    i--
-  ){
-
-    if(source[i] === color){
-      amount++;
-    }
-    else{
-      break;
-    }
-
-  }
-
-
-  const space =
-    4 - target.length;
-
-  amount =
-    Math.min(
-      amount,
-      space
-    );
-
-
-  for(let i=0;i<amount;i++){
-
-    target.push(
-      source.pop()
-    );
-
-  }
-
-
-  moves++;
-
-  selectedTube = null;
-
-  pourSound();
-
-  animatePour(
-    from,
-    to
-  );
-
-  render();
-
-
-  if(checkWin()){
-
-    setTimeout(
-      completeLevel,
-      450
-    );
-
-  }
-
-}
-
-
-/* =========================================
-   POUR ANIMATION
-========================================= */
-
-function animatePour(from,to){
-
-  const elements =
-    document.querySelectorAll(
-      ".tube-wrap"
-    );
-
-  if(elements[from]){
-    elements[from].classList.add(
-      "pouring"
-    );
-  }
-
-  setTimeout(() => {
-
-    if(elements[from]){
-      elements[from].classList.remove(
-        "pouring"
-      );
-    }
-
-  },500);
-
-}
-
-
-/* =========================================
-   CHECK WIN
-========================================= */
-
-function checkWin(){
-
-  return tubes.every(tube => {
-
-    if(tube.length === 0)
-      return true;
-
-    if(tube.length !== 4)
-      return false;
-
-    return tube.every(
-      color => color === tube[0]
-    );
-
-  });
-
-}
-
-
-/* =========================================
-   COMPLETE
-========================================= */
-
-function completeLevel(){
-
-  if(starsData[currentLevel])
-    return;
-
-  let stars = 3;
-
-  const colorCount =
-    tubes.filter(
-      t => t.length
+    Count same colo
