@@ -2,10 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-
-<title>Parking Jam</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Ultimate Pool</title>
 
 <style>
 *{
@@ -16,31 +14,25 @@
 }
 
 body{
-  font-family:Arial,sans-serif;
   min-height:100vh;
-  background:#10131b;
-  color:#fff;
+  background:#090d14;
+  color:white;
+  font-family:Arial,sans-serif;
+  display:flex;
+  justify-content:center;
 }
 
-button{
-  font:inherit;
-  cursor:pointer;
-}
-
-.app{
+.game{
   width:100%;
-  max-width:520px;
-  margin:auto;
-  padding:15px;
+  max-width:700px;
+  padding:14px;
 }
 
-/* HEADER */
-
-.header{
+header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:14px;
+  margin-bottom:12px;
 }
 
 .logo{
@@ -48,353 +40,230 @@ button{
   font-weight:900;
 }
 
-.coin-box{
-  background:#202633;
-  padding:9px 13px;
-  border-radius:14px;
+.stats{
+  display:flex;
+  gap:8px;
 }
 
-/* INFO */
+.stat{
+  background:#1a2230;
+  border-radius:12px;
+  padding:8px 11px;
+  font-size:13px;
+}
 
-.info{
+.table-wrap{
+  width:100%;
+  display:flex;
+  justify-content:center;
+}
+
+.table{
+  position:relative;
+  width:min(94vw,620px);
+  aspect-ratio:1.8/1;
+  background:#173f2c;
+  border:22px solid #633d20;
+  border-radius:18px;
+  box-shadow:
+    inset 0 0 25px rgba(0,0,0,.55),
+    0 15px 40px rgba(0,0,0,.5);
+  overflow:visible;
+}
+
+/* Inner rail */
+
+.table::before{
+  content:"";
+  position:absolute;
+  inset:-12px;
+  border:5px solid #9a6332;
+  border-radius:13px;
+  pointer-events:none;
+}
+
+/* pockets */
+
+.pocket{
+  position:absolute;
+  width:7%;
+  aspect-ratio:1;
+  background:#050505;
+  border-radius:50%;
+  z-index:4;
+  box-shadow:inset 0 0 7px #000;
+}
+
+.p1{left:-4%;top:-4%}
+.p2{left:46.5%;top:-4%}
+.p3{right:-4%;top:-4%}
+.p4{left:-4%;bottom:-4%}
+.p5{left:46.5%;bottom:-4%}
+.p6{right:-4%;bottom:-4%}
+
+/* balls */
+
+.ball{
+  position:absolute;
+  width:4.2%;
+  aspect-ratio:1;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  z-index:8;
+  box-shadow:
+    inset -4px -4px 6px rgba(0,0,0,.45),
+    inset 3px 3px 5px rgba(255,255,255,.35),
+    0 2px 4px rgba(0,0,0,.5);
+  transition:opacity .15s;
+}
+
+.ball::after{
+  content:"";
+  position:absolute;
+  width:32%;
+  height:32%;
+  background:white;
+  border-radius:50%;
+  left:34%;
+  top:34%;
+}
+
+.ball.solid::after{
+  display:none;
+}
+
+.white{
+  background:#f5f5f5;
+}
+
+.yellow{background:#f5c400}
+.blue{background:#166ee8}
+.red{background:#e52c31}
+.purple{background:#7d36bd}
+.orange{background:#ef791d}
+.green{background:#159447}
+.maroon{background:#831e25}
+.black{background:#111}
+
+.ball.stripe{
+  background:
+    linear-gradient(
+      white 28%,
+      white 36%,
+      var(--ball) 36%,
+      var(--ball) 64%,
+      white 64%,
+      white 72%
+    );
+}
+
+.ball.stripe.yellow{--ball:#f5c400}
+.ball.stripe.blue{--ball:#166ee8}
+.ball.stripe.red{--ball:#e52c31}
+.ball.stripe.purple{--ball:#7d36bd}
+.ball.stripe.orange{--ball:#ef791d}
+.ball.stripe.green{--ball:#159447}
+.ball.stripe.maroon{--ball:#831e25}
+
+.aim-line{
+  position:absolute;
+  height:2px;
+  background:rgba(255,255,255,.65);
+  transform-origin:left center;
+  z-index:6;
+  pointer-events:none;
+  display:none;
+}
+
+.power-area{
+  margin-top:18px;
+}
+
+.power-label{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
-}
-
-.level{
-  font-size:24px;
-  font-weight:900;
-}
-
-.moves{
-  color:#aab2c2;
-}
-
-/* BOARD */
-
-.board-wrap{
-  display:flex;
-  justify-content:center;
-}
-
-.board{
-  position:relative;
-
-  width:min(92vw,440px);
-  aspect-ratio:4/5;
-
-  background:
-    linear-gradient(90deg,
-      rgba(255,255,255,.045) 2px,
-      transparent 2px),
-    linear-gradient(
-      rgba(255,255,255,.045) 2px,
-      transparent 2px),
-    #303640;
-
-  background-size:20% 20%;
-
-  border:8px solid #565e68;
-  border-radius:20px;
-
-  overflow:hidden;
-
-  box-shadow:
-    inset 0 0 30px #111,
-    0 18px 40px rgba(0,0,0,.45);
-}
-
-/* PARKING MARKINGS */
-
-.line{
-  position:absolute;
-  border:2px dashed rgba(255,255,255,.18);
-}
-
-.l1{
-  left:20%;
-  top:0;
-  height:100%;
-}
-
-.l2{
-  left:40%;
-  top:0;
-  height:100%;
-}
-
-.l3{
-  left:60%;
-  top:0;
-  height:100%;
-}
-
-.l4{
-  left:80%;
-  top:0;
-  height:100%;
-}
-
-/* EXIT */
-
-.exit{
-  position:absolute;
-  left:-2px;
-  top:42%;
-  width:55px;
-  height:16%;
-
-  background:#24c77a;
-  color:#07150e;
-
-  border-radius:0 13px 13px 0;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  font-weight:900;
+  color:#aeb7c7;
   font-size:12px;
-
-  z-index:2;
+  margin-bottom:6px;
 }
 
-/* =========================
-   CAR
-========================= */
-
-.car{
-  position:absolute;
-
-  border-radius:14px;
-
-  border:3px solid rgba(255,255,255,.75);
-
-  box-shadow:
-    0 8px 10px rgba(0,0,0,.45),
-    inset 0 0 10px rgba(255,255,255,.18);
-
-  z-index:10;
-
-  transition:
-    left .45s ease,
-    top .45s ease;
-
-  user-select:none;
-}
-
-/* horizontal car */
-
-.car.horizontal{
-  width:21%;
-  height:12%;
-}
-
-/* vertical car */
-
-.car.vertical{
-  width:12%;
-  height:21%;
-}
-
-/* windshield */
-
-.car.horizontal .window{
-  position:absolute;
-  left:27%;
-  top:13%;
-  width:46%;
-  height:74%;
-
-  background:#b9e4ef;
-  border-radius:7px;
-
-  border:2px solid rgba(0,0,0,.25);
-}
-
-.car.vertical .window{
-  position:absolute;
-  left:13%;
-  top:27%;
-  width:74%;
-  height:46%;
-
-  background:#b9e4ef;
-  border-radius:7px;
-
-  border:2px solid rgba(0,0,0,.25);
-}
-
-/* wheels */
-
-.wheel{
-  position:absolute;
-
-  width:17%;
-  height:28%;
-
-  background:#111;
-  border-radius:50%;
-}
-
-.horizontal .wheel:nth-child(2){
-  left:8%;
-  top:-13%;
-}
-
-.horizontal .wheel:nth-child(3){
-  right:8%;
-  top:-13%;
-}
-
-.horizontal .wheel:nth-child(4){
-  left:8%;
-  bottom:-13%;
-}
-
-.horizontal .wheel:nth-child(5){
-  right:8%;
-  bottom:-13%;
-}
-
-.vertical .wheel:nth-child(2){
-  left:-13%;
-  top:8%;
-}
-
-.vertical .wheel:nth-child(3){
-  right:-13%;
-  top:8%;
-}
-
-.vertical .wheel:nth-child(4){
-  left:-13%;
-  bottom:8%;
-}
-
-.vertical .wheel:nth-child(5){
-  right:-13%;
-  bottom:8%;
-}
-
-/* COLORS */
-
-.red{
-  background:#e74c3c;
-}
-
-.blue{
-  background:#287be8;
-}
-
-.yellow{
-  background:#f1c40f;
-}
-
-.green{
-  background:#2ecc71;
-}
-
-.purple{
-  background:#9b59b6;
-}
-
-.orange{
-  background:#e67e22;
-}
-
-/* CONTROLS */
-
-.controls{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:9px;
-
-  margin-top:15px;
-}
-
-.control{
-  border:0;
-  background:#202633;
-  color:white;
-
-  border-radius:13px;
-
-  padding:13px 5px;
-
-  font-weight:bold;
-}
-
-.control:active{
-  transform:scale(.96);
-}
-
-/* LEVEL SELECT */
-
-.level-btn{
+.power{
   width:100%;
-  margin-top:10px;
-
-  padding:14px;
-
-  border:0;
-  border-radius:13px;
-
-  background:#fff;
-  color:#111;
-
-  font-weight:900;
+  height:15px;
+  appearance:none;
+  background:#202a39;
+  border-radius:20px;
+  outline:none;
 }
 
-/* MESSAGE */
+.power::-webkit-slider-thumb{
+  appearance:none;
+  width:25px;
+  height:25px;
+  border-radius:50%;
+  background:white;
+}
 
-.message{
-  text-align:center;
-
-  color:#8993a5;
-
-  font-size:12px;
-
+.buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:9px;
   margin-top:12px;
 }
 
-/* POPUP */
-
-.popup-bg{
-  position:fixed;
-  inset:0;
-
-  background:rgba(0,0,0,.78);
-
-  display:none;
-  align-items:center;
-  justify-content:center;
-
-  padding:20px;
-
-  z-index:100;
+button{
+  border:0;
+  padding:13px 8px;
+  border-radius:12px;
+  background:#202a39;
+  color:white;
+  font-weight:bold;
 }
 
-.popup-bg.show{
+button:active{
+  transform:scale(.97);
+}
+
+.shoot{
+  background:#fff;
+  color:#111;
+}
+
+.message{
+  text-align:center;
+  color:#8792a5;
+  font-size:12px;
+  margin-top:12px;
+  min-height:18px;
+}
+
+/* popup */
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.8);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  z-index:50;
+}
+
+.overlay.show{
   display:flex;
 }
 
 .popup{
   width:100%;
-  max-width:350px;
-
-  background:#1b2230;
-
-  border-radius:23px;
-
-  padding:25px;
-
+  max-width:340px;
+  background:#18202d;
+  border-radius:22px;
+  padding:26px;
   text-align:center;
 }
 
-.popup-icon{
+.popup .emoji{
   font-size:55px;
 }
 
@@ -403,1282 +272,1080 @@ button{
 }
 
 .popup p{
-  color:#aeb6c5;
-  font-size:14px;
+  color:#aeb7c7;
   line-height:1.5;
+  font-size:14px;
 }
 
 .popup button{
   width:100%;
-
-  margin-top:10px;
-
-  padding:13px;
-
-  border:0;
-
-  border-radius:12px;
-
+  margin-top:12px;
   background:white;
   color:#111;
-
-  font-weight:bold;
 }
 
-.popup .dark{
-  background:#30394b;
-  color:white;
-}
+@media(max-width:430px){
+  .table{
+    border-width:15px;
+  }
 
-/* LEVEL MENU */
-
-.level-menu{
-  position:fixed;
-  inset:0;
-
-  background:#10131b;
-
-  z-index:90;
-
-  display:none;
-
-  overflow:auto;
-
-  padding:20px;
-}
-
-.level-menu.show{
-  display:block;
-}
-
-.level-menu h2{
-  margin-bottom:18px;
-}
-
-.level-grid{
-  max-width:500px;
-  margin:auto;
-
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-
-  gap:9px;
-}
-
-.level-item{
-  border:1px solid #343c4b;
-
-  background:#202633;
-
-  color:white;
-
-  min-height:65px;
-
-  border-radius:13px;
-}
-
-.level-item.locked{
-  opacity:.3;
-}
-
-.level-item.current{
-  border:2px solid white;
-}
-
-.back{
-  margin-bottom:20px;
-
-  padding:10px 15px;
-
-  border:0;
-  border-radius:11px;
-
-  background:#202633;
-  color:white;
-}
-
-/* TOAST */
-
-.toast{
-  position:fixed;
-
-  left:50%;
-  bottom:25px;
-
-  transform:translate(-50%,20px);
-
-  background:white;
-  color:#111;
-
-  padding:11px 18px;
-
-  border-radius:30px;
-
-  font-size:13px;
-  font-weight:bold;
-
-  opacity:0;
-
-  transition:.25s;
-
-  z-index:200;
-}
-
-.toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
+  .ball{
+    width:5%;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="game">
 
-  <div class="header">
+<header>
+  <div class="logo">🎱 Ultimate Pool</div>
 
-    <div class="logo">
-      🚗 Parking Jam
+  <div class="stats">
+    <div class="stat">
+      🎯 <span id="score">0</span>
     </div>
 
-    <div class="coin-box">
-      🪙 <span id="coins">0</span>
+    <div class="stat">
+      Shots <span id="shots">0</span>
     </div>
+  </div>
+</header>
+
+<div class="table-wrap">
+
+  <div class="table" id="table">
+
+    <div class="pocket p1"></div>
+    <div class="pocket p2"></div>
+    <div class="pocket p3"></div>
+    <div class="pocket p4"></div>
+    <div class="pocket p5"></div>
+    <div class="pocket p6"></div>
+
+    <div class="aim-line" id="aimLine"></div>
 
   </div>
 
+</div>
 
-  <div class="info">
+<div class="power-area">
 
-    <div class="level">
-      Level <span id="level">1</span>
-    </div>
-
-    <div class="moves">
-      Moves: <span id="moves">0</span>
-    </div>
-
+  <div class="power-label">
+    <span>SHOT POWER</span>
+    <span id="powerText">50%</span>
   </div>
 
+  <input
+    id="power"
+    class="power"
+    type="range"
+    min="10"
+    max="100"
+    value="50"
+  >
 
-  <div class="board-wrap">
+</div>
 
-    <div class="board" id="board">
+<div class="buttons">
 
-      <div class="line l1"></div>
-      <div class="line l2"></div>
-      <div class="line l3"></div>
-      <div class="line l4"></div>
-
-      <div class="exit">
-        EXIT
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="controls">
-
-    <button class="control"
-            onclick="undo()">
-      ↩️ Undo
-    </button>
-
-    <button class="control"
-            onclick="hint()">
-      💡 Hint
-    </button>
-
-    <button class="control"
-            onclick="resetLevel()">
-      🔄 Reset
-    </button>
-
-  </div>
-
-
-  <button class="level-btn"
-          onclick="openLevelMenu()">
-
-    📋 Level Select
-
+  <button onclick="resetGame()">
+    🔄 Reset
   </button>
 
+  <button onclick="changeAim()">
+    🎯 Aim
+  </button>
 
-  <div class="message">
-    Tap a car to move it toward the exit.
-  </div>
+  <button class="shoot" onclick="shoot()">
+    🏏 Shoot
+  </button>
+
+</div>
+
+<div class="message" id="message">
+  Drag across the table to aim, then press Shoot.
+</div>
 
 </div>
 
 
-<!-- WIN -->
-
-<div class="popup-bg" id="win">
+<div class="overlay" id="winPopup">
 
   <div class="popup">
 
-    <div class="popup-icon">
-      🎉
-    </div>
+    <div class="emoji">🏆</div>
 
-    <h2>Level Complete!</h2>
+    <h2>You Win!</h2>
 
-    <p id="winText"></p>
-
-    <button onclick="nextLevel()">
-      Next Level 🚗
-    </button>
-
-    <button class="dark"
-            onclick="openLevelMenu()">
-
-      Level Select
-
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- LOCKED -->
-
-<div class="popup-bg" id="locked">
-
-  <div class="popup">
-
-    <div class="popup-icon">
-      🔒
-    </div>
-
-    <h2>Locked</h2>
-
-    <p>
-      Complete the previous level to unlock this level.
+    <p id="winMessage">
+      Great game!
     </p>
 
-    <button onclick="closeLocked()">
-      Okay
+    <button onclick="resetGame()">
+      Play Again
     </button>
 
   </div>
 
 </div>
-
-
-<!-- LEVEL MENU -->
-
-<div class="level-menu" id="levelMenu">
-
-  <button class="back"
-          onclick="closeLevelMenu()">
-    ← Back
-  </button>
-
-  <h2>
-    Choose Level
-  </h2>
-
-  <div class="level-grid"
-       id="levelGrid">
-  </div>
-
-</div>
-
-
-<div class="toast" id="toast"></div>
 
 
 <script>
 
-/* ==========================================
-   SAVE DATA
-========================================== */
+/* =========================================
+   GAME SETTINGS
+========================================= */
 
-let currentLevel =
-  Number(
-    localStorage.getItem(
-      "pj_current"
-    )
-  ) || 1;
+const table =
+  document.getElementById("table");
 
+const aimLine =
+  document.getElementById("aimLine");
 
-let unlockedLevel =
-  Number(
-    localStorage.getItem(
-      "pj_unlocked"
-    )
-  ) || 1;
+const power =
+  document.getElementById("power");
 
+const powerText =
+  document.getElementById("powerText");
 
-let coins =
-  Number(
-    localStorage.getItem(
-      "pj_coins"
-    )
-  ) || 0;
+const message =
+  document.getElementById("message");
 
+let balls = [];
 
-let stars =
-  JSON.parse(
-    localStorage.getItem(
-      "pj_stars"
-    ) || "{}"
-  );
+let aiming = false;
+
+let aimAngle = Math.PI;
+
+let score = 0;
+
+let shots = 0;
+
+let moving = false;
+
+let audio;
 
 
-/* ==========================================
-   GAME DATA
-========================================== */
+/* =========================================
+   SOUND
+========================================= */
 
-let cars = [];
+function sound(type){
 
-let originalCars = [];
+  try{
 
-let history = [];
+    if(!audio)
+      audio =
+        new (
+          window.AudioContext ||
+          window.webkitAudioContext
+        )();
 
-let moves = 0;
+    const oscillator =
+      audio.createOscillator();
 
+    const gain =
+      audio.createGain();
 
-/*
-  These are fixed starter levels.
+    oscillator.connect(gain);
 
-  Every level has a red horizontal
-  car that can leave through the exit.
-*/
+    gain.connect(audio.destination);
 
-const levels = [
+    if(type === "hit")
+      oscillator.frequency.value = 130;
 
-  [
-    {
-      id:1,
-      color:"red",
-      dir:"horizontal",
-      x:25,
-      y:44
-    },
+    if(type === "pocket")
+      oscillator.frequency.value = 520;
 
-    {
-      id:2,
-      color:"blue",
-      dir:"vertical",
-      x:48,
-      y:10
-    },
+    if(type === "win")
+      oscillator.frequency.value = 700;
 
-    {
-      id:3,
-      color:"yellow",
-      dir:"vertical",
-      x:72,
-      y:23
-    }
-  ],
+    gain.gain.value = .05;
+
+    oscillator.start();
+
+    oscillator.stop(
+      audio.currentTime + .08
+    );
+
+  }catch(e){}
+
+}
 
 
-  [
-    {
-      id:1,
-      color:"red",
-      dir:"horizontal",
-      x:25,
-      y:44
-    },
+/* =========================================
+   BALL DATA
+========================================= */
 
-    {
-      id:2,
-      color:"blue",
-      dir:"vertical",
-      x:47,
-      y:8
-    },
+const ballData = [
 
-    {
-      id:3,
-      color:"green",
-      dir:"vertical",
-      x:70,
-      y:10
-    },
+  {
+    number:0,
+    color:"white",
+    solid:true,
+    x:27,
+    y:50
+  },
 
-    {
-      id:4,
-      color:"yellow",
-      dir:"horizontal",
-      x:8,
-      y:68
-    }
-  ],
+  {
+    number:1,
+    color:"yellow",
+    solid:true,
+    x:72,
+    y:45
+  },
 
+  {
+    number:2,
+    color:"blue",
+    solid:true,
+    x:76,
+    y:50
+  },
 
-  [
-    {
-      id:1,
-      color:"red",
-      dir:"horizontal",
-      x:25,
-      y:44
-    },
+  {
+    number:3,
+    color:"red",
+    solid:true,
+    x:72,
+    y:55
+  },
 
-    {
-      id:2,
-      color:"blue",
-      dir:"vertical",
-      x:47,
-      y:8
-    },
+  {
+    number:4,
+    color:"purple",
+    solid:true,
+    x:80,
+    y:42
+  },
 
-    {
-      id:3,
-      color:"green",
-      dir:"vertical",
-      x:70,
-      y:10
-    },
+  {
+    number:5,
+    color:"orange",
+    solid:true,
+    x:80,
+    y:58
+  },
 
-    {
-      id:4,
-      color:"yellow",
-      dir:"horizontal",
-      x:7,
-      y:68
-    },
+  {
+    number:6,
+    color:"green",
+    solid:true,
+    x:84,
+    y:46
+  },
 
-    {
-      id:5,
-      color:"purple",
-      dir:"vertical",
-      x:72,
-      y:63
-    }
-  ],
+  {
+    number:7,
+    color:"maroon",
+    solid:true,
+    x:84,
+    y:54
+  },
 
+  {
+    number:8,
+    color:"black",
+    solid:true,
+    x:88,
+    y:50
+  },
 
-  [
-    {
-      id:1,
-      color:"red",
-      dir:"horizontal",
-      x:25,
-      y:44
-    },
-
-    {
-      id:2,
-      color:"blue",
-      dir:"vertical",
-      x:47,
-      y:8
-    },
-
-    {
-      id:3,
-      color:"green",
-      dir:"vertical",
-      x:70,
-      y:10
-    },
-
-    {
-      id:4,
-      color:"yellow",
-      dir:"horizontal",
-      x:7,
-      y:68
-    },
-
-    {
-      id:5,
-      color:"purple",
-      dir:"vertical",
-      x:58,
-      y:63
-    },
-
-    {
-      id:6,
-      color:"orange",
-      dir:"horizontal",
-      x:38,
-      y:80
-    }
-  ],
-
-
-  [
-    {
-      id:1,
-      color:"red",
-      dir:"horizontal",
-      x:25,
-      y:44
-    },
-
-    {
-      id:2,
-      color:"blue",
-      dir:"vertical",
-      x:47,
-      y:8
-    },
-
-    {
-      id:3,
-      color:"green",
-      dir:"vertical",
-      x:70,
-      y:10
-    },
-
-    {
-      id:4,
-      color:"yellow",
-      dir:"horizontal",
-      x:7,
-      y:68
-    },
-
-    {
-      id:5,
-      color:"purple",
-      dir:"vertical",
-      x:58,
-      y:63
-    },
-
-    {
-      id:6,
-      color:"orange",
-      dir:"horizontal",
-      x:38,
-      y:80
-    },
-
-    {
-      id:7,
-      color:"blue",
-      dir:"horizontal",
-      x:68,
-      y:80
-    }
-  ]
+  {
+    number:9,
+    color:"yellow",
+    solid:false,
+    x:80,
+    y:50
+  }
 
 ];
 
 
-/* ==========================================
-   LOAD
-========================================== */
+/* =========================================
+   CREATE BALL
+========================================= */
 
-function loadLevel(level){
+function createBall(data){
 
-  currentLevel = level;
+  const el =
+    document.createElement("div");
 
-  const template =
-    levels[
-      Math.min(
-        level - 1,
-        levels.length - 1
-      )
-    ];
+  el.className =
+    "ball " +
+    data.color +
+    (data.solid ? " solid" : " stripe");
 
+  el.style.left =
+    data.x + "%";
 
-  cars =
-    JSON.parse(
-      JSON.stringify(template)
-    );
+  el.style.top =
+    data.y + "%";
 
+  el.dataset.number =
+    data.number;
 
-  originalCars =
-    JSON.parse(
-      JSON.stringify(cars)
-    );
+  table.appendChild(el);
 
-
-  history = [];
-
-  moves = 0;
-
-  save();
-
-  render();
+  return {
+    ...data,
+    element:el,
+    vx:0,
+    vy:0,
+    active:true
+  };
 
 }
 
 
-/* ==========================================
-   RENDER CAR
-========================================== */
+/* =========================================
+   RESET
+========================================= */
 
-function render(){
+function resetGame(){
 
-  const board =
-    document.getElementById(
-      "board"
-    );
-
-
-  board
-    .querySelectorAll(
-      ".car"
-    )
+  table
+    .querySelectorAll(".ball")
     .forEach(
-      car => car.remove()
+      b => b.remove()
     );
 
+  balls = [];
 
-  cars.forEach(
-    car => {
+  ballData.forEach(
+    data =>
+      balls.push(
+        createBall(data)
+      )
+  );
 
-      const element =
-        document.createElement(
-          "div"
-        );
+  score = 0;
+
+  shots = 0;
+
+  moving = false;
+
+  aimAngle = Math.PI;
+
+  updateUI();
+
+  hideWin();
+
+  message.textContent =
+    "Aim the cue ball and press Shoot.";
+
+}
 
 
-      element.className =
-        `car ${car.color} ${car.dir}`;
+/* =========================================
+   UI
+========================================= */
+
+function updateUI(){
+
+  document.getElementById(
+    "score"
+  ).textContent = score;
+
+  document.getElementById(
+    "shots"
+  ).textContent = shots;
+
+}
 
 
-      element.style.left =
-        car.x + "%";
+/* =========================================
+   POWER
+========================================= */
+
+power.addEventListener(
+  "input",
+  () => {
+
+    powerText.textContent =
+      power.value + "%";
+
+  }
+);
 
 
-      element.style.top =
-        car.y + "%";
+/* =========================================
+   AIM
+========================================= */
+
+function changeAim(){
+
+  if(moving)
+    return;
+
+  aimAngle += Math.PI / 12;
+
+  if(
+    aimAngle > Math.PI * 2
+  ){
+
+    aimAngle -= Math.PI * 2;
+
+  }
+
+  drawAim();
+
+}
+
+
+function drawAim(){
+
+  const cue =
+    balls.find(
+      b => b.number === 0
+    );
+
+  if(!cue || !cue.active)
+    return;
+
+  const rect =
+    table.getBoundingClientRect();
+
+  const x =
+    cue.x / 100 * rect.width;
+
+  const y =
+    cue.y / 100 * rect.height;
+
+  const length = 28;
+
+  aimLine.style.left =
+    x + "px";
+
+  aimLine.style.top =
+    y + "px";
+
+  aimLine.style.width =
+    length + "%";
+
+  aimLine.style.transform =
+    `rotate(${aimAngle}rad)`;
+
+  aimLine.style.display =
+    "block";
+
+}
+
+
+/* =========================================
+   TOUCH AIM
+========================================= */
+
+table.addEventListener(
+  "pointerdown",
+  e => {
+
+    if(moving)
+      return;
+
+    aiming = true;
+
+    updatePointerAim(e);
+
+  }
+);
+
+
+table.addEventListener(
+  "pointermove",
+  e => {
+
+    if(!aiming)
+      return;
+
+    updatePointerAim(e);
+
+  }
+);
+
+
+window.addEventListener(
+  "pointerup",
+  () => {
+
+    aiming = false;
+
+  }
+);
+
+
+function updatePointerAim(e){
+
+  const cue =
+    balls.find(
+      b => b.number === 0
+    );
+
+  if(!cue)
+    return;
+
+  const rect =
+    table.getBoundingClientRect();
+
+  const pointerX =
+    e.clientX - rect.left;
+
+  const pointerY =
+    e.clientY - rect.top;
+
+  const cueX =
+    cue.x / 100 * rect.width;
+
+  const cueY =
+    cue.y / 100 * rect.height;
+
+  aimAngle =
+    Math.atan2(
+      pointerY - cueY,
+      pointerX - cueX
+    );
+
+  drawAim();
+
+}
+
+
+/* =========================================
+   SHOOT
+========================================= */
+
+function shoot(){
+
+  if(moving)
+    return;
+
+  const cue =
+    balls.find(
+      b => b.number === 0
+    );
+
+  if(!cue || !cue.active)
+    return;
+
+  const strength =
+    Number(power.value) / 100;
+
+  const speed =
+    0.9 + strength * 1.8;
+
+  cue.vx =
+    Math.cos(aimAngle) * speed;
+
+  cue.vy =
+    Math.sin(aimAngle) * speed;
+
+  moving = true;
+
+  shots++;
+
+  updateUI();
+
+  aimLine.style.display =
+    "none";
+
+  message.textContent =
+    "Balls are moving...";
+
+  sound("hit");
+
+  requestAnimationFrame(
+    physics
+  );
+
+}
+
+
+/* =========================================
+   PHYSICS
+========================================= */
+
+function physics(){
+
+  if(!moving)
+    return;
+
+  let activeMotion = false;
+
+  const rect =
+    table.getBoundingClientRect();
+
+  const width =
+    rect.width;
+
+  const height =
+    rect.height;
+
+
+  balls.forEach(
+    ball => {
+
+      if(!ball.active)
+        return;
+
+
+      ball.x +=
+        ball.vx / width * 100;
+
+      ball.y +=
+        ball.vy / height * 100;
 
 
       /*
-        Build the car completely
-        from HTML/CSS.
+        Friction
       */
 
-      element.innerHTML = `
-        <div class="window"></div>
+      ball.vx *= .982;
 
-        <div class="wheel"></div>
-        <div class="wheel"></div>
-        <div class="wheel"></div>
-        <div class="wheel"></div>
-      `;
+      ball.vy *= .982;
 
 
-      element.onclick =
-        () =>
-          moveCar(
-            car.id
-          );
+      /*
+        Wall collision
+      */
 
-
-      board.appendChild(
-        element
-      );
-
-    }
-  );
-
-
-  document.getElementById(
-    "level"
-  ).textContent =
-    currentLevel;
-
-
-  document.getElementById(
-    "moves"
-  ).textContent =
-    moves;
-
-
-  document.getElementById(
-    "coins"
-  ).textContent =
-    coins;
-
-}
-
-
-/* ==========================================
-   MOVE
-========================================== */
-
-function moveCar(id){
-
-  const car =
-    cars.find(
-      c => c.id === id
-    );
-
-
-  if(!car)
-    return;
-
-
-  /*
-    Save previous position.
-  */
-
-  history.push(
-    JSON.parse(
-      JSON.stringify(cars)
-    )
-  );
-
-
-  /*
-    Horizontal cars move left.
-  */
-
-  if(
-    car.dir === "horizontal"
-  ){
-
-    /*
-      Check cars blocking the
-      same horizontal lane.
-    */
-
-    const blocked =
-      cars.some(
-        other =>
-          other.id !== car.id &&
-          Math.abs(
-            other.y - car.y
-          ) < 9 &&
-          other.x < car.x &&
-          other.x > 5
-      );
-
-
-    if(blocked){
-
-      history.pop();
-
-      toast(
-        "🚧 Path blocked!"
-      );
-
-      return;
-
-    }
-
-
-    car.x = -24;
-
-  }
-
-
-  /*
-    Vertical cars move down.
-  */
-
-  else{
-
-    const blocked =
-      cars.some(
-        other =>
-          other.id !== car.id &&
-          Math.abs(
-            other.x - car.x
-          ) < 9 &&
-          other.y > car.y &&
-          other.y < 90
-      );
-
-
-    if(blocked){
-
-      history.pop();
-
-      toast(
-        "🚧 Path blocked!"
-      );
-
-      return;
-
-    }
-
-
-    car.y = 115;
-
-  }
-
-
-  moves++;
-
-  render();
-
-
-  setTimeout(
-    () => {
-
-      cars =
-        cars.filter(
-          car =>
-            car.x > -20 &&
-            car.y < 110
-        );
-
-
-      render();
+      const radius =
+        2.1;
 
 
       if(
-        cars.length === 0
+        ball.x <= radius
       ){
 
-        winLevel();
+        ball.x = radius;
+
+        ball.vx =
+          Math.abs(ball.vx);
+
+        sound("hit");
 
       }
 
-    },
-    500
-  );
 
-}
+      if(
+        ball.x >= 100 - radius
+      ){
 
+        ball.x =
+          100 - radius;
 
-/* ==========================================
-   UNDO
-========================================== */
+        ball.vx =
+          -Math.abs(ball.vx);
 
-function undo(){
+        sound("hit");
 
-  if(
-    history.length === 0
-  ){
-
-    toast(
-      "Nothing to undo."
-    );
-
-    return;
-
-  }
-
-
-  cars =
-    history.pop();
-
-
-  moves =
-    Math.max(
-      0,
-      moves - 1
-    );
-
-
-  render();
-
-}
-
-
-/* ==========================================
-   RESET
-========================================== */
-
-function resetLevel(){
-
-  cars =
-    JSON.parse(
-      JSON.stringify(
-        originalCars
-      )
-    );
-
-
-  history = [];
-
-  moves = 0;
-
-  render();
-
-  toast(
-    "Level reset."
-  );
-
-}
-
-
-/* ==========================================
-   HINT
-========================================== */
-
-function hint(){
-
-  const first =
-    document.querySelector(
-      ".car"
-    );
-
-
-  if(!first)
-    return;
-
-
-  first.animate(
-    [
-      {
-        transform:"scale(1)"
-      },
-
-      {
-        transform:"scale(1.12)"
-      },
-
-      {
-        transform:"scale(1)"
       }
-    ],
-    {
-      duration:700,
-      iterations:3
+
+
+      if(
+        ball.y <= radius
+      ){
+
+        ball.y = radius;
+
+        ball.vy =
+          Math.abs(ball.vy);
+
+        sound("hit");
+
+      }
+
+
+      if(
+        ball.y >= 100 - radius
+      ){
+
+        ball.y =
+          100 - radius;
+
+        ball.vy =
+          -Math.abs(ball.vy);
+
+        sound("hit");
+
+      }
+
+
+      /*
+        Pocket detection
+      */
+
+      const pockets = [
+
+        [0,0],
+        [50,0],
+        [100,0],
+        [0,100],
+        [50,100],
+        [100,100]
+
+      ];
+
+
+      for(
+        const p of pockets
+      ){
+
+        const dx =
+          ball.x - p[0];
+
+        const dy =
+          ball.y - p[1];
+
+        const distance =
+          Math.sqrt(
+            dx*dx + dy*dy
+          );
+
+
+        if(distance < 7){
+
+          pocketBall(ball);
+
+          break;
+
+        }
+
+      }
+
+
+      if(
+        Math.abs(ball.vx) > .01 ||
+        Math.abs(ball.vy) > .01
+      ){
+
+        activeMotion = true;
+
+      }
+
     }
   );
 
 
-  toast(
-    "💡 Try the highlighted car."
-  );
-
-}
-
-
-/* ==========================================
-   WIN
-========================================== */
-
-function winLevel(){
-
   /*
-    Calculate stars.
+    Ball collisions
   */
-
-  let rating = 3;
-
-
-  if(
-    moves > cars.length * 3
-  )
-    rating = 2;
-
-
-  if(
-    moves > cars.length * 5
-  )
-    rating = 1;
-
-
-  stars[currentLevel] =
-    Math.max(
-      stars[currentLevel] || 0,
-      rating
-    );
-
-
-  /*
-    IMPORTANT:
-
-    Only unlock the NEXT level after
-    the current level is completed.
-  */
-
-  if(
-    currentLevel === unlockedLevel &&
-    unlockedLevel < 50
-  ){
-
-    unlockedLevel++;
-
-  }
-
-
-  const reward =
-    10 + rating * 5;
-
-
-  coins += reward;
-
-  save();
-
-
-  document.getElementById(
-    "winText"
-  ).textContent =
-    "⭐".repeat(rating) +
-    "  You earned " +
-    reward +
-    " coins!";
-
-
-  document
-    .getElementById(
-      "win"
-    )
-    .classList.add(
-      "show"
-    );
-
-}
-
-
-/* ==========================================
-   NEXT
-========================================== */
-
-function nextLevel(){
-
-  document
-    .getElementById(
-      "win"
-    )
-    .classList.remove(
-      "show"
-    );
-
-
-  loadLevel(
-    currentLevel + 1
-  );
-
-}
-
-
-/* ==========================================
-   LEVEL MENU
-========================================== */
-
-function openLevelMenu(){
-
-  document
-    .getElementById(
-      "levelMenu"
-    )
-    .classList.add(
-      "show"
-    );
-
-
-  renderLevelMenu();
-
-}
-
-
-function closeLevelMenu(){
-
-  document
-    .getElementById(
-      "levelMenu"
-    )
-    .classList.remove(
-      "show"
-    );
-
-}
-
-
-function renderLevelMenu(){
-
-  const grid =
-    document.getElementById(
-      "levelGrid"
-    );
-
-
-  grid.innerHTML = "";
-
 
   for(
-    let i=1;
-    i<=50;
+    let i=0;
+    i<balls.length;
     i++
   ){
 
-    const button =
-      document.createElement(
-        "button"
-      );
-
-
-    button.className =
-      "level-item";
-
-
-    if(
-      i > unlockedLevel
+    for(
+      let j=i+1;
+      j<balls.length;
+      j++
     ){
 
-      button.classList.add(
-        "locked"
-      );
-
-      button.innerHTML =
-        "🔒";
-
-    }else{
-
-      button.innerHTML =
-        `
-        <b>${i}</b><br>
-        ${
-          stars[i]
-            ? "⭐".repeat(stars[i])
-            : "—"
-        }
-        `;
-
-    }
-
-
-    if(
-      i === currentLevel
-    ){
-
-      button.classList.add(
-        "current"
+      collide(
+        balls[i],
+        balls[j]
       );
 
     }
 
-
-    button.onclick =
-      () => {
-
-        if(
-          i > unlockedLevel
-        ){
-
-          document
-            .getElementById(
-              "locked"
-            )
-            .classList.add(
-              "show"
-            );
-
-          return;
-
-        }
+  }
 
 
-        loadLevel(i);
+  /*
+    Update visual positions
+  */
 
-        closeLevelMenu();
+  balls.forEach(
+    ball => {
 
-      };
+      if(ball.active){
+
+        ball.element.style.left =
+          ball.x + "%";
+
+        ball.element.style.top =
+          ball.y + "%";
+
+      }
+
+    }
+  );
 
 
-    grid.appendChild(
-      button
+  if(activeMotion){
+
+    requestAnimationFrame(
+      physics
     );
+
+  }else{
+
+    moving = false;
+
+    afterShot();
 
   }
 
 }
 
 
-/* ==========================================
-   LOCKED POPUP
-========================================== */
+/* =========================================
+   COLLISION
+========================================= */
 
-function closeLocked(){
+function collide(a,b){
 
-  document
-    .getElementById(
-      "locked"
-    )
-    .classList.remove(
-      "show"
+  if(
+    !a.active ||
+    !b.active
+  )
+    return;
+
+
+  const dx =
+    b.x - a.x;
+
+  const dy =
+    b.y - a.y;
+
+  const distance =
+    Math.sqrt(
+      dx*dx + dy*dy
     );
+
+
+  const minDistance =
+    4.4;
+
+
+  if(
+    distance >= minDistance ||
+    distance === 0
+  )
+    return;
+
+
+  const nx =
+    dx / distance;
+
+  const ny =
+    dy / distance;
+
+
+  const relativeVelocity =
+    (b.vx-a.vx)*nx +
+    (b.vy-a.vy)*ny;
+
+
+  if(
+    relativeVelocity > 0
+  )
+    return;
+
+
+  const impulse =
+    -relativeVelocity;
+
+
+  a.vx -=
+    impulse * nx;
+
+  a.vy -=
+    impulse * ny;
+
+  b.vx +=
+    impulse * nx;
+
+  b.vy +=
+    impulse * ny;
+
+
+  const overlap =
+    minDistance - distance;
+
+
+  a.x -=
+    nx * overlap/2;
+
+  a.y -=
+    ny * overlap/2;
+
+  b.x +=
+    nx * overlap/2;
+
+  b.y +=
+    ny * overlap/2;
+
+
+  sound("hit");
 
 }
 
 
-/* ==========================================
-   SAVE
-========================================== */
+/* =========================================
+   POCKET
+========================================= */
 
-function save(){
+function pocketBall(ball){
 
-  localStorage.setItem(
-    "pj_current",
-    currentLevel
-  );
-
-  localStorage.setItem(
-    "pj_unlocked",
-    unlockedLevel
-  );
-
-  localStorage.setItem(
-    "pj_coins",
-    coins
-  );
-
-  localStorage.setItem(
-    "pj_stars",
-    JSON.stringify(
-      stars
-    )
-  );
-
-}
+  if(!ball.active)
+    return;
 
 
-/* ==========================================
-   TOAST
-========================================== */
+  ball.active = false;
 
-let toastTimer;
+  ball.vx = 0;
 
+  ball.vy = 0;
 
-function toast(text){
-
-  const box =
-    document.getElementById(
-      "toast"
-    );
+  ball.element.style.opacity =
+    "0";
 
 
-  box.textContent =
-    text;
+  sound("pocket");
 
 
-  box.classList.add(
-    "show"
-  );
+  if(
+    ball.number === 0
+  ){
 
+    /*
+      Cue ball returns to
+      the break position.
+    */
 
-  clearTimeout(
-    toastTimer
-  );
-
-
-  toastTimer =
     setTimeout(
       () => {
 
-        box.classList.remove(
-          "show"
-        );
+        ball.x = 27;
+
+        ball.y = 50;
+
+        ball.active = true;
+
+        ball.element.style.opacity =
+          "1";
+
+        message.textContent =
+          "Scratch! Cue ball returned.";
 
       },
-      1600
+      700
     );
+
+  }else{
+
+    score += 10;
+
+    updateUI();
+
+  }
 
 }
 
 
-/* ==========================================
-   START GAME
-========================================== */
+/* =========================================
+   AFTER SHOT
+========================================= */
 
-loadLevel(
-  currentLevel
-);
+function afterShot(){
+
+  const remaining =
+    balls.filter(
+      b =>
+        b.number !== 0 &&
+        b.active
+    );
+
+
+  if(
+    remaining.length === 1 &&
+    remaining[0].number === 8
+  ){
+
+    /*
+      If only the 8-ball remains,
+      player has nearly cleared table.
+    */
+
+    message.textContent =
+      "🎱 Only the 8-ball remains!";
+
+  }
+
+
+  /*
+    Win when all object balls
+    are pocketed.
+  */
+
+  if(
+    remaining.length === 0
+  ){
+
+    winGame();
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "Your turn. Aim and shoot.";
+
+  drawAim();
+
+}
+
+
+/* =========================================
+   WIN
+========================================= */
+
+function winGame(){
+
+  moving = false;
+
+  sound("win");
+
+  document.getElementById(
+    "winMessage"
+  ).textContent =
+    "🏆 Table cleared in " +
+    shots +
+    " shots! Final score: " +
+    score;
+
+
+  document.getElementById(
+    "winPopup"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+function hideWin(){
+
+  document.getElementById(
+    "winPopup"
+  ).classList.remove(
+    "show"
+  );
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+resetGame();
 
 </script>
 
