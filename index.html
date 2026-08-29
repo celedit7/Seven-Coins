@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Ultimate Pool</title>
+<title>Celedit Ludo</title>
 
 <style>
 *{
@@ -15,8 +15,9 @@
 
 body{
   min-height:100vh;
-  background:#090d14;
-  color:white;
+  background:
+    radial-gradient(circle at top,#28334c,#0b0f18 65%);
+  color:#fff;
   font-family:Arial,sans-serif;
   display:flex;
   justify-content:center;
@@ -24,7 +25,7 @@ body{
 
 .game{
   width:100%;
-  max-width:700px;
+  max-width:560px;
   padding:14px;
 }
 
@@ -40,214 +41,286 @@ header{
   font-weight:900;
 }
 
-.stats{
-  display:flex;
-  gap:8px;
-}
-
-.stat{
-  background:#1a2230;
-  border-radius:12px;
+.badge{
+  background:#202939;
   padding:8px 11px;
-  font-size:13px;
+  border-radius:12px;
+  font-size:12px;
 }
 
-.table-wrap{
-  width:100%;
+.turn{
+  text-align:center;
+  font-weight:bold;
+  margin-bottom:10px;
+  min-height:20px;
+}
+
+/* BOARD */
+
+.board{
+  width:min(94vw,520px);
+  aspect-ratio:1;
+  margin:auto;
+
+  display:grid;
+  grid-template-columns:repeat(15,1fr);
+  grid-template-rows:repeat(15,1fr);
+
+  background:#f2f2f2;
+
+  border:7px solid #222a36;
+  border-radius:20px;
+
+  overflow:hidden;
+
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.45);
+}
+
+/* BASE AREAS */
+
+.base{
+  position:relative;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;
+  gap:8%;
+  padding:13%;
+}
+
+.base.red{
+  grid-column:1/7;
+  grid-row:1/7;
+  background:#e74c3c;
+}
+
+.base.green{
+  grid-column:10/16;
+  grid-row:1/7;
+  background:#2ecc71;
+}
+
+.base.yellow{
+  grid-column:10/16;
+  grid-row:10/16;
+  background:#f1c40f;
+}
+
+.base.blue{
+  grid-column:1/7;
+  grid-row:10/16;
+  background:#3498db;
+}
+
+.home-token{
+  background:#fff;
+  border-radius:50%;
+  box-shadow:
+    inset 0 0 5px rgba(0,0,0,.25);
+}
+
+/* PATH */
+
+.cell{
+  position:relative;
+  border:1px solid rgba(0,0,0,.08);
+  background:#fff;
+}
+
+/* player paths */
+
+.red-path{
+  background:#f7b4ae;
+}
+
+.green-path{
+  background:#a9e8be;
+}
+
+.yellow-path{
+  background:#f7e79a;
+}
+
+.blue-path{
+  background:#a9d7f4;
+}
+
+/* CENTER */
+
+.center{
+  grid-column:7/10;
+  grid-row:7/10;
+
+  background:
+    conic-gradient(
+      #2ecc71 0 25%,
+      #f1c40f 25% 50%,
+      #3498db 50% 75%,
+      #e74c3c 75% 100%
+    );
+
+  position:relative;
+}
+
+.center::after{
+  content:"";
+  position:absolute;
+  inset:22%;
+  background:white;
+  clip-path:polygon(
+    50% 0,
+    100% 50%,
+    50% 100%,
+    0 50%
+  );
+}
+
+/* TOKEN */
+
+.token{
+  position:absolute;
+
+  width:75%;
+  height:75%;
+
+  left:12.5%;
+  top:12.5%;
+
+  border-radius:50%;
+
+  z-index:20;
+
+  border:2px solid rgba(0,0,0,.3);
+
+  box-shadow:
+    0 3px 4px rgba(0,0,0,.35),
+    inset 3px 3px 4px rgba(255,255,255,.35);
+
+  cursor:pointer;
+
+  transition:
+    left .25s,
+    top .25s,
+    transform .15s;
+}
+
+.token:hover{
+  transform:scale(1.08);
+}
+
+.token.red{
+  background:#d92f25;
+}
+
+.token.green{
+  background:#20ad58;
+}
+
+.token.yellow{
+  background:#e0ad00;
+}
+
+.token.blue{
+  background:#2578c4;
+}
+
+.token.selectable{
+  animation:
+    pulse .8s infinite alternate;
+}
+
+@keyframes pulse{
+  from{
+    transform:scale(1);
+  }
+  to{
+    transform:scale(1.18);
+  }
+}
+
+/* DICE */
+
+.dice-area{
   display:flex;
   justify-content:center;
+  align-items:center;
+  gap:15px;
+  margin-top:14px;
 }
 
-.table{
-  position:relative;
-  width:min(94vw,620px);
-  aspect-ratio:1.8/1;
-  background:#173f2c;
-  border:22px solid #633d20;
-  border-radius:18px;
-  box-shadow:
-    inset 0 0 25px rgba(0,0,0,.55),
-    0 15px 40px rgba(0,0,0,.5);
-  overflow:visible;
-}
+.dice{
+  width:70px;
+  height:70px;
 
-/* Inner rail */
+  border-radius:16px;
 
-.table::before{
-  content:"";
-  position:absolute;
-  inset:-12px;
-  border:5px solid #9a6332;
-  border-radius:13px;
-  pointer-events:none;
-}
-
-/* pockets */
-
-.pocket{
-  position:absolute;
-  width:7%;
-  aspect-ratio:1;
-  background:#050505;
-  border-radius:50%;
-  z-index:4;
-  box-shadow:inset 0 0 7px #000;
-}
-
-.p1{left:-4%;top:-4%}
-.p2{left:46.5%;top:-4%}
-.p3{right:-4%;top:-4%}
-.p4{left:-4%;bottom:-4%}
-.p5{left:46.5%;bottom:-4%}
-.p6{right:-4%;bottom:-4%}
-
-/* balls */
-
-.ball{
-  position:absolute;
-  width:4.2%;
-  aspect-ratio:1;
-  border-radius:50%;
-  transform:translate(-50%,-50%);
-  z-index:8;
-  box-shadow:
-    inset -4px -4px 6px rgba(0,0,0,.45),
-    inset 3px 3px 5px rgba(255,255,255,.35),
-    0 2px 4px rgba(0,0,0,.5);
-  transition:opacity .15s;
-}
-
-.ball::after{
-  content:"";
-  position:absolute;
-  width:32%;
-  height:32%;
   background:white;
-  border-radius:50%;
-  left:34%;
-  top:34%;
-}
+  color:#111;
 
-.ball.solid::after{
-  display:none;
-}
-
-.white{
-  background:#f5f5f5;
-}
-
-.yellow{background:#f5c400}
-.blue{background:#166ee8}
-.red{background:#e52c31}
-.purple{background:#7d36bd}
-.orange{background:#ef791d}
-.green{background:#159447}
-.maroon{background:#831e25}
-.black{background:#111}
-
-.ball.stripe{
-  background:
-    linear-gradient(
-      white 28%,
-      white 36%,
-      var(--ball) 36%,
-      var(--ball) 64%,
-      white 64%,
-      white 72%
-    );
-}
-
-.ball.stripe.yellow{--ball:#f5c400}
-.ball.stripe.blue{--ball:#166ee8}
-.ball.stripe.red{--ball:#e52c31}
-.ball.stripe.purple{--ball:#7d36bd}
-.ball.stripe.orange{--ball:#ef791d}
-.ball.stripe.green{--ball:#159447}
-.ball.stripe.maroon{--ball:#831e25}
-
-.aim-line{
-  position:absolute;
-  height:2px;
-  background:rgba(255,255,255,.65);
-  transform-origin:left center;
-  z-index:6;
-  pointer-events:none;
-  display:none;
-}
-
-.power-area{
-  margin-top:18px;
-}
-
-.power-label{
   display:flex;
-  justify-content:space-between;
-  color:#aeb7c7;
-  font-size:12px;
-  margin-bottom:6px;
+  align-items:center;
+  justify-content:center;
+
+  font-size:40px;
+  font-weight:900;
+
+  box-shadow:
+    0 7px 15px rgba(0,0,0,.3);
 }
 
-.power{
-  width:100%;
-  height:15px;
-  appearance:none;
-  background:#202a39;
-  border-radius:20px;
-  outline:none;
-}
-
-.power::-webkit-slider-thumb{
-  appearance:none;
-  width:25px;
-  height:25px;
-  border-radius:50%;
-  background:white;
-}
-
-.buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:9px;
-  margin-top:12px;
-}
-
-button{
+.roll{
   border:0;
-  padding:13px 8px;
-  border-radius:12px;
-  background:#202a39;
-  color:white;
-  font-weight:bold;
-}
-
-button:active{
-  transform:scale(.97);
-}
-
-.shoot{
   background:#fff;
   color:#111;
+
+  padding:13px 22px;
+
+  border-radius:13px;
+
+  font-weight:900;
 }
 
-.message{
+.roll:disabled{
+  opacity:.35;
+}
+
+.controls{
+  display:flex;
+  justify-content:center;
+  margin-top:10px;
+}
+
+.reset{
+  border:0;
+  background:#202939;
+  color:white;
+  padding:10px 20px;
+  border-radius:12px;
+}
+
+.info{
   text-align:center;
-  color:#8792a5;
+  color:#8f9bae;
   font-size:12px;
-  margin-top:12px;
-  min-height:18px;
+  margin-top:10px;
+  line-height:1.5;
 }
 
-/* popup */
+/* WIN */
 
 .overlay{
   position:fixed;
   inset:0;
+
   background:rgba(0,0,0,.8);
+
   display:none;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
+
   padding:20px;
-  z-index:50;
+
+  z-index:100;
 }
 
 .overlay.show{
@@ -257,14 +330,18 @@ button:active{
 .popup{
   width:100%;
   max-width:340px;
-  background:#18202d;
-  border-radius:22px;
-  padding:26px;
+
+  background:#18202e;
+
+  border-radius:24px;
+
+  padding:28px;
+
   text-align:center;
 }
 
 .popup .emoji{
-  font-size:55px;
+  font-size:60px;
 }
 
 .popup h2{
@@ -274,24 +351,17 @@ button:active{
 .popup p{
   color:#aeb7c7;
   line-height:1.5;
-  font-size:14px;
 }
 
 .popup button{
   width:100%;
-  margin-top:12px;
+  margin-top:14px;
+  padding:13px;
+  border:0;
+  border-radius:12px;
   background:white;
   color:#111;
-}
-
-@media(max-width:430px){
-  .table{
-    border-width:15px;
-  }
-
-  .ball{
-    width:5%;
-  }
+  font-weight:bold;
 }
 </style>
 </head>
@@ -301,88 +371,156 @@ button:active{
 <div class="game">
 
 <header>
-  <div class="logo">🎱 Ultimate Pool</div>
+  <div class="logo">
+    🎲 Celedit Ludo
+  </div>
 
-  <div class="stats">
-    <div class="stat">
-      🎯 <span id="score">0</span>
-    </div>
-
-    <div class="stat">
-      Shots <span id="shots">0</span>
-    </div>
+  <div class="badge">
+    YOU 🔵 vs 🤖
   </div>
 </header>
 
-<div class="table-wrap">
+<div class="turn" id="turn">
+  Your turn
+</div>
 
-  <div class="table" id="table">
+<div class="board" id="board">
 
-    <div class="pocket p1"></div>
-    <div class="pocket p2"></div>
-    <div class="pocket p3"></div>
-    <div class="pocket p4"></div>
-    <div class="pocket p5"></div>
-    <div class="pocket p6"></div>
+  <!-- BASES -->
 
-    <div class="aim-line" id="aimLine"></div>
-
+  <div class="base red">
+    <div class="home-token"></div>
+    <div class="home-token"></div>
+    <div class="home-token"></div>
+    <div class="home-token"></div>
   </div>
 
-</div>
-
-<div class="power-area">
-
-  <div class="power-label">
-    <span>SHOT POWER</span>
-    <span id="powerText">50%</span>
+  <div class="base green">
+    <div class="home-token"></div>
+    <div class="home-token"></div>
+    <div class="home-token"></div>
+    <div class="home-token"></div>
   </div>
 
-  <input
-    id="power"
-    class="power"
-    type="range"
-    min="10"
-    max="100"
-    value="50"
-  >
+  <div class="base blue">
+    <div class="home-token"></div>
+    <div class="home-token"></div>
+    <div class="home-token"></div>
+    <div class="home-token"></div>
+  </div>
+
+  <div class="base yellow">
+    <div class="home-token"></div>
+    <div class="home-token"></div>
+    <div class="home-token"></div>
+    <div class="home-token"></div>
+  </div>
+
+  <!-- BOARD PATH CELLS -->
+
+  <div class="cell red-path" style="grid-column:7;grid-row:1"></div>
+  <div class="cell red-path" style="grid-column:7;grid-row:2"></div>
+  <div class="cell red-path" style="grid-column:7;grid-row:3"></div>
+
+  <div class="cell green-path" style="grid-column:8;grid-row:1"></div>
+  <div class="cell green-path" style="grid-column:8;grid-row:2"></div>
+  <div class="cell green-path" style="grid-column:8;grid-row:3"></div>
+
+  <div class="cell" style="grid-column:7;grid-row:4"></div>
+  <div class="cell" style="grid-column:8;grid-row:4"></div>
+
+  <div class="cell" style="grid-column:7;grid-row:5"></div>
+  <div class="cell" style="grid-column:8;grid-row:5"></div>
+
+  <div class="cell" style="grid-column:7;grid-row:6"></div>
+  <div class="cell" style="grid-column:8;grid-row:6"></div>
+
+  <div class="cell" style="grid-column:1;grid-row:7"></div>
+  <div class="cell" style="grid-column:2;grid-row:7"></div>
+  <div class="cell" style="grid-column:3;grid-row:7"></div>
+  <div class="cell" style="grid-column:4;grid-row:7"></div>
+  <div class="cell" style="grid-column:5;grid-row:7"></div>
+  <div class="cell" style="grid-column:6;grid-row:7"></div>
+
+  <div class="cell" style="grid-column:10;grid-row:7"></div>
+  <div class="cell" style="grid-column:11;grid-row:7"></div>
+  <div class="cell" style="grid-column:12;grid-row:7"></div>
+  <div class="cell" style="grid-column:13;grid-row:7"></div>
+  <div class="cell" style="grid-column:14;grid-row:7"></div>
+  <div class="cell" style="grid-column:15;grid-row:7"></div>
+
+  <div class="cell" style="grid-column:7;grid-row:10"></div>
+  <div class="cell" style="grid-column:8;grid-row:10"></div>
+
+  <div class="cell" style="grid-column:7;grid-row:11"></div>
+  <div class="cell" style="grid-column:8;grid-row:11"></div>
+
+  <div class="cell" style="grid-column:7;grid-row:12"></div>
+  <div class="cell" style="grid-column:8;grid-row:12"></div>
+
+  <div class="cell" style="grid-column:7;grid-row:13"></div>
+  <div class="cell" style="grid-column:8;grid-row:13"></div>
+
+  <div class="cell blue-path" style="grid-column:7;grid-row:14"></div>
+  <div class="cell blue-path" style="grid-column:7;grid-row:15"></div>
+
+  <div class="cell yellow-path" style="grid-column:8;grid-row:14"></div>
+  <div class="cell yellow-path" style="grid-column:8;grid-row:15"></div>
+
+  <div class="center"></div>
 
 </div>
 
-<div class="buttons">
+<div class="dice-area">
 
-  <button onclick="resetGame()">
-    🔄 Reset
+  <div class="dice" id="dice">
+    ⚀
+  </div>
+
+  <button
+    class="roll"
+    id="roll"
+    onclick="rollDice()">
+
+    🎲 Roll Dice
+
   </button>
 
-  <button onclick="changeAim()">
-    🎯 Aim
+</div>
+
+<div class="controls">
+
+  <button
+    class="reset"
+    onclick="resetGame()">
+
+    🔄 New Game
+
   </button>
 
-  <button class="shoot" onclick="shoot()">
-    🏏 Shoot
-  </button>
-
 </div>
 
-<div class="message" id="message">
-  Drag across the table to aim, then press Shoot.
+<div class="info">
+  Roll a 6 to bring a token onto the board.<br>
+  Capture the computer's token by landing on it.
 </div>
 
 </div>
 
 
-<div class="overlay" id="winPopup">
+<div class="overlay" id="win">
 
   <div class="popup">
 
-    <div class="emoji">🏆</div>
+    <div class="emoji">
+      🏆
+    </div>
 
-    <h2>You Win!</h2>
+    <h2 id="winTitle">
+      You Win!
+    </h2>
 
-    <p id="winMessage">
-      Great game!
-    </p>
+    <p id="winText"></p>
 
     <button onclick="resetGame()">
       Play Again
@@ -395,959 +533,987 @@ button:active{
 
 <script>
 
-/* =========================================
-   GAME SETTINGS
-========================================= */
+/*
+==========================================
+  CELEDIT LUDO PROTOTYPE
 
-const table =
-  document.getElementById("table");
+  Player = BLUE
+  Computer = RED
 
-const aimLine =
-  document.getElementById("aimLine");
-
-const power =
-  document.getElementById("power");
-
-const powerText =
-  document.getElementById("powerText");
-
-const message =
-  document.getElementById("message");
-
-let balls = [];
-
-let aiming = false;
-
-let aimAngle = Math.PI;
-
-let score = 0;
-
-let shots = 0;
-
-let moving = false;
-
-let audio;
+  This is the first playable prototype.
+==========================================
+*/
 
 
-/* =========================================
-   SOUND
-========================================= */
+const board =
+  document.getElementById("board");
 
-function sound(type){
+const diceElement =
+  document.getElementById("dice");
 
-  try{
+const rollButton =
+  document.getElementById("roll");
 
-    if(!audio)
-      audio =
-        new (
-          window.AudioContext ||
-          window.webkitAudioContext
-        )();
-
-    const oscillator =
-      audio.createOscillator();
-
-    const gain =
-      audio.createGain();
-
-    oscillator.connect(gain);
-
-    gain.connect(audio.destination);
-
-    if(type === "hit")
-      oscillator.frequency.value = 130;
-
-    if(type === "pocket")
-      oscillator.frequency.value = 520;
-
-    if(type === "win")
-      oscillator.frequency.value = 700;
-
-    gain.gain.value = .05;
-
-    oscillator.start();
-
-    oscillator.stop(
-      audio.currentTime + .08
-    );
-
-  }catch(e){}
-
-}
+const turnElement =
+  document.getElementById("turn");
 
 
-/* =========================================
-   BALL DATA
-========================================= */
+let turn = "player";
 
-const ballData = [
+let diceValue = 0;
 
-  {
-    number:0,
-    color:"white",
-    solid:true,
-    x:27,
-    y:50
-  },
+let gameOver = false;
 
-  {
-    number:1,
-    color:"yellow",
-    solid:true,
-    x:72,
-    y:45
-  },
 
-  {
-    number:2,
-    color:"blue",
-    solid:true,
-    x:76,
-    y:50
-  },
+/*
+  Each token position:
 
-  {
-    number:3,
-    color:"red",
-    solid:true,
-    x:72,
-    y:55
-  },
+  -1 = home
+   0+ = board position
+*/
 
-  {
-    number:4,
-    color:"purple",
-    solid:true,
-    x:80,
-    y:42
-  },
+let playerTokens =
+  [-1,-1,-1,-1];
 
-  {
-    number:5,
-    color:"orange",
-    solid:true,
-    x:80,
-    y:58
-  },
+let computerTokens =
+  [-1,-1,-1,-1];
 
-  {
-    number:6,
-    color:"green",
-    solid:true,
-    x:84,
-    y:46
-  },
 
-  {
-    number:7,
-    color:"maroon",
-    solid:true,
-    x:84,
-    y:54
-  },
+/*
+  Main circular path.
 
-  {
-    number:8,
-    color:"black",
-    solid:true,
-    x:88,
-    y:50
-  },
+  These are board coordinates.
+*/
 
-  {
-    number:9,
-    color:"yellow",
-    solid:false,
-    x:80,
-    y:50
-  }
+const path = [
+
+  [7,6],
+  [7,5],
+  [7,4],
+  [7,3],
+  [8,3],
+  [9,3],
+  [9,4],
+  [9,5],
+  [9,6],
+  [10,7],
+  [11,7],
+  [12,7],
+  [13,7],
+  [14,7],
+  [14,8],
+  [13,8],
+  [12,8],
+  [11,8],
+  [10,8],
+  [9,9],
+  [9,10],
+  [9,11],
+  [9,12],
+  [9,13],
+  [8,13],
+  [7,13],
+  [7,12],
+  [7,11],
+  [7,10],
+  [6,9],
+  [5,9],
+  [4,9],
+  [3,9],
+  [2,9],
+  [2,8],
+  [3,8],
+  [4,8],
+  [5,8],
+  [6,8],
+  [5,7],
+  [4,7],
+  [3,7],
+  [2,7],
+  [1,7],
+  [1,6],
+  [2,6],
+  [3,6],
+  [4,6],
+  [5,6],
+  [6,5],
+  [6,4],
+  [6,3],
+  [6,2],
+  [7,2],
+  [8,2],
+  [8,3]
 
 ];
 
 
-/* =========================================
-   CREATE BALL
-========================================= */
+/*
+  Starting points.
 
-function createBall(data){
+  Blue starts around bottom-left.
+  Red starts around top-left.
+*/
 
-  const el =
+const PLAYER_START = 27;
+
+const COMPUTER_START = 1;
+
+
+/*
+  Home token visual positions.
+*/
+
+const playerHome = [
+  [2,11],
+  [4,11],
+  [2,13],
+  [4,13]
+];
+
+const computerHome = [
+  [2,2],
+  [4,2],
+  [2,4],
+  [4,4]
+];
+
+
+/*
+  Create visual tokens.
+*/
+
+function createTokens(){
+
+  board
+    .querySelectorAll(".token")
+    .forEach(
+      token => token.remove()
+    );
+
+
+  playerTokens.forEach(
+    (position,index) => {
+
+      createToken(
+        "blue",
+        position,
+        index,
+        true
+      );
+
+    }
+  );
+
+
+  computerTokens.forEach(
+    (position,index) => {
+
+      createToken(
+        "red",
+        position,
+        index,
+        false
+      );
+
+    }
+  );
+
+}
+
+
+/*
+  Create one token.
+*/
+
+function createToken(
+  color,
+  position,
+  index,
+  isPlayer
+){
+
+  const token =
     document.createElement("div");
 
-  el.className =
-    "ball " +
-    data.color +
-    (data.solid ? " solid" : " stripe");
+  token.className =
+    `token ${color}`;
 
-  el.style.left =
-    data.x + "%";
+  /*
+    Home position.
+  */
 
-  el.style.top =
-    data.y + "%";
+  if(position === -1){
 
-  el.dataset.number =
-    data.number;
+    const home =
+      isPlayer
+        ? playerHome[index]
+        : computerHome[index];
 
-  table.appendChild(el);
+    token.style.gridColumn =
+      home[0];
 
-  return {
-    ...data,
-    element:el,
-    vx:0,
-    vy:0,
-    active:true
-  };
+    token.style.gridRow =
+      home[1];
 
-}
+    /*
+      Because tokens are absolutely
+      positioned, calculate using
+      board percentage.
+    */
 
+    token.style.left =
+      ((home[0]-1)/15*100 + 2) + "%";
 
-/* =========================================
-   RESET
-========================================= */
-
-function resetGame(){
-
-  table
-    .querySelectorAll(".ball")
-    .forEach(
-      b => b.remove()
-    );
-
-  balls = [];
-
-  ballData.forEach(
-    data =>
-      balls.push(
-        createBall(data)
-      )
-  );
-
-  score = 0;
-
-  shots = 0;
-
-  moving = false;
-
-  aimAngle = Math.PI;
-
-  updateUI();
-
-  hideWin();
-
-  message.textContent =
-    "Aim the cue ball and press Shoot.";
-
-}
-
-
-/* =========================================
-   UI
-========================================= */
-
-function updateUI(){
-
-  document.getElementById(
-    "score"
-  ).textContent = score;
-
-  document.getElementById(
-    "shots"
-  ).textContent = shots;
-
-}
-
-
-/* =========================================
-   POWER
-========================================= */
-
-power.addEventListener(
-  "input",
-  () => {
-
-    powerText.textContent =
-      power.value + "%";
-
-  }
-);
-
-
-/* =========================================
-   AIM
-========================================= */
-
-function changeAim(){
-
-  if(moving)
-    return;
-
-  aimAngle += Math.PI / 12;
-
-  if(
-    aimAngle > Math.PI * 2
-  ){
-
-    aimAngle -= Math.PI * 2;
+    token.style.top =
+      ((home[1]-1)/15*100 + 2) + "%";
 
   }
 
-  drawAim();
-
-}
-
-
-function drawAim(){
-
-  const cue =
-    balls.find(
-      b => b.number === 0
-    );
-
-  if(!cue || !cue.active)
-    return;
-
-  const rect =
-    table.getBoundingClientRect();
-
-  const x =
-    cue.x / 100 * rect.width;
-
-  const y =
-    cue.y / 100 * rect.height;
-
-  const length = 28;
-
-  aimLine.style.left =
-    x + "px";
-
-  aimLine.style.top =
-    y + "px";
-
-  aimLine.style.width =
-    length + "%";
-
-  aimLine.style.transform =
-    `rotate(${aimAngle}rad)`;
-
-  aimLine.style.display =
-    "block";
-
-}
-
-
-/* =========================================
-   TOUCH AIM
-========================================= */
-
-table.addEventListener(
-  "pointerdown",
-  e => {
-
-    if(moving)
-      return;
-
-    aiming = true;
-
-    updatePointerAim(e);
-
-  }
-);
-
-
-table.addEventListener(
-  "pointermove",
-  e => {
-
-    if(!aiming)
-      return;
-
-    updatePointerAim(e);
-
-  }
-);
-
-
-window.addEventListener(
-  "pointerup",
-  () => {
-
-    aiming = false;
-
-  }
-);
-
-
-function updatePointerAim(e){
-
-  const cue =
-    balls.find(
-      b => b.number === 0
-    );
-
-  if(!cue)
-    return;
-
-  const rect =
-    table.getBoundingClientRect();
-
-  const pointerX =
-    e.clientX - rect.left;
-
-  const pointerY =
-    e.clientY - rect.top;
-
-  const cueX =
-    cue.x / 100 * rect.width;
-
-  const cueY =
-    cue.y / 100 * rect.height;
-
-  aimAngle =
-    Math.atan2(
-      pointerY - cueY,
-      pointerX - cueX
-    );
-
-  drawAim();
-
-}
-
-
-/* =========================================
-   SHOOT
-========================================= */
-
-function shoot(){
-
-  if(moving)
-    return;
-
-  const cue =
-    balls.find(
-      b => b.number === 0
-    );
-
-  if(!cue || !cue.active)
-    return;
-
-  const strength =
-    Number(power.value) / 100;
-
-  const speed =
-    0.9 + strength * 1.8;
-
-  cue.vx =
-    Math.cos(aimAngle) * speed;
-
-  cue.vy =
-    Math.sin(aimAngle) * speed;
-
-  moving = true;
-
-  shots++;
-
-  updateUI();
-
-  aimLine.style.display =
-    "none";
-
-  message.textContent =
-    "Balls are moving...";
-
-  sound("hit");
-
-  requestAnimationFrame(
-    physics
-  );
-
-}
-
-
-/* =========================================
-   PHYSICS
-========================================= */
-
-function physics(){
-
-  if(!moving)
-    return;
-
-  let activeMotion = false;
-
-  const rect =
-    table.getBoundingClientRect();
-
-  const width =
-    rect.width;
-
-  const height =
-    rect.height;
-
-
-  balls.forEach(
-    ball => {
-
-      if(!ball.active)
-        return;
-
-
-      ball.x +=
-        ball.vx / width * 100;
-
-      ball.y +=
-        ball.vy / height * 100;
-
-
-      /*
-        Friction
-      */
-
-      ball.vx *= .982;
-
-      ball.vy *= .982;
-
-
-      /*
-        Wall collision
-      */
-
-      const radius =
-        2.1;
-
-
-      if(
-        ball.x <= radius
-      ){
-
-        ball.x = radius;
-
-        ball.vx =
-          Math.abs(ball.vx);
-
-        sound("hit");
-
-      }
-
-
-      if(
-        ball.x >= 100 - radius
-      ){
-
-        ball.x =
-          100 - radius;
-
-        ball.vx =
-          -Math.abs(ball.vx);
-
-        sound("hit");
-
-      }
-
-
-      if(
-        ball.y <= radius
-      ){
-
-        ball.y = radius;
-
-        ball.vy =
-          Math.abs(ball.vy);
-
-        sound("hit");
-
-      }
-
-
-      if(
-        ball.y >= 100 - radius
-      ){
-
-        ball.y =
-          100 - radius;
-
-        ball.vy =
-          -Math.abs(ball.vy);
-
-        sound("hit");
-
-      }
-
-
-      /*
-        Pocket detection
-      */
-
-      const pockets = [
-
-        [0,0],
-        [50,0],
-        [100,0],
-        [0,100],
-        [50,100],
-        [100,100]
-
+  else{
+
+    const coordinate =
+      path[
+        (position +
+        (isPlayer
+          ? PLAYER_START
+          : COMPUTER_START))
+        % path.length
       ];
 
 
-      for(
-        const p of pockets
-      ){
+    token.style.left =
+      ((coordinate[1]-1)/15*100 + 1.2) + "%";
 
-        const dx =
-          ball.x - p[0];
+    token.style.top =
+      ((coordinate[0]-1)/15*100 + 1.2) + "%";
 
-        const dy =
-          ball.y - p[1];
+  }
 
-        const distance =
-          Math.sqrt(
-            dx*dx + dy*dy
+
+  if(
+    isPlayer &&
+    turn === "player" &&
+    diceValue &&
+    canMove(
+      playerTokens[index],
+      diceValue
+    )
+  ){
+
+    token.classList.add(
+      "selectable"
+    );
+
+    token.onclick =
+      () =>
+        movePlayer(index);
+
+  }
+
+
+  board.appendChild(token);
+
+}
+
+
+/*
+==========================================
+  CAN MOVE
+==========================================
+*/
+
+function canMove(
+  position,
+  amount
+){
+
+  /*
+    Token at home needs a 6.
+  */
+
+  if(position === -1){
+
+    return amount === 6;
+
+  }
+
+
+  /*
+    Don't allow movement beyond
+    the finishing point.
+  */
+
+  return position + amount <= path.length;
+
+}
+
+
+/*
+==========================================
+  DICE
+==========================================
+*/
+
+const diceFaces = [
+  "⚀",
+  "⚁",
+  "⚂",
+  "⚃",
+  "⚄",
+  "⚅"
+];
+
+
+function rollDice(){
+
+  if(
+    gameOver ||
+    turn !== "player"
+  )
+    return;
+
+
+  rollButton.disabled = true;
+
+
+  let rolls = 0;
+
+
+  const animation =
+    setInterval(
+      () => {
+
+        const random =
+          Math.floor(
+            Math.random()*6
           );
 
 
-        if(distance < 7){
+        diceElement.textContent =
+          diceFaces[random];
 
-          pocketBall(ball);
+
+        rolls++;
+
+
+        if(rolls >= 8){
+
+          clearInterval(animation);
+
+
+          diceValue =
+            Math.floor(
+              Math.random()*6
+            ) + 1;
+
+
+          diceElement.textContent =
+            diceFaces[
+              diceValue-1
+            ];
+
+
+          afterPlayerRoll();
+
+        }
+
+      },
+      70
+    );
+
+}
+
+
+/*
+==========================================
+  AFTER PLAYER ROLL
+==========================================
+*/
+
+function afterPlayerRoll(){
+
+  turnElement.textContent =
+    "You rolled " +
+    diceValue;
+
+
+  /*
+    Check whether any token can move.
+  */
+
+  const movable =
+    playerTokens.some(
+      position =>
+        canMove(
+          position,
+          diceValue
+        )
+    );
+
+
+  if(!movable){
+
+    /*
+      No move.
+
+      Six gives another roll.
+    */
+
+    if(diceValue === 6){
+
+      turnElement.textContent =
+        "No move. Roll again!";
+
+      setTimeout(
+        () => {
+
+          rollButton.disabled =
+            false;
+
+          diceValue = 0;
+
+        },
+        800
+      );
+
+      return;
+
+    }
+
+
+    setTimeout(
+      computerTurn,
+      900
+    );
+
+    return;
+
+  }
+
+
+  createTokens();
+
+}
+
+
+/*
+==========================================
+  PLAYER MOVE
+==========================================
+*/
+
+function movePlayer(index){
+
+  if(
+    gameOver ||
+    turn !== "player"
+  )
+    return;
+
+
+  if(
+    !canMove(
+      playerTokens[index],
+      diceValue
+    )
+  )
+    return;
+
+
+  /*
+    Six brings a token out.
+  */
+
+  if(
+    playerTokens[index] === -1
+  ){
+
+    playerTokens[index] =
+      0;
+
+  }
+
+  else{
+
+    playerTokens[index] +=
+      diceValue;
+
+  }
+
+
+  checkCapture(
+    playerTokens[index],
+    true
+  );
+
+
+  createTokens();
+
+
+  if(
+    checkWin(
+      playerTokens
+    )
+  ){
+
+    endGame(
+      true
+    );
+
+    return;
+
+  }
+
+
+  /*
+    Six = another turn.
+  */
+
+  if(
+    diceValue === 6
+  ){
+
+    diceValue = 0;
+
+    turnElement.textContent =
+      "🎲 You get another roll!";
+
+    rollButton.disabled =
+      false;
+
+    createTokens();
+
+    return;
+
+  }
+
+
+  diceValue = 0;
+
+  setTimeout(
+    computerTurn,
+    700
+  );
+
+}
+
+
+/*
+==========================================
+  COMPUTER
+==========================================
+*/
+
+function computerTurn(){
+
+  if(gameOver)
+    return;
+
+
+  turn = "computer";
+
+  turnElement.textContent =
+    "🤖 Computer is thinking...";
+
+
+  rollButton.disabled =
+    true;
+
+
+  setTimeout(
+    () => {
+
+      diceValue =
+        Math.floor(
+          Math.random()*6
+        ) + 1;
+
+
+      diceElement.textContent =
+        diceFaces[
+          diceValue-1
+        ];
+
+
+      const movable =
+        computerTokens
+          .map(
+            (position,index) => ({
+              position,
+              index
+            })
+          )
+          .filter(
+            item =>
+              canMove(
+                item.position,
+                diceValue
+              )
+          );
+
+
+      if(
+        movable.length === 0
+      ){
+
+        if(
+          diceValue === 6
+        ){
+
+          turn = "player";
+
+          turnElement.textContent =
+            "Computer can't move. Your turn!";
+
+          rollButton.disabled =
+            false;
+
+          return;
+
+        }
+
+
+        turn =
+          "player";
+
+        turnElement.textContent =
+          "Your turn";
+
+        rollButton.disabled =
+          false;
+
+        return;
+
+      }
+
+
+      /*
+        Computer strategy:
+
+        Prefer capturing the player.
+        Otherwise move the token
+        furthest along.
+      */
+
+      let chosen =
+        movable[0];
+
+
+      for(
+        const option of movable
+      ){
+
+        const future =
+          option.position === -1
+            ? 0
+            : option.position +
+              diceValue;
+
+
+        const capture =
+          option.position !== -1 &&
+          isCapturePosition(
+            future,
+            false
+          );
+
+
+        if(capture){
+
+          chosen =
+            option;
 
           break;
+
+        }
+
+
+        if(
+          option.position >
+          chosen.position
+        ){
+
+          chosen =
+            option;
 
         }
 
       }
 
 
-      if(
-        Math.abs(ball.vx) > .01 ||
-        Math.abs(ball.vy) > .01
-      ){
+      moveComputer(
+        chosen.index
+      );
 
-        activeMotion = true;
+    },
+    900
+  );
 
-      }
+}
 
-    }
+
+/*
+==========================================
+  COMPUTER MOVE
+==========================================
+*/
+
+function moveComputer(index){
+
+  if(
+    computerTokens[index] === -1
+  ){
+
+    computerTokens[index] =
+      0;
+
+  }
+
+  else{
+
+    computerTokens[index] +=
+      diceValue;
+
+  }
+
+
+  checkCapture(
+    computerTokens[index],
+    false
   );
 
 
-  /*
-    Ball collisions
-  */
+  createTokens();
 
-  for(
-    let i=0;
-    i<balls.length;
-    i++
+
+  if(
+    checkWin(
+      computerTokens
+    )
+  ){
+
+    endGame(
+      false
+    );
+
+    return;
+
+  }
+
+
+  if(
+    diceValue === 6
+  ){
+
+    turnElement.textContent =
+      "🤖 Computer rolled 6... again!";
+
+    setTimeout(
+      computerTurn,
+      900
+    );
+
+    return;
+
+  }
+
+
+  diceValue = 0;
+
+  turn =
+    "player";
+
+  turnElement.textContent =
+    "Your turn";
+
+  rollButton.disabled =
+    false;
+
+  createTokens();
+
+}
+
+
+/*
+==========================================
+  CAPTURE
+==========================================
+*/
+
+function checkCapture(
+  position,
+  player
+){
+
+  if(position < 0)
+    return;
+
+
+  if(
+    player
   ){
 
     for(
-      let j=i+1;
-      j<balls.length;
-      j++
+      let i=0;
+      i<computerTokens.length;
+      i++
     ){
 
-      collide(
-        balls[i],
-        balls[j]
-      );
+      if(
+        computerTokens[i] !== -1 &&
+        computerTokens[i] !== path.length &&
+        sameBoardPosition(
+          position,
+          computerTokens[i],
+          true,
+          false
+        )
+      ){
 
-    }
+        computerTokens[i] =
+          -1;
 
-  }
-
-
-  /*
-    Update visual positions
-  */
-
-  balls.forEach(
-    ball => {
-
-      if(ball.active){
-
-        ball.element.style.left =
-          ball.x + "%";
-
-        ball.element.style.top =
-          ball.y + "%";
+        turnElement.textContent =
+          "💥 You captured a token!";
 
       }
 
     }
-  );
-
-
-  if(activeMotion){
-
-    requestAnimationFrame(
-      physics
-    );
 
   }else{
 
-    moving = false;
+    for(
+      let i=0;
+      i<playerTokens.length;
+      i++
+    ){
 
-    afterShot();
+      if(
+        playerTokens[i] !== -1 &&
+        playerTokens[i] !== path.length &&
+        sameBoardPosition(
+          position,
+          computerTokens[player ? i : i],
+          false,
+          true
+        )
+      ){
+
+        /*
+          Actual comparison below.
+        */
+
+      }
+
+    }
+
+
+    for(
+      let i=0;
+      i<playerTokens.length;
+      i++
+    ){
+
+      if(
+        playerTokens[i] !== -1 &&
+        playerTokens[i] !== path.length &&
+        sameBoardPosition(
+          position,
+          playerTokens[i],
+          false,
+          true
+        )
+      ){
+
+        playerTokens[i] =
+          -1;
+
+        turnElement.textContent =
+          "💥 Computer captured your token!";
+
+      }
+
+    }
 
   }
 
 }
 
 
-/* =========================================
-   COLLISION
-========================================= */
+/*
+==========================================
+  POSITION COMPARISON
+==========================================
+*/
 
-function collide(a,b){
+function sameBoardPosition(
+  a,
+  b,
+  aPlayer,
+  bPlayer
+){
 
-  if(
-    !a.active ||
-    !b.active
-  )
-    return;
-
-
-  const dx =
-    b.x - a.x;
-
-  const dy =
-    b.y - a.y;
-
-  const distance =
-    Math.sqrt(
-      dx*dx + dy*dy
-    );
+  const aGlobal =
+    (
+      a +
+      (aPlayer
+        ? PLAYER_START
+        : COMPUTER_START)
+    ) % path.length;
 
 
-  const minDistance =
-    4.4;
+  const bGlobal =
+    (
+      b +
+      (bPlayer
+        ? PLAYER_START
+        : COMPUTER_START)
+    ) % path.length;
 
 
-  if(
-    distance >= minDistance ||
-    distance === 0
-  )
-    return;
-
-
-  const nx =
-    dx / distance;
-
-  const ny =
-    dy / distance;
-
-
-  const relativeVelocity =
-    (b.vx-a.vx)*nx +
-    (b.vy-a.vy)*ny;
-
-
-  if(
-    relativeVelocity > 0
-  )
-    return;
-
-
-  const impulse =
-    -relativeVelocity;
-
-
-  a.vx -=
-    impulse * nx;
-
-  a.vy -=
-    impulse * ny;
-
-  b.vx +=
-    impulse * nx;
-
-  b.vy +=
-    impulse * ny;
-
-
-  const overlap =
-    minDistance - distance;
-
-
-  a.x -=
-    nx * overlap/2;
-
-  a.y -=
-    ny * overlap/2;
-
-  b.x +=
-    nx * overlap/2;
-
-  b.y +=
-    ny * overlap/2;
-
-
-  sound("hit");
+  return aGlobal === bGlobal;
 
 }
 
 
-/* =========================================
-   POCKET
-========================================= */
+function isCapturePosition(
+  position,
+  player
+){
 
-function pocketBall(ball){
-
-  if(!ball.active)
-    return;
-
-
-  ball.active = false;
-
-  ball.vx = 0;
-
-  ball.vy = 0;
-
-  ball.element.style.opacity =
-    "0";
-
-
-  sound("pocket");
-
-
-  if(
-    ball.number === 0
+  for(
+    const token of playerTokens
   ){
 
-    /*
-      Cue ball returns to
-      the break position.
-    */
+    if(
+      token !== -1 &&
+      sameBoardPosition(
+        position,
+        token,
+        false,
+        true
+      )
+    ){
 
-    setTimeout(
-      () => {
+      return true;
 
-        ball.x = 27;
-
-        ball.y = 50;
-
-        ball.active = true;
-
-        ball.element.style.opacity =
-          "1";
-
-        message.textContent =
-          "Scratch! Cue ball returned.";
-
-      },
-      700
-    );
-
-  }else{
-
-    score += 10;
-
-    updateUI();
+    }
 
   }
 
-}
-
-
-/* =========================================
-   AFTER SHOT
-========================================= */
-
-function afterShot(){
-
-  const remaining =
-    balls.filter(
-      b =>
-        b.number !== 0 &&
-        b.active
-    );
-
-
-  if(
-    remaining.length === 1 &&
-    remaining[0].number === 8
-  ){
-
-    /*
-      If only the 8-ball remains,
-      player has nearly cleared table.
-    */
-
-    message.textContent =
-      "🎱 Only the 8-ball remains!";
-
-  }
-
-
-  /*
-    Win when all object balls
-    are pocketed.
-  */
-
-  if(
-    remaining.length === 0
-  ){
-
-    winGame();
-
-    return;
-
-  }
-
-
-  message.textContent =
-    "Your turn. Aim and shoot.";
-
-  drawAim();
+  return false;
 
 }
 
 
-/* =========================================
-   WIN
-========================================= */
+/*
+==========================================
+  WIN
+==========================================
+*/
 
-function winGame(){
+function checkWin(
+  tokens
+){
 
-  moving = false;
-
-  sound("win");
-
-  document.getElementById(
-    "winMessage"
-  ).textContent =
-    "🏆 Table cleared in " +
-    shots +
-    " shots! Final score: " +
-    score;
-
-
-  document.getElementById(
-    "winPopup"
-  ).classList.add(
-    "show"
-  );
-
-}
-
-
-function hideWin(){
-
-  document.getElementById(
-    "winPopup"
-  ).classList.remove(
-    "show"
-  );
-
-}
-
-
-/* =========================================
-   START
-========================================= */
-
-resetGame();
-
-</script>
-
-</body>
-</html>
+  return t
