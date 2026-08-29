@@ -2,460 +2,265 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Celedit Ludo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Celedit Words</title>
 
 <style>
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    -webkit-tap-highlight-color:transparent;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
 body{
-    min-height:100vh;
-    background:#10131b;
-    color:white;
-    font-family:Arial,Helvetica,sans-serif;
-    display:flex;
-    justify-content:center;
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,sans-serif;
+  background:
+    radial-gradient(circle at top,#34495e 0,#101722 45%,#070b11 100%);
+  color:white;
 }
 
 .app{
-    width:100%;
-    max-width:620px;
-    padding:12px;
+  width:100%;
+  max-width:520px;
+  margin:auto;
+  padding:15px;
+  min-height:100vh;
 }
 
-/* HEADER */
-
 .header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
 }
 
 .logo{
-    font-size:24px;
-    font-weight:900;
+  font-size:24px;
+  font-weight:900;
 }
 
-.mode{
-    background:#202633;
-    border-radius:20px;
-    padding:8px 12px;
-    font-size:12px;
-    font-weight:bold;
+.coins{
+  background:#202a38;
+  padding:9px 13px;
+  border-radius:20px;
+  font-weight:bold;
 }
 
-/* TURN */
-
-.turn{
-    text-align:center;
-    font-size:15px;
-    font-weight:bold;
-    margin-bottom:10px;
+.levelBox{
+  text-align:center;
+  margin-bottom:15px;
 }
 
-/* BOARD */
-
-.board{
-    position:relative;
-    width:min(96vw,580px);
-    aspect-ratio:1;
-    margin:auto;
-
-    display:grid;
-    grid-template-columns:repeat(15,1fr);
-    grid-template-rows:repeat(15,1fr);
-
-    background:#fafafa;
-
-    border:5px solid #171b23;
-    border-radius:14px;
-
-    overflow:hidden;
-
-    box-shadow:
-        0 18px 45px rgba(0,0,0,.45);
+.level{
+  font-size:25px;
+  font-weight:900;
 }
 
-/* CELLS */
-
-.cell{
-    position:relative;
-    border:1px solid #c9c9c9;
-    background:#fff;
+.progress{
+  width:100%;
+  height:7px;
+  background:#202a38;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:9px;
 }
 
-/* BASES */
-
-.base{
-    position:absolute;
-    width:40%;
-    height:40%;
-
-    padding:8%;
-
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    grid-template-rows:1fr 1fr;
-    gap:9%;
-
-    border:3px solid rgba(0,0,0,.18);
+.progressBar{
+  height:100%;
+  width:0%;
+  background:#f1c40f;
+  transition:.3s;
 }
 
-.redBase{
-    left:0;
-    top:0;
-    background:#ed4747;
+.words{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  margin:15px 0 25px;
 }
 
-.greenBase{
-    right:0;
-    top:0;
-    background:#35b96a;
+.wordRow{
+  display:flex;
+  gap:7px;
+  min-height:40px;
 }
 
-.yellowBase{
-    right:0;
-    bottom:0;
-    background:#f1c83a;
+.slot{
+  width:35px;
+  height:38px;
+  border-bottom:3px solid #9ba6b5;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:22px;
+  font-weight:900;
 }
 
-.blueBase{
-    left:0;
-    bottom:0;
-    background:#3e8fe5;
+.slot.found{
+  color:#f1c40f;
+  border-bottom-color:#f1c40f;
 }
 
-.homeSpot{
-    background:white;
-    border-radius:50%;
-    border:2px solid rgba(0,0,0,.16);
-    box-shadow:inset 0 2px 5px rgba(0,0,0,.18);
+.answer{
+  min-height:45px;
+  text-align:center;
+  font-size:30px;
+  font-weight:900;
+  letter-spacing:4px;
+  margin-bottom:20px;
 }
 
-/* CENTER */
-
-.center{
-    position:absolute;
-
-    left:40%;
-    top:40%;
-
-    width:20%;
-    height:20%;
-
-    background:
-        conic-gradient(
-            #35b96a 0deg 90deg,
-            #f1c83a 90deg 180deg,
-            #3e8fe5 180deg 270deg,
-            #ed4747 270deg 360deg
-        );
-
-    clip-path:polygon(
-        0 0,
-        100% 0,
-        100% 100%,
-        0 100%
-    );
-
-    z-index:2;
+.letters{
+  width:270px;
+  height:270px;
+  margin:auto;
+  position:relative;
 }
 
-.center::after{
-    content:"";
-    position:absolute;
-
-    left:20%;
-    top:20%;
-
-    width:60%;
-    height:60%;
-
-    background:white;
-
-    clip-path:polygon(
-        50% 0,
-        100% 50%,
-        50% 100%,
-        0 50%
-    );
+.letter{
+  position:absolute;
+  width:66px;
+  height:66px;
+  border-radius:50%;
+  border:0;
+  background:
+    linear-gradient(145deg,#ffffff,#cfd6df);
+  color:#17202b;
+  font-size:24px;
+  font-weight:900;
+  box-shadow:
+    0 7px 14px rgba(0,0,0,.35),
+    inset 0 2px 3px rgba(255,255,255,.8);
+  cursor:pointer;
+  transform:translate(-50%,-50%);
 }
 
-/* PATH CELLS */
-
-.pathCell{
-    background:#fff;
+.letter:active{
+  transform:translate(-50%,-50%) scale(.9);
 }
 
-.redLane{
-    background:#f6a5a5 !important;
+.letter.used{
+  opacity:.3;
+  pointer-events:none;
 }
 
-.greenLane{
-    background:#a7e4bd !important;
+.centerCircle{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:90px;
+  height:90px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.12);
+  pointer-events:none;
 }
 
-.yellowLane{
-    background:#f7e79d !important;
+.buttons{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:20px;
 }
 
-.blueLane{
-    background:#a9cff4 !important;
+.action{
+  border:0;
+  border-radius:12px;
+  padding:11px 15px;
+  background:#202a38;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-/* START CELLS */
-
-.start-red{
-    background:#ed4747 !important;
+.action:active{
+  transform:scale(.95);
 }
 
-.start-green{
-    background:#35b96a !important;
+.hint{
+  background:#e6b800;
+  color:#111;
 }
 
-.start-yellow{
-    background:#f1c83a !important;
+.message{
+  text-align:center;
+  min-height:22px;
+  margin-top:13px;
+  font-weight:bold;
 }
 
-.start-blue{
-    background:#3e8fe5 !important;
+.stats{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:14px;
 }
 
-/* SAFE */
-
-.safe::before{
-    content:"★";
-    position:absolute;
-    inset:0;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:11px;
-    color:#777;
+.stat{
+  background:#151e2a;
+  border-radius:12px;
+  padding:8px 12px;
+  font-size:12px;
 }
-
-/* TOKENS */
-
-.token{
-    position:absolute;
-
-    width:5.5%;
-    aspect-ratio:1;
-
-    transform:translate(-50%,-50%);
-
-    border-radius:50%;
-
-    z-index:20;
-
-    border:2px solid rgba(0,0,0,.3);
-
-    box-shadow:
-        inset 3px 3px 4px rgba(255,255,255,.45),
-        inset -4px -4px 5px rgba(0,0,0,.25),
-        0 3px 5px rgba(0,0,0,.35);
-
-    transition:
-        left .12s linear,
-        top .12s linear,
-        transform .15s;
-}
-
-.token.blue{
-    background:#126bc4;
-}
-
-.token.red{
-    background:#c92828;
-}
-
-.token.movable{
-    animation:pulse .65s infinite alternate;
-    cursor:pointer;
-}
-
-@keyframes pulse{
-    from{
-        transform:translate(-50%,-50%) scale(1);
-    }
-    to{
-        transform:translate(-50%,-50%) scale(1.18);
-    }
-}
-
-/* DICE */
-
-.controls{
-    margin-top:14px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:12px;
-}
-
-.dice{
-    width:68px;
-    height:68px;
-
-    background:white;
-    color:#111;
-
-    border-radius:15px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:39px;
-
-    box-shadow:0 7px 16px rgba(0,0,0,.3);
-}
-
-.rollBtn{
-    border:0;
-
-    background:#fff;
-    color:#111;
-
-    padding:14px 22px;
-
-    border-radius:13px;
-
-    font-weight:900;
-    font-size:14px;
-}
-
-.rollBtn:disabled{
-    opacity:.35;
-}
-
-.bottom{
-    display:flex;
-    justify-content:center;
-    margin-top:10px;
-}
-
-.resetBtn{
-    border:0;
-    background:#202633;
-    color:#fff;
-
-    padding:10px 18px;
-
-    border-radius:12px;
-
-    font-weight:bold;
-}
-
-.help{
-    text-align:center;
-    margin-top:9px;
-
-    color:#8993a5;
-    font-size:11px;
-    line-height:1.5;
-}
-
-/* WIN SCREEN */
 
 .overlay{
-    position:fixed;
-    inset:0;
-
-    background:rgba(0,0,0,.82);
-
-    display:none;
-
-    align-items:center;
-    justify-content:center;
-
-    padding:20px;
-
-    z-index:100;
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.82);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:50;
 }
 
 .overlay.show{
-    display:flex;
+  display:flex;
 }
 
 .popup{
-    width:100%;
-    max-width:350px;
-
-    background:#1b222e;
-
-    border-radius:23px;
-
-    padding:28px;
-
-    text-align:center;
+  width:100%;
+  max-width:350px;
+  background:#17202c;
+  border-radius:25px;
+  padding:28px;
+  text-align:center;
 }
 
-.popupEmoji{
-    font-size:58px;
+.popupIcon{
+  font-size:55px;
 }
 
 .popup h2{
-    margin:8px 0;
+  margin:8px 0;
 }
 
 .popup p{
-    color:#aab3c2;
-    line-height:1.5;
-    font-size:14px;
+  color:#aeb7c4;
+  line-height:1.5;
 }
 
-.playAgain{
-    width:100%;
-
-    margin-top:16px;
-
-    border:0;
-
-    background:white;
-    color:#111;
-
-    padding:13px;
-
-    border-radius:12px;
-
-    font-weight:bold;
+.popup button{
+  border:0;
+  width:100%;
+  padding:13px;
+  border-radius:12px;
+  font-weight:bold;
+  margin-top:10px;
 }
 
-/* MOBILE */
+@media(max-width:380px){
+  .letters{
+    width:245px;
+    height:245px;
+  }
 
-@media(max-width:420px){
-
-    .app{
-        padding:8px;
-    }
-
-    .logo{
-        font-size:20px;
-    }
-
-    .board{
-        border-width:4px;
-    }
-
-    .token{
-        width:6.5%;
-    }
-
-    .dice{
-        width:60px;
-        height:60px;
-        font-size:34px;
-    }
-
+  .letter{
+    width:60px;
+    height:60px;
+  }
 }
 </style>
 </head>
@@ -464,883 +269,1201 @@ body{
 
 <div class="app">
 
-    <div class="header">
-        <div class="logo">🎲 Celedit Ludo</div>
-        <div class="mode">🔵 YOU VS 🔴 CPU</div>
+  <div class="header">
+
+    <div class="logo">
+      🍪 Celedit Words
     </div>
 
-    <div class="turn" id="turnText">
-        Your turn — Roll the dice
+    <div class="coins">
+      🪙 <span id="coins">100</span>
     </div>
 
-    <div class="board" id="board">
+  </div>
 
-        <!-- 15 x 15 board cells are generated by JavaScript -->
 
-        <!-- BASES -->
+  <div class="levelBox">
 
-        <div class="base redBase">
-            <div class="homeSpot"></div>
-            <div class="homeSpot"></div>
-            <div class="homeSpot"></div>
-            <div class="homeSpot"></div>
-        </div>
-
-        <div class="base greenBase">
-            <div class="homeSpot"></div>
-            <div class="homeSpot"></div>
-            <div class="homeSpot"></div>
-            <div class="homeSpot"></div>
-        </div>
-
-        <div class="base yellowBase">
-            <div class="homeSpot"></div>
-            <div class="homeSpot"></div>
-            <div class="homeSpot"></div>
-            <div class="homeSpot"></div>
-        </div>
-
-        <div class="base blueBase">
-            <div class="homeSpot"></div>
-            <div class="homeSpot"></div>
-            <div class="homeSpot"></div>
-            <div class="homeSpot"></div>
-        </div>
-
-        <div class="center"></div>
-
+    <div class="level">
+      Level <span id="level">1</span>
     </div>
 
-    <div class="controls">
-
-        <div class="dice" id="dice">
-            ⚀
-        </div>
-
-        <button
-            class="rollBtn"
-            id="rollBtn"
-            onclick="rollDice()">
-            🎲 ROLL
-        </button>
-
+    <div class="progress">
+      <div
+        class="progressBar"
+        id="progressBar">
+      </div>
     </div>
 
-    <div class="bottom">
+  </div>
 
-        <button
-            class="resetBtn"
-            onclick="newGame()">
-            🔄 New Game
-        </button>
 
+  <div
+    class="words"
+    id="words">
+  </div>
+
+
+  <div
+    class="answer"
+    id="answer">
+  </div>
+
+
+  <div class="letters">
+
+    <div class="centerCircle"></div>
+
+    <div id="letters"></div>
+
+  </div>
+
+
+  <div class="buttons">
+
+    <button
+      class="action"
+      onclick="clearAnswer()">
+      ⌫ Clear
+    </button>
+
+    <button
+      class="action"
+      onclick="shuffleLetters()">
+      🔀 Shuffle
+    </button>
+
+    <button
+      class="action hint"
+      onclick="useHint()">
+      💡 Hint
+    </button>
+
+  </div>
+
+
+  <div
+    class="message"
+    id="message">
+  </div>
+
+
+  <div class="stats">
+
+    <div class="stat">
+      🔥 Streak:
+      <span id="streak">0</span>
     </div>
 
-    <div class="help">
-        Roll 6 to bring a token out of base.<br>
-        Tap a highlighted token to move it.
+    <div class="stat">
+      ⭐ Found:
+      <span id="found">0</span>
     </div>
+
+  </div>
 
 </div>
 
 
-<div class="overlay" id="overlay">
+<!-- LEVEL COMPLETE -->
 
-    <div class="popup">
+<div
+  class="overlay"
+  id="levelOverlay">
 
-        <div class="popupEmoji" id="popupEmoji">
-            🏆
-        </div>
+  <div class="popup">
 
-        <h2 id="popupTitle">
-            You Win!
-        </h2>
-
-        <p id="popupText"></p>
-
-        <button
-            class="playAgain"
-            onclick="newGame()">
-            Play Again
-        </button>
-
+    <div class="popupIcon">
+      🎉
     </div>
+
+    <h2>
+      Level Complete!
+    </h2>
+
+    <p id="levelReward"></p>
+
+    <button onclick="nextLevel()">
+      Continue →
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- GAME COMPLETE -->
+
+<div
+  class="overlay"
+  id="gameOverlay">
+
+  <div class="popup">
+
+    <div class="popupIcon">
+      🏆
+    </div>
+
+    <h2>
+      Amazing!
+    </h2>
+
+    <p>
+      You completed all 20 prototype levels.
+    </p>
+
+    <button onclick="restartGame()">
+      Play Again
+    </button>
+
+  </div>
 
 </div>
 
 
 <script>
 
-/* =====================================================
-   CELEDIT LUDO
-   PLAYER: BLUE
-   COMPUTER: RED
-===================================================== */
+/*
+=================================================
+ CELEDIT WORDS
+ Original word puzzle prototype
+=================================================
+*/
 
 
-/* -----------------------------------------------------
-   BOARD
------------------------------------------------------ */
+/* ===============================
+   LEVEL DATA
+================================ */
 
-const board =
-    document.getElementById("board");
+const levels = [
 
-const turnText =
-    document.getElementById("turnText");
+  {
+    letters:"CAT",
+    words:["CAT","ACT","AT"]
+  },
 
-const diceElement =
-    document.getElementById("dice");
+  {
+    letters:"DOG",
+    words:["DOG","GOD","DO"]
+  },
 
-const rollBtn =
-    document.getElementById("rollBtn");
+  {
+    letters:"EARN",
+    words:["EARN","NEAR","RAN","EAR"]
+  },
+
+  {
+    letters:"GAME",
+    words:["GAME","MEGA","AGE","GAME"]
+  },
+
+  {
+    letters:"STAR",
+    words:["STAR","ARTS","RATS","ART","RAT"]
+  },
+
+  {
+    letters:"NOTE",
+    words:["NOTE","TONE","ON","NOT","ONE"]
+  },
+
+  {
+    letters:"COLD",
+    words:["COLD","COD","OLD","COL"]
+  },
+
+  {
+    letters:"FIRE",
+    words:["FIRE","RIFE","IRE","FIR"]
+  },
+
+  {
+    letters:"TIME",
+    words:["TIME","MITE","ITEM","TIE"]
+  },
+
+  {
+    letters:"READ",
+    words:["READ","DEAR","DARE","EAR","RED"]
+  },
+
+  {
+    letters:"BREAD",
+    words:["BREAD","BEARD","BARE","BEAR","DEAR"]
+  },
+
+  {
+    letters:"STONE",
+    words:["STONE","NOTES","TONES","NOTE","TONE"]
+  },
+
+  {
+    letters:"HEART",
+    words:["HEART","EARTH","HEAR","HEAT","RATE"]
+  },
+
+  {
+    letters:"PLANT",
+    words:["PLANT","PLANT","PLAN","PANT","TAP"]
+  },
+
+  {
+    letters:"HOUSE",
+    words:["HOUSE","SHOE","HOSE","USE","SHE"]
+  },
+
+  {
+    letters:"LIGHT",
+    words:["LIGHT","HIL T","LIT","HIT","GILT"]
+  },
+
+  {
+    letters:"WATER",
+    words:["WATER","WRITE","RATE","WEAR","TEAR"]
+  },
+
+  {
+    letters:"MONEY",
+    words:["MONEY","MANY","OMEN","YEN"]
+  },
+
+  {
+    letters:"SMILE",
+    words:["SMILE","LIMES","MILES","SLIME","LIME"]
+  },
+
+  {
+    letters:"WORLD",
+    words:["WORLD","WORD","LORD","LOW","OLD"]
+  }
+
+];
 
 
-/* -----------------------------------------------------
-   15 x 15 GRID
------------------------------------------------------ */
+/*
+=================================================
+ STATE
+=================================================
+*/
 
-const cells = [];
+let currentLevel =
+  Number(
+    localStorage.getItem(
+      "celeditLevel"
+    )
+  ) || 1;
 
-for(let row=0; row<15; row++){
 
-    for(let col=0; col<15; col++){
+let coins =
+  Number(
+    localStorage.getItem(
+      "celeditCoins"
+    )
+  ) || 100;
 
-        const cell =
-            document.createElement("div");
 
-        cell.className="cell";
+let streak =
+  Number(
+    localStorage.getItem(
+      "celeditStreak"
+    )
+  ) || 0;
 
-        cell.dataset.row=row;
-        cell.dataset.col=col;
 
-        /*
-          Only the playable cross is shown.
-        */
+let foundCount = 0;
 
-        if(
-            row>=6 &&
-            row<=8 ||
-            col>=6 &&
-            col<=8
-        ){
+let currentAnswer = "";
 
-            cell.classList.add("pathCell");
+let currentLetters = [];
 
-        }else{
+let foundWords = [];
 
-            cell.style.background="transparent";
-            cell.style.border="0";
 
-        }
+/*
+=================================================
+ ELEMENTS
+=================================================
+*/
 
-        board.insertBefore(
-            cell,
-            board.querySelector(".base")
-        );
+const levelElement =
+  document.getElementById("level");
 
-        cells.push(cell);
+const coinsElement =
+  document.getElementById("coins");
 
-    }
+const streakElement =
+  document.getElementById("streak");
+
+const foundElement =
+  document.getElementById("found");
+
+const wordsElement =
+  document.getElementById("words");
+
+const answerElement =
+  document.getElementById("answer");
+
+const lettersElement =
+  document.getElementById("letters");
+
+const messageElement =
+  document.getElementById("message");
+
+const progressBar =
+  document.getElementById("progressBar");
+
+
+/*
+=================================================
+ SAVE
+=================================================
+*/
+
+function save(){
+
+  localStorage.setItem(
+    "celeditLevel",
+    currentLevel
+  );
+
+  localStorage.setItem(
+    "celeditCoins",
+    coins
+  );
+
+  localStorage.setItem(
+    "celeditStreak",
+    streak
+  );
 
 }
 
 
-/* -----------------------------------------------------
-   REAL LUDO-STYLE 52 PATH
------------------------------------------------------ */
-
-const path = [
-
-    /* Top */
-
-    [6,1],
-    [6,2],
-    [6,3],
-    [6,4],
-    [6,5],
-
-    [5,6],
-    [4,6],
-    [3,6],
-    [2,6],
-    [1,6],
-
-    [0,6],
-
-    [0,7],
-
-    [0,8],
-
-    [1,8],
-    [2,8],
-    [3,8],
-    [4,8],
-    [5,8],
-
-    [6,9],
-    [6,10],
-    [6,11],
-    [6,12],
-    [6,13],
-
-    [6,14],
-
-    [7,14],
-
-    [8,14],
-
-    [8,13],
-    [8,12],
-    [8,11],
-    [8,10],
-    [8,9],
-
-    [9,8],
-    [10,8],
-    [11,8],
-    [12,8],
-    [13,8],
-
-    [14,8],
-
-    [14,7],
-
-    [14,6],
-
-    [13,6],
-    [12,6],
-    [11,6],
-    [10,6],
-    [9,6],
-
-    [8,5],
-    [8,4],
-    [8,3],
-    [8,2],
-    [8,1],
-
-    [8,0],
-
-    [7,0],
-
-    [6,0]
-
-];
-
-
 /*
-  The path above contains 56 visual points
-  around the cross. We use the first 52
-  as the main track.
+=================================================
+ LOAD LEVEL
+=================================================
 */
 
-const TRACK =
-    path.slice(0,52);
+function loadLevel(){
+
+  if(
+    currentLevel >
+    levels.length
+  ){
+
+    currentLevel =
+      levels.length;
+
+  }
 
 
-/* -----------------------------------------------------
-   COLOR START POSITIONS
------------------------------------------------------ */
-
-const PLAYER_START = 39;
-
-const CPU_START = 0;
+  const level =
+    levels[
+      currentLevel-1
+    ];
 
 
-/* -----------------------------------------------------
-   HOME LANES
------------------------------------------------------ */
-
-const playerLane = [
-    [8,1],
-    [8,2],
-    [8,3],
-    [8,4],
-    [8,5],
-    [7,6]
-];
-
-const cpuLane = [
-    [1,6],
-    [2,6],
-    [3,6],
-    [4,6],
-    [5,6],
-    [6,7]
-];
+  levelElement.textContent =
+    currentLevel;
 
 
-/* -----------------------------------------------------
-   SAFE POSITIONS
------------------------------------------------------ */
-
-const safePositions = [
-    0,
-    8,
-    13,
-    21,
-    26,
-    34,
-    39,
-    47
-];
+  coinsElement.textContent =
+    coins;
 
 
-/* -----------------------------------------------------
-   TOKENS
------------------------------------------------------ */
-
-let player =
-    [-1,-1,-1,-1];
-
-let cpu =
-    [-1,-1,-1,-1];
+  streakElement.textContent =
+    streak;
 
 
-/*
-  Position meaning:
-
-  -1 = in base
-
-   0..51 = on main track
-
-   52..57 = home lane
-
-   58 = finished
-*/
+  foundWords =
+    [];
 
 
-let currentTurn="player";
-
-let diceValue=0;
-
-let gameOver=false;
-
-let rolling=false;
+  foundCount =
+    0;
 
 
-/* -----------------------------------------------------
-   HOME POSITIONS
------------------------------------------------------ */
-
-const playerHomes = [
-    [11.5,72],
-    [28.5,72],
-    [11.5,88],
-    [28.5,88]
-];
-
-const cpuHomes = [
-    [11.5,12],
-    [28.5,12],
-    [11.5,28],
-    [28.5,28]
-];
+  currentAnswer =
+    "";
 
 
-/* -----------------------------------------------------
-   CREATE START CELLS
------------------------------------------------------ */
+  /*
+    Remove accidental duplicate
+    words from the level.
+  */
 
-function stylePath(){
-
-    /*
-      Clear previous path styling.
-    */
-
-    cells.forEach(
-        c=>{
-            c.classList.remove(
-                "redLane",
-                "greenLane",
-                "yellowLane",
-                "blueLane",
-                "safe",
-                "start-red",
-                "start-blue"
-            );
-        }
+  level.words =
+    [...new Set(level.words)]
+    .filter(
+      word =>
+        word &&
+        !word.includes(" ")
+    )
+    .map(
+      word =>
+        word.toUpperCase()
     );
 
 
-    /*
-      Main track.
-    */
+  currentLetters =
+    level.letters
+      .split("")
+      .map(
+        (letter,index) => ({
+          letter,
+          index,
+          used:false
+        })
+      );
 
-    TRACK.forEach(
-        (coord,index)=>{
 
-            const row=coord[0];
-            const col=coord[1];
+  drawWords();
 
-            const cell=
-                cells.find(
-                    c =>
-                    Number(c.dataset.row)===row &&
-                    Number(c.dataset.col)===col
+  drawLetters();
+
+  updateAnswer();
+
+  updateProgress();
+
+  messageElement.textContent =
+    "";
+
+}
+
+
+/*
+=================================================
+ DRAW WORD SLOTS
+=================================================
+*/
+
+function drawWords(){
+
+  wordsElement.innerHTML =
+    "";
+
+
+  const level =
+    levels[
+      currentLevel-1
+    ];
+
+
+  const groups =
+    {};
+
+
+  level.words.forEach(
+    word => {
+
+      const length =
+        word.length;
+
+
+      if(!groups[length])
+        groups[length] = [];
+
+
+      groups[length].push(
+        word
+      );
+
+    }
+  );
+
+
+  Object.keys(groups)
+    .sort(
+      (a,b) =>
+        Number(a)-Number(b)
+    )
+    .forEach(
+      length => {
+
+        const row =
+          document.createElement(
+            "div"
+          );
+
+
+        row.className =
+          "wordRow";
+
+
+        groups[length]
+          .forEach(
+            word => {
+
+              /*
+                Each word gets its
+                own small row container.
+              */
+
+              const container =
+                document.createElement(
+                  "div"
                 );
 
-            if(cell){
+              container.style.display =
+                "flex";
 
-                cell.classList.add("pathCell");
+              container.style.gap =
+                "3px";
+
+              container.style.margin =
+                "0 5px";
+
+
+              for(
+                let i=0;
+                i<word.length;
+                i++
+              ){
+
+                const slot =
+                  document.createElement(
+                    "div"
+                  );
+
+
+                slot.className =
+                  "slot";
+
 
                 if(
-                    safePositions.includes(index)
+                  foundWords.includes(
+                    word
+                  )
                 ){
-                    cell.classList.add("safe");
+
+                  slot.textContent =
+                    word[i];
+
+                  slot.classList.add(
+                    "found"
+                  );
+
                 }
+
+
+                container.appendChild(
+                  slot
+                );
+
+              }
+
+
+              row.appendChild(
+                container
+              );
 
             }
-
-        }
-    );
+          );
 
 
-    /*
-      Player start.
-    */
-
-    const pStart =
-        TRACK[PLAYER_START];
-
-    const pCell =
-        cells.find(
-            c =>
-            Number(c.dataset.row)===pStart[0] &&
-            Number(c.dataset.col)===pStart[1]
+        wordsElement.appendChild(
+          row
         );
 
-    if(pCell)
-        pCell.classList.add("start-blue");
-
-
-    /*
-      CPU start.
-    */
-
-    const cStart =
-        TRACK[CPU_START];
-
-    const cCell =
-        cells.find(
-            c =>
-            Number(c.dataset.row)===cStart[0] &&
-            Number(c.dataset.col)===cStart[1]
-        );
-
-    if(cCell)
-        cCell.classList.add("start-red");
-
-
-    /*
-      Player home lane.
-    */
-
-    playerLane.forEach(
-        coord=>{
-
-            const cell=
-                cells.find(
-                    c =>
-                    Number(c.dataset.row)===coord[0] &&
-                    Number(c.dataset.col)===coord[1]
-                );
-
-            if(cell)
-                cell.classList.add("blueLane");
-
-        }
-    );
-
-
-    /*
-      CPU home lane.
-    */
-
-    cpuLane.forEach(
-        coord=>{
-
-            const cell=
-                cells.find(
-                    c =>
-                    Number(c.dataset.row)===coord[0] &&
-                    Number(c.dataset.col)===coord[1]
-                );
-
-            if(cell)
-                cell.classList.add("redLane");
-
-        }
+      }
     );
 
 }
 
 
-/* -----------------------------------------------------
-   POSITION TOKEN
------------------------------------------------------ */
+/*
+=================================================
+ DRAW LETTERS
+=================================================
+*/
 
-function positionToken(
-    token,
-    position,
-    isPlayer,
-    index
-){
+function drawLetters(){
 
-    /*
-      HOME
-    */
-
-    if(position===-1){
-
-        const home =
-            isPlayer
-            ? playerHomes[index]
-            : cpuHomes[index];
-
-        token.style.left =
-            home[0] + "%";
-
-        token.style.top =
-            home[1] + "%";
-
-        return;
-
-    }
+  lettersElement.innerHTML =
+    "";
 
 
-    /*
-      FINISHED
-    */
-
-    if(position>=58){
-
-        /*
-          Put finished tokens around
-          their center side.
-        */
-
-        const home =
-            isPlayer
-            ? [45 + index*3, 52]
-            : [45 + index*3, 48];
-
-        token.style.left =
-            home[0] + "%";
-
-        token.style.top =
-            home[1] + "%";
-
-        return;
-
-    }
+  const total =
+    currentLetters.length;
 
 
-    /*
-      HOME LANE
-    */
-
-    if(position>=52){
-
-        const laneIndex =
-            position-52;
-
-        const lane =
-            isPlayer
-            ? playerLane[laneIndex]
-            : cpuLane[laneIndex];
-
-        token.style.left =
-            ((lane[1]+.5)/15*100) + "%";
-
-        token.style.top =
-            ((lane[0]+.5)/15*100) + "%";
-
-        return;
-
-    }
+  const radius =
+    total <= 4
+      ? 92
+      : total <= 5
+        ? 101
+        : 108;
 
 
-    /*
-      MAIN TRACK
-    */
+  currentLetters.forEach(
+    (item,index) => {
 
-    const start =
-        isPlayer
-        ? PLAYER_START
-        : CPU_START;
-
-    const global =
-        (start + position) % TRACK.length;
-
-    const coord =
-        TRACK[global];
-
-    token.style.left =
-        ((coord[1]+.5)/15*100) + "%";
-
-    token.style.top =
-        ((coord[0]+.5)/15*100) + "%";
-
-}
-
-
-/* -----------------------------------------------------
-   CREATE TOKENS
------------------------------------------------------ */
-
-function renderTokens(){
-
-    board
-        .querySelectorAll(".token")
-        .forEach(
-            token=>token.remove()
+      const button =
+        document.createElement(
+          "button"
         );
 
 
-    player.forEach(
-        (position,index)=>{
-
-            createToken(
-                position,
-                true,
-                index
-            );
-
-        }
-    );
+      button.className =
+        "letter";
 
 
-    cpu.forEach(
-        (position,index)=>{
-
-            createToken(
-                position,
-                false,
-                index
-            );
-
-        }
-    );
-
-}
+      button.textContent =
+        item.letter;
 
 
-/* -----------------------------------------------------
-   CREATE ONE TOKEN
------------------------------------------------------ */
+      if(item.used){
 
-function createToken(
-    position,
-    isPlayer,
-    index
-){
-
-    const token =
-        document.createElement("div");
-
-    token.className =
-        "token " +
-        (isPlayer ? "blue" : "red");
-
-
-    positionToken(
-        token,
-        position,
-        isPlayer,
-        index
-    );
-
-
-    /*
-      Player can select movable token.
-    */
-
-    if(
-        isPlayer &&
-        currentTurn==="player" &&
-        diceValue>0 &&
-        canMove(
-            position,
-            diceValue
-        )
-    ){
-
-        token.classList.add(
-            "movable"
+        button.classList.add(
+          "used"
         );
 
-        token.onclick =
-            ()=>{
-                movePlayer(index);
-            };
+      }
+
+
+      const angle =
+        (
+          index / total
+        ) *
+        Math.PI * 2
+        -
+        Math.PI/2;
+
+
+      const x =
+        50 +
+        Math.cos(angle) *
+        (radius/2.7);
+
+
+      const y =
+        50 +
+        Math.sin(angle) *
+        (radius/2.7);
+
+
+      button.style.left =
+        x + "%";
+
+
+      button.style.top =
+        y + "%";
+
+
+      button.onclick =
+        () =>
+          chooseLetter(
+            index
+          );
+
+
+      lettersElement.appendChild(
+        button
+      );
 
     }
-
-
-    board.appendChild(token);
+  );
 
 }
 
 
-/* -----------------------------------------------------
-   CAN MOVE
------------------------------------------------------ */
+/*
+=================================================
+ CHOOSE LETTER
+=================================================
+*/
 
-function canMove(
-    position,
-    amount
-){
+function chooseLetter(index){
 
-    if(position===58)
-        return false;
-
-
-    /*
-      Base token requires 6.
-    */
-
-    if(position===-1)
-        return amount===6;
+  if(
+    currentLetters[index].used
+  )
+    return;
 
 
-    /*
-      Main track.
-    */
-
-    if(position<52){
-
-        return true;
-
-    }
+  currentLetters[index].used =
+    true;
 
 
-    /*
-      Home lane.
-    */
-
-    return position + amount <= 58;
-
-}
+  currentAnswer +=
+    currentLetters[index].letter;
 
 
-/* -----------------------------------------------------
-   ROLL DICE
------------------------------------------------------ */
+  updateAnswer();
 
-function rollDice(){
+  drawLetters();
 
-    if(
-        gameOver ||
-        rolling ||
-        currentTurn!=="player"
+
+  /*
+    Automatically check once
+    the answer matches a word.
+  */
+
+  const level =
+    levels[
+      currentLevel-1
+    ];
+
+
+  if(
+    level.words.includes(
+      currentAnswer
     )
-        return;
+  ){
 
+    submitWord();
 
-    rolling=true;
-
-    rollBtn.disabled=true;
-
-
-    let count=0;
-
-
-    const animation =
-        setInterval(
-            ()=>{
-
-                const value =
-                    Math.floor(
-                        Math.random()*6
-                    )+1;
-
-                diceElement.textContent =
-                    getDiceFace(value);
-
-                count++;
-
-
-                if(count>=10){
-
-                    clearInterval(
-                        animation
-                    );
-
-                    diceValue =
-                        Math.floor(
-                            Math.random()*6
-                        )+1;
-
-
-                    diceElement.textContent =
-                        getDiceFace(
-                            diceValue
-                        );
-
-
-                    rolling=false;
-
-                    playerRolled();
-
-                }
-
-            },
-            65
-        );
+  }
 
 }
 
 
-/* -----------------------------------------------------
-   DICE FACE
------------------------------------------------------ */
+/*
+=================================================
+ UPDATE ANSWER
+=================================================
+*/
 
-function getDiceFace(value){
+function updateAnswer(){
 
-    return [
-        "⚀",
-        "⚁",
-        "⚂",
-        "⚃",
-        "⚄",
-        "⚅"
-    ][value-1];
+  answerElement.textContent =
+    currentAnswer ||
+    " ";
 
 }
 
 
-/* -----------------------------------------------------
-   PLAYER ROLL RESULT
------------------------------------------------------ */
+/*
+=================================================
+ SUBMIT WORD
+=================================================
+*/
 
-function playerRolled(){
+function submitWord(){
 
-    turnText.textContent =
-        "You rolled " +
-        diceValue +
-        " 🎲";
-
-
-    const movable =
-        player.some(
-            p =>
-            canMove(
-                p,
-                diceValue
-            )
-        );
+  const word =
+    currentAnswer.toUpperCase();
 
 
-    if(!movable){
+  const level =
+    levels[
+      currentLevel-1
+    ];
 
-        turnText.textContent =
-            "No legal move.";
+
+  if(
+    !level.words.includes(
+      word
+    )
+  ){
+
+    messageElement.textContent =
+      "❌ Not a word for this level";
+
+    shakeAnswer();
+
+    return;
+
+  }
 
 
-        if(diceValue===6){
+  if(
+    foundWords.includes(
+      word
+    )
+  ){
 
-            setTimeout(
-                ()=>{
-                    diceValue=0;
-    
+    messageElement.textContent =
+      "Already found 👀";
+
+    clearAnswer();
+
+    return;
+
+  }
+
+
+  foundWords.push(
+    word
+  );
+
+
+  foundCount =
+    foundWords.length;
+
+
+  /*
+    Reward.
+  */
+
+  const reward =
+    word.length * 3;
+
+
+  coins +=
+    reward;
+
+
+  streak++;
+
+
+  messageElement.textContent =
+    `✅ ${word}  +${reward} coins`;
+
+
+  save();
+
+
+  drawWords();
+
+  updateStats();
+
+  updateProgress();
+
+
+  clearAnswer();
+
+
+  /*
+    Level complete.
+  */
+
+  if(
+    foundWords.length ===
+    level.words.length
+  ){
+
+    setTimeout(
+      completeLevel,
+      650
+    );
+
+  }
+
+}
+
+
+/*
+=================================================
+ CLEAR
+=================================================
+*/
+
+function clearAnswer(){
+
+  currentAnswer =
+    "";
+
+
+  currentLetters.forEach(
+    item =>
+      item.used = false
+  );
+
+
+  updateAnswer();
+
+  drawLetters();
+
+}
+
+
+/*
+=================================================
+ SHUFFLE
+=================================================
+*/
+
+function shuffleLetters(){
+
+  for(
+    let i =
+      currentLetters.length-1;
+    i>0;
+    i--
+  ){
+
+    const j =
+      Math.floor(
+        Math.random() *
+        (i+1)
+      );
+
+
+    [
+      currentLetters[i],
+      currentLetters[j]
+    ] =
+    [
+      currentLetters[j],
+      currentLetters[i]
+    ];
+
+  }
+
+
+  drawLetters();
+
+}
+
+
+/*
+=================================================
+ HINT
+=================================================
+*/
+
+function useHint(){
+
+  if(coins < 10){
+
+    messageElement.textContent =
+      "You need 10 coins for a hint.";
+
+    return;
+
+  }
+
+
+  const level =
+    levels[
+      currentLevel-1
+    ];
+
+
+  const remaining =
+    level.words.filter(
+      word =>
+        !foundWords.includes(
+          word
+        )
+    );
+
+
+  if(!remaining.length)
+    return;
+
+
+  const word =
+    remaining[
+      Math.floor(
+        Math.random() *
+        remaining.length
+      )
+    ];
+
+
+  coins -=
+    10;
+
+
+  /*
+    Reveal first letter
+    temporarily.
+  */
+
+  messageElement.textContent =
+    `💡 Try a word starting with "${word[0]}"`;
+
+  coinsElement.textContent =
+    coins;
+
+
+  save();
+
+}
+
+
+/*
+=================================================
+ PROGRESS
+=================================================
+*/
+
+function updateProgress(){
+
+  const level =
+    levels[
+      currentLevel-1
+    ];
+
+
+  const percentage =
+    (
+      foundWords.length /
+      level.words.length
+    ) * 100;
+
+
+  progressBar.style.width =
+    percentage + "%";
+
+}
+
+
+/*
+=================================================
+ STATS
+=================================================
+*/
+
+function updateStats(){
+
+  coinsElement.textContent =
+    coins;
+
+  streakElement.textContent =
+    streak;
+
+  foundElement.textContent =
+    foundCount;
+
+}
+
+
+/*
+=================================================
+ SHAKE
+=================================================
+*/
+
+function shakeAnswer(){
+
+  answerElement.animate(
+    [
+      {transform:"translateX(-7px)"},
+      {transform:"translateX(7px)"},
+      {transform:"translateX(-5px)"},
+      {transform:"translateX(5px)"},
+      {transform:"translateX(0)"}
+    ],
+    {
+      duration:300
+    }
+  );
+
+}
+
+
+/*
+=================================================
+ LEVEL COMPLETE
+=================================================
+*/
+
+function completeLevel(){
+
+  const reward =
+    25 +
+    currentLevel * 5;
+
+
+  coins +=
+    reward;
+
+
+  save();
+
+
+  document.getElementById(
+    "levelReward"
+  ).textContent =
+    `You earned ${reward} bonus coins!`;
+
+
+  document.getElementById(
+    "levelOverlay"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+/*
+=================================================
+ NEXT LEVEL
+=================================================
+*/
+
+function nextLevel(){
+
+  document.getElementById(
+    "levelOverlay"
+  ).classList.remove(
+    "show"
+  );
+
+
+  if(
+    currentLevel >=
+    levels.length
+  ){
+
+    document.getElementById(
+      "gameOverlay"
+    ).classList.add(
+      "show"
+    );
+
+    return;
+
+  }
+
+
+  currentLevel++;
+
+
+  save();
+
+  loadLevel();
+
+}
+
+
+/*
+=================================================
+ RESTART
+=================================================
+*/
+
+function restartGame(){
+
+  currentLevel =
+    1;
+
+  coins =
+    100;
+
+  streak =
+    0;
+
+
+  save();
+
+
+  document.getElementById(
+    "gameOverlay"
+  ).classList.remove(
+    "show"
+  );
+
+
+  loadLevel();
+
+}
+
+
+/*
+=================================================
+ INITIALIZE
+=================================================
+*/
+
+loadLevel();
+
+</script>
+
+</body>
+    </html>
