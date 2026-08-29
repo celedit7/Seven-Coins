@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
 <title>Parking Jam</title>
 
 <style>
@@ -14,32 +16,31 @@
 }
 
 body{
-  min-height:100vh;
-  background:
-    radial-gradient(circle at top,#26365b,#10172b 45%,#060912);
   font-family:Arial,sans-serif;
-  color:white;
+  min-height:100vh;
+  background:#10131b;
+  color:#fff;
 }
 
 button{
   font:inherit;
+  cursor:pointer;
 }
 
 .app{
   width:100%;
-  max-width:500px;
+  max-width:520px;
   margin:auto;
-  padding:16px;
-  min-height:100vh;
+  padding:15px;
 }
 
 /* HEADER */
 
 .header{
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  margin-bottom:18px;
+  align-items:center;
+  margin-bottom:14px;
 }
 
 .logo{
@@ -47,213 +48,261 @@ button{
   font-weight:900;
 }
 
-.coins{
-  background:rgba(255,255,255,.1);
-  border:1px solid rgba(255,255,255,.15);
-  border-radius:13px;
+.coin-box{
+  background:#202633;
   padding:9px 13px;
+  border-radius:14px;
 }
 
-/* LEVEL */
+/* INFO */
 
-.level-row{
+.info{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:9px;
+  margin-bottom:10px;
 }
 
 .level{
-  font-size:25px;
+  font-size:24px;
   font-weight:900;
 }
 
 .moves{
-  color:#aab5ca;
-  font-size:13px;
+  color:#aab2c2;
 }
 
-.progress-bg{
-  height:6px;
-  background:rgba(255,255,255,.08);
-  border-radius:20px;
-  overflow:hidden;
-  margin-bottom:18px;
-}
+/* BOARD */
 
-.progress{
-  height:100%;
-  width:0;
-  background:white;
-  transition:.3s;
-}
-
-/* PARKING LOT */
-
-.parking-wrap{
-  width:100%;
+.board-wrap{
   display:flex;
   justify-content:center;
 }
 
-.parking{
+.board{
   position:relative;
-  width:min(92vw,430px);
-  aspect-ratio:1/1.25;
+
+  width:min(92vw,440px);
+  aspect-ratio:4/5;
 
   background:
     linear-gradient(90deg,
-      rgba(255,255,255,.025) 1px,
-      transparent 1px),
+      rgba(255,255,255,.045) 2px,
+      transparent 2px),
     linear-gradient(
-      rgba(255,255,255,.025) 1px,
-      transparent 1px),
-    #252b36;
+      rgba(255,255,255,.045) 2px,
+      transparent 2px),
+    #303640;
 
-  background-size:25% 20%;
+  background-size:20% 20%;
 
-  border:7px solid #4d5663;
-  border-radius:18px;
-
-  box-shadow:
-    inset 0 0 35px rgba(0,0,0,.5),
-    0 20px 40px rgba(0,0,0,.45);
+  border:8px solid #565e68;
+  border-radius:20px;
 
   overflow:hidden;
+
+  box-shadow:
+    inset 0 0 30px #111,
+    0 18px 40px rgba(0,0,0,.45);
 }
 
-/* PARKING LINES */
+/* PARKING MARKINGS */
 
-.slot{
+.line{
   position:absolute;
-  border:2px dashed rgba(255,255,255,.22);
-  border-radius:6px;
+  border:2px dashed rgba(255,255,255,.18);
+}
+
+.l1{
+  left:20%;
+  top:0;
+  height:100%;
+}
+
+.l2{
+  left:40%;
+  top:0;
+  height:100%;
+}
+
+.l3{
+  left:60%;
+  top:0;
+  height:100%;
+}
+
+.l4{
+  left:80%;
+  top:0;
+  height:100%;
 }
 
 /* EXIT */
 
 .exit{
   position:absolute;
-  left:0;
-  top:43%;
-  width:8%;
-  height:14%;
-  background:#36d477;
-  border-radius:0 10px 10px 0;
-  z-index:2;
+  left:-2px;
+  top:42%;
+  width:55px;
+  height:16%;
+
+  background:#24c77a;
+  color:#07150e;
+
+  border-radius:0 13px 13px 0;
+
   display:flex;
   align-items:center;
   justify-content:center;
-  writing-mode:vertical-rl;
-  font-size:10px;
-  font-weight:bold;
+
+  font-weight:900;
+  font-size:12px;
+
+  z-index:2;
 }
 
-/* CAR */
+/* =========================
+   CAR
+========================= */
 
 .car{
   position:absolute;
-  border-radius:10px;
-  border:2px solid rgba(255,255,255,.6);
+
+  border-radius:14px;
+
+  border:3px solid rgba(255,255,255,.75);
 
   box-shadow:
-    0 8px 12px rgba(0,0,0,.45),
-    inset 4px 0 8px rgba(255,255,255,.12);
-
-  cursor:pointer;
-
-  transition:
-    left .38s ease,
-    top .38s ease,
-    transform .2s ease;
+    0 8px 10px rgba(0,0,0,.45),
+    inset 0 0 10px rgba(255,255,255,.18);
 
   z-index:10;
+
+  transition:
+    left .45s ease,
+    top .45s ease;
+
+  user-select:none;
 }
 
-.car:active{
-  transform:scale(.96);
-}
-
-.car::before{
-  content:"";
-  position:absolute;
-  background:rgba(150,220,255,.75);
-  border:1px solid rgba(255,255,255,.45);
-  border-radius:4px;
-}
-
-.car::after{
-  content:"";
-  position:absolute;
-  width:9px;
-  height:9px;
-  background:#111;
-  border-radius:50%;
-  box-shadow:0 0 0 2px rgba(255,255,255,.15);
-}
-
-/* HORIZONTAL */
+/* horizontal car */
 
 .car.horizontal{
-  width:23%;
+  width:21%;
   height:12%;
 }
 
-.car.horizontal::before{
-  left:22%;
-  right:22%;
-  top:12%;
-  height:76%;
-}
-
-.car.horizontal::after{
-  right:8%;
-  bottom:8%;
-}
-
-/* VERTICAL */
+/* vertical car */
 
 .car.vertical{
   width:12%;
-  height:23%;
+  height:21%;
 }
 
-.car.vertical::before{
-  top:22%;
-  bottom:22%;
-  left:12%;
-  width:76%;
+/* windshield */
+
+.car.horizontal .window{
+  position:absolute;
+  left:27%;
+  top:13%;
+  width:46%;
+  height:74%;
+
+  background:#b9e4ef;
+  border-radius:7px;
+
+  border:2px solid rgba(0,0,0,.25);
 }
 
-.car.vertical::after{
+.car.vertical .window{
+  position:absolute;
+  left:13%;
+  top:27%;
+  width:74%;
+  height:46%;
+
+  background:#b9e4ef;
+  border-radius:7px;
+
+  border:2px solid rgba(0,0,0,.25);
+}
+
+/* wheels */
+
+.wheel{
+  position:absolute;
+
+  width:17%;
+  height:28%;
+
+  background:#111;
+  border-radius:50%;
+}
+
+.horizontal .wheel:nth-child(2){
+  left:8%;
+  top:-13%;
+}
+
+.horizontal .wheel:nth-child(3){
   right:8%;
+  top:-13%;
+}
+
+.horizontal .wheel:nth-child(4){
+  left:8%;
+  bottom:-13%;
+}
+
+.horizontal .wheel:nth-child(5){
+  right:8%;
+  bottom:-13%;
+}
+
+.vertical .wheel:nth-child(2){
+  left:-13%;
+  top:8%;
+}
+
+.vertical .wheel:nth-child(3){
+  right:-13%;
+  top:8%;
+}
+
+.vertical .wheel:nth-child(4){
+  left:-13%;
+  bottom:8%;
+}
+
+.vertical .wheel:nth-child(5){
+  right:-13%;
   bottom:8%;
 }
 
 /* COLORS */
 
 .red{
-  background:#e84855;
+  background:#e74c3c;
 }
 
 .blue{
-  background:#3987e8;
-}
-
-.green{
-  background:#3bbf78;
+  background:#287be8;
 }
 
 .yellow{
-  background:#e9b82e;
+  background:#f1c40f;
+}
+
+.green{
+  background:#2ecc71;
 }
 
 .purple{
-  background:#9b59d0;
+  background:#9b59b6;
 }
 
 .orange{
-  background:#ed8138;
+  background:#e67e22;
 }
 
 /* CONTROLS */
@@ -262,125 +311,86 @@ button{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:9px;
-  margin-top:18px;
+
+  margin-top:15px;
 }
 
 .control{
-  border:1px solid rgba(255,255,255,.13);
-  border-radius:13px;
-  background:rgba(255,255,255,.09);
+  border:0;
+  background:#202633;
   color:white;
+
+  border-radius:13px;
+
   padding:13px 5px;
+
   font-weight:bold;
 }
 
-.level-button{
-  width:100%;
-  margin-top:10px;
-  padding:14px;
-  border-radius:13px;
-  border:1px solid rgba(255,255,255,.13);
-  background:rgba(255,255,255,.09);
-  color:white;
-  font-weight:bold;
-}
-
-/* INSTRUCTIONS */
-
-.tip{
-  text-align:center;
-  color:#8995ad;
-  font-size:12px;
-  line-height:1.5;
-  margin-top:13px;
+.control:active{
+  transform:scale(.96);
 }
 
 /* LEVEL SELECT */
 
-.level-screen{
-  display:none;
-}
+.level-btn{
+  width:100%;
+  margin-top:10px;
 
-.level-screen.active{
-  display:block;
-}
+  padding:14px;
 
-.game-screen.hidden{
-  display:none;
-}
-
-.level-header{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  margin-bottom:22px;
-}
-
-.back{
   border:0;
-  border-radius:12px;
-  padding:10px 14px;
-  background:rgba(255,255,255,.1);
-  color:white;
+  border-radius:13px;
+
+  background:#fff;
+  color:#111;
+
+  font-weight:900;
 }
 
-.level-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:9px;
-}
+/* MESSAGE */
 
-.level-card{
-  min-height:70px;
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:14px;
-  background:rgba(255,255,255,.07);
-  color:white;
-}
+.message{
+  text-align:center;
 
-.level-card.locked{
-  opacity:.3;
-}
+  color:#8993a5;
 
-.level-card.current{
-  border-color:white;
-}
+  font-size:12px;
 
-.level-number{
-  font-size:19px;
-  font-weight:bold;
-}
-
-.stars{
-  font-size:11px;
-  margin-top:4px;
+  margin-top:12px;
 }
 
 /* POPUP */
 
-.overlay{
+.popup-bg{
   position:fixed;
   inset:0;
+
+  background:rgba(0,0,0,.78);
+
   display:none;
   align-items:center;
   justify-content:center;
+
   padding:20px;
-  background:rgba(0,0,0,.78);
-  backdrop-filter:blur(6px);
+
   z-index:100;
 }
 
-.overlay.show{
+.popup-bg.show{
   display:flex;
 }
 
 .popup{
   width:100%;
-  max-width:340px;
-  background:#161e31;
-  border:1px solid rgba(255,255,255,.15);
-  border-radius:24px;
-  padding:26px;
+  max-width:350px;
+
+  background:#1b2230;
+
+  border-radius:23px;
+
+  padding:25px;
+
   text-align:center;
 }
 
@@ -393,24 +403,97 @@ button{
 }
 
 .popup p{
-  color:#aab5ca;
+  color:#aeb6c5;
   font-size:14px;
   line-height:1.5;
 }
 
 .popup button{
   width:100%;
-  padding:13px;
+
   margin-top:10px;
+
+  padding:13px;
+
   border:0;
+
   border-radius:12px;
+
   background:white;
   color:#111;
+
   font-weight:bold;
 }
 
-.popup .secondary{
-  background:rgba(255,255,255,.1);
+.popup .dark{
+  background:#30394b;
+  color:white;
+}
+
+/* LEVEL MENU */
+
+.level-menu{
+  position:fixed;
+  inset:0;
+
+  background:#10131b;
+
+  z-index:90;
+
+  display:none;
+
+  overflow:auto;
+
+  padding:20px;
+}
+
+.level-menu.show{
+  display:block;
+}
+
+.level-menu h2{
+  margin-bottom:18px;
+}
+
+.level-grid{
+  max-width:500px;
+  margin:auto;
+
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+
+  gap:9px;
+}
+
+.level-item{
+  border:1px solid #343c4b;
+
+  background:#202633;
+
+  color:white;
+
+  min-height:65px;
+
+  border-radius:13px;
+}
+
+.level-item.locked{
+  opacity:.3;
+}
+
+.level-item.current{
+  border:2px solid white;
+}
+
+.back{
+  margin-bottom:20px;
+
+  padding:10px 15px;
+
+  border:0;
+  border-radius:11px;
+
+  background:#202633;
   color:white;
 }
 
@@ -418,19 +501,27 @@ button{
 
 .toast{
   position:fixed;
+
   left:50%;
   bottom:25px;
+
   transform:translate(-50%,20px);
-  opacity:0;
+
   background:white;
   color:#111;
-  border-radius:30px;
+
   padding:11px 18px;
+
+  border-radius:30px;
+
   font-size:13px;
   font-weight:bold;
+
+  opacity:0;
+
   transition:.25s;
+
   z-index:200;
-  pointer-events:none;
 }
 
 .toast.show{
@@ -444,49 +535,40 @@ button{
 
 <div class="app">
 
-<!-- GAME -->
-
-<section id="gameScreen">
-
   <div class="header">
 
     <div class="logo">
       🚗 Parking Jam
     </div>
 
-    <div class="coins">
+    <div class="coin-box">
       🪙 <span id="coins">0</span>
     </div>
 
   </div>
 
 
-  <div class="level-row">
+  <div class="info">
 
     <div class="level">
       Level <span id="level">1</span>
     </div>
 
     <div class="moves">
-      Moves: <b id="moves">0</b>
+      Moves: <span id="moves">0</span>
     </div>
 
   </div>
 
 
-  <div class="progress-bg">
-    <div
-      class="progress"
-      id="progress">
-    </div>
-  </div>
+  <div class="board-wrap">
 
+    <div class="board" id="board">
 
-  <div class="parking-wrap">
-
-    <div
-      class="parking"
-      id="parking">
+      <div class="line l1"></div>
+      <div class="line l2"></div>
+      <div class="line l3"></div>
+      <div class="line l4"></div>
 
       <div class="exit">
         EXIT
@@ -499,77 +581,42 @@ button{
 
   <div class="controls">
 
-    <button
-      class="control"
-      onclick="undo()">
+    <button class="control"
+            onclick="undo()">
       ↩️ Undo
     </button>
 
-    <button
-      class="control"
-      onclick="hint()">
+    <button class="control"
+            onclick="hint()">
       💡 Hint
     </button>
 
-    <button
-      class="control"
-      onclick="resetLevel()">
+    <button class="control"
+            onclick="resetLevel()">
       🔄 Reset
     </button>
 
   </div>
 
 
-  <button
-    class="level-button"
-    onclick="openLevels()">
+  <button class="level-btn"
+          onclick="openLevelMenu()">
 
-    📋 Choose Level
+    📋 Level Select
 
   </button>
 
 
-  <div class="tip">
-    Tap a car to move it toward the exit.<br>
-    Clear the path and get every car out.
+  <div class="message">
+    Tap a car to move it toward the exit.
   </div>
-
-</section>
-
-
-<!-- LEVEL SELECT -->
-
-<section
-  id="levelScreen"
-  class="level-screen">
-
-  <div class="level-header">
-
-    <button
-      class="back"
-      onclick="closeLevels()">
-      ← Back
-    </button>
-
-    <h2>Levels</h2>
-
-  </div>
-
-  <div
-    class="level-grid"
-    id="levelGrid">
-  </div>
-
-</section>
 
 </div>
 
 
-<!-- WIN POPUP -->
+<!-- WIN -->
 
-<div
-  class="overlay"
-  id="winPopup">
+<div class="popup-bg" id="win">
 
   <div class="popup">
 
@@ -577,19 +624,18 @@ button{
       🎉
     </div>
 
-    <h2>Parking Cleared!</h2>
+    <h2>Level Complete!</h2>
 
     <p id="winText"></p>
 
     <button onclick="nextLevel()">
-      🚗 Next Level
+      Next Level 🚗
     </button>
 
-    <button
-      class="secondary"
-      onclick="showLevels()">
+    <button class="dark"
+            onclick="openLevelMenu()">
 
-      📋 Level Select
+      Level Select
 
     </button>
 
@@ -598,11 +644,9 @@ button{
 </div>
 
 
-<!-- LOCKED POPUP -->
+<!-- LOCKED -->
 
-<div
-  class="overlay"
-  id="lockedPopup">
+<div class="popup-bg" id="locked">
 
   <div class="popup">
 
@@ -610,10 +654,10 @@ button{
       🔒
     </div>
 
-    <h2>Level Locked</h2>
+    <h2>Locked</h2>
 
     <p>
-      Complete the previous level first.
+      Complete the previous level to unlock this level.
     </p>
 
     <button onclick="closeLocked()">
@@ -625,20 +669,30 @@ button{
 </div>
 
 
-<div
-  class="toast"
-  id="toast">
+<!-- LEVEL MENU -->
+
+<div class="level-menu" id="levelMenu">
+
+  <button class="back"
+          onclick="closeLevelMenu()">
+    ← Back
+  </button>
+
+  <h2>
+    Choose Level
+  </h2>
+
+  <div class="level-grid"
+       id="levelGrid">
+  </div>
+
 </div>
 
 
+<div class="toast" id="toast"></div>
+
+
 <script>
-
-/* ==========================================
-   GAME SETTINGS
-========================================== */
-
-const MAX_LEVEL = 50;
-
 
 /* ==========================================
    SAVE DATA
@@ -647,7 +701,7 @@ const MAX_LEVEL = 50;
 let currentLevel =
   Number(
     localStorage.getItem(
-      "parking_level"
+      "pj_current"
     )
   ) || 1;
 
@@ -655,7 +709,7 @@ let currentLevel =
 let unlockedLevel =
   Number(
     localStorage.getItem(
-      "parking_unlocked"
+      "pj_unlocked"
     )
   ) || 1;
 
@@ -663,21 +717,21 @@ let unlockedLevel =
 let coins =
   Number(
     localStorage.getItem(
-      "parking_coins"
+      "pj_coins"
     )
   ) || 0;
 
 
-let bestStars =
+let stars =
   JSON.parse(
     localStorage.getItem(
-      "parking_stars"
+      "pj_stars"
     ) || "{}"
   );
 
 
 /* ==========================================
-   GAME VARIABLES
+   GAME DATA
 ========================================== */
 
 let cars = [];
@@ -688,50 +742,15 @@ let history = [];
 
 let moves = 0;
 
-let hintTimer;
-
-
-/* ==========================================
-   LEVEL GENERATOR
-========================================== */
 
 /*
-  The game uses handcrafted layouts.
+  These are fixed starter levels.
 
-  This makes the prototype predictable
-  and prevents impossible random levels.
+  Every level has a red horizontal
+  car that can leave through the exit.
 */
 
-const LEVELS = [
-
-  /* LEVEL 1 */
-
-  [
-    {
-      id:1,
-      color:"red",
-      dir:"horizontal",
-      x:18,
-      y:44
-    },
-    {
-      id:2,
-      color:"blue",
-      dir:"vertical",
-      x:45,
-      y:15
-    },
-    {
-      id:3,
-      color:"yellow",
-      dir:"vertical",
-      x:70,
-      y:28
-    }
-  ],
-
-
-  /* LEVEL 2 */
+const levels = [
 
   [
     {
@@ -741,164 +760,203 @@ const LEVELS = [
       x:25,
       y:44
     },
-    {
-      id:2,
-      color:"blue",
-      dir:"vertical",
-      x:50,
-      y:15
-    },
-    {
-      id:3,
-      color:"green",
-      dir:"vertical",
-      x:75,
-      y:20
-    },
-    {
-      id:4,
-      color:"yellow",
-      dir:"horizontal",
-      x:8,
-      y:65
-    }
-  ],
 
-
-  /* LEVEL 3 */
-
-  [
-    {
-      id:1,
-      color:"red",
-      dir:"horizontal",
-      x:18,
-      y:44
-    },
-    {
-      id:2,
-      color:"blue",
-      dir:"vertical",
-      x:43,
-      y:18
-    },
-    {
-      id:3,
-      color:"green",
-      dir:"vertical",
-      x:68,
-      y:12
-    },
-    {
-      id:4,
-      color:"yellow",
-      dir:"horizontal",
-      x:10,
-      y:68
-    },
-    {
-      id:5,
-      color:"purple",
-      dir:"vertical",
-      x:78,
-      y:62
-    }
-  ],
-
-
-  /* LEVEL 4 */
-
-  [
-    {
-      id:1,
-      color:"red",
-      dir:"horizontal",
-      x:22,
-      y:44
-    },
     {
       id:2,
       color:"blue",
       dir:"vertical",
       x:48,
-      y:8
+      y:10
     },
+
     {
       id:3,
-      color:"green",
+      color:"yellow",
       dir:"vertical",
       x:72,
-      y:12
-    },
-    {
-      id:4,
-      color:"yellow",
-      dir:"horizontal",
-      x:7,
-      y:67
-    },
-    {
-      id:5,
-      color:"purple",
-      dir:"vertical",
-      x:60,
-      y:63
-    },
-    {
-      id:6,
-      color:"orange",
-      dir:"horizontal",
-      x:36,
-      y:78
+      y:23
     }
   ],
 
-
-  /* LEVEL 5 */
 
   [
     {
       id:1,
       color:"red",
       dir:"horizontal",
-      x:20,
+      x:25,
       y:44
     },
+
     {
       id:2,
       color:"blue",
       dir:"vertical",
-      x:42,
+      x:47,
       y:8
     },
+
     {
       id:3,
       color:"green",
       dir:"vertical",
-      x:65,
-      y:15
+      x:70,
+      y:10
     },
+
     {
       id:4,
       color:"yellow",
       dir:"horizontal",
-      x:5,
+      x:8,
+      y:68
+    }
+  ],
+
+
+  [
+    {
+      id:1,
+      color:"red",
+      dir:"horizontal",
+      x:25,
+      y:44
+    },
+
+    {
+      id:2,
+      color:"blue",
+      dir:"vertical",
+      x:47,
+      y:8
+    },
+
+    {
+      id:3,
+      color:"green",
+      dir:"vertical",
+      x:70,
+      y:10
+    },
+
+    {
+      id:4,
+      color:"yellow",
+      dir:"horizontal",
+      x:7,
       y:68
     },
+
     {
       id:5,
       color:"purple",
       dir:"vertical",
-      x:55,
-      y:62
+      x:72,
+      y:63
+    }
+  ],
+
+
+  [
+    {
+      id:1,
+      color:"red",
+      dir:"horizontal",
+      x:25,
+      y:44
     },
+
+    {
+      id:2,
+      color:"blue",
+      dir:"vertical",
+      x:47,
+      y:8
+    },
+
+    {
+      id:3,
+      color:"green",
+      dir:"vertical",
+      x:70,
+      y:10
+    },
+
+    {
+      id:4,
+      color:"yellow",
+      dir:"horizontal",
+      x:7,
+      y:68
+    },
+
+    {
+      id:5,
+      color:"purple",
+      dir:"vertical",
+      x:58,
+      y:63
+    },
+
     {
       id:6,
       color:"orange",
       dir:"horizontal",
-      x:30,
+      x:38,
+      y:80
+    }
+  ],
+
+
+  [
+    {
+      id:1,
+      color:"red",
+      dir:"horizontal",
+      x:25,
+      y:44
+    },
+
+    {
+      id:2,
+      color:"blue",
+      dir:"vertical",
+      x:47,
+      y:8
+    },
+
+    {
+      id:3,
+      color:"green",
+      dir:"vertical",
+      x:70,
+      y:10
+    },
+
+    {
+      id:4,
+      color:"yellow",
+      dir:"horizontal",
+      x:7,
+      y:68
+    },
+
+    {
+      id:5,
+      color:"purple",
+      dir:"vertical",
+      x:58,
+      y:63
+    },
+
+    {
+      id:6,
+      color:"orange",
+      dir:"horizontal",
+      x:38,
       y:80
     },
+
     {
       id:7,
       color:"blue",
@@ -912,82 +970,26 @@ const LEVELS = [
 
 
 /* ==========================================
-   LOAD LEVEL
+   LOAD
 ========================================== */
 
 function loadLevel(level){
 
   currentLevel = level;
 
-  /*
-    For levels beyond the handcrafted
-    prototypes, reuse and slightly
-    expand the final layout.
-  */
-
-  let source =
-    LEVELS[
+  const template =
+    levels[
       Math.min(
         level - 1,
-        LEVELS.length - 1
+        levels.length - 1
       )
     ];
 
 
   cars =
     JSON.parse(
-      JSON.stringify(source)
+      JSON.stringify(template)
     );
-
-
-  /*
-    Add more cars for higher levels.
-  */
-
-  if(level > 5){
-
-    const extra =
-      Math.min(
-        level - 5,
-        5
-      );
-
-
-    const colors = [
-      "red",
-      "blue",
-      "green",
-      "yellow",
-      "purple",
-      "orange"
-    ];
-
-
-    for(
-      let i=0;
-      i<extra;
-      i++
-    ){
-
-      cars.push({
-        id:cars.length + 1,
-        color:
-          colors[
-            i % colors.length
-          ],
-        dir:
-          i % 2 === 0
-            ? "vertical"
-            : "horizontal",
-        x:
-          10 + (i * 16) % 80,
-        y:
-          10 + (i * 13) % 80
-      });
-
-    }
-
-  }
 
 
   originalCars =
@@ -1008,28 +1010,23 @@ function loadLevel(level){
 
 
 /* ==========================================
-   RENDER
+   RENDER CAR
 ========================================== */
 
 function render(){
 
-  const parking =
+  const board =
     document.getElementById(
-      "parking"
+      "board"
     );
 
 
-  /*
-    Remove old cars.
-  */
-
-  parking
+  board
     .querySelectorAll(
       ".car"
     )
     .forEach(
-      car =>
-        car.remove()
+      car => car.remove()
     );
 
 
@@ -1043,14 +1040,7 @@ function render(){
 
 
       element.className =
-        "car " +
-        car.color +
-        " " +
-        car.dir;
-
-
-      element.dataset.id =
-        car.id;
+        `car ${car.color} ${car.dir}`;
 
 
       element.style.left =
@@ -1061,12 +1051,29 @@ function render(){
         car.y + "%";
 
 
+      /*
+        Build the car completely
+        from HTML/CSS.
+      */
+
+      element.innerHTML = `
+        <div class="window"></div>
+
+        <div class="wheel"></div>
+        <div class="wheel"></div>
+        <div class="wheel"></div>
+        <div class="wheel"></div>
+      `;
+
+
       element.onclick =
         () =>
-          moveCar(car.id);
+          moveCar(
+            car.id
+          );
 
 
-      parking.appendChild(
+      board.appendChild(
         element
       );
 
@@ -1074,13 +1081,28 @@ function render(){
   );
 
 
-  updateUI();
+  document.getElementById(
+    "level"
+  ).textContent =
+    currentLevel;
+
+
+  document.getElementById(
+    "moves"
+  ).textContent =
+    moves;
+
+
+  document.getElementById(
+    "coins"
+  ).textContent =
+    coins;
 
 }
 
 
 /* ==========================================
-   MOVE CAR
+   MOVE
 ========================================== */
 
 function moveCar(id){
@@ -1096,7 +1118,7 @@ function moveCar(id){
 
 
   /*
-    Save state.
+    Save previous position.
   */
 
   history.push(
@@ -1107,26 +1129,17 @@ function moveCar(id){
 
 
   /*
-    Store old position.
-  */
-
-  const oldCars =
-    JSON.parse(
-      JSON.stringify(cars)
-    );
-
-
-  /*
-    Cars move toward the exit.
-
     Horizontal cars move left.
-    Vertical cars move downward.
-
-    If the path is blocked, they move
-    only when another car is cleared.
   */
 
-  if(car.dir === "horizontal"){
+  if(
+    car.dir === "horizontal"
+  ){
+
+    /*
+      Check cars blocking the
+      same horizontal lane.
+    */
 
     const blocked =
       cars.some(
@@ -1134,9 +1147,9 @@ function moveCar(id){
           other.id !== car.id &&
           Math.abs(
             other.y - car.y
-          ) < 10 &&
+          ) < 9 &&
           other.x < car.x &&
-          other.x > 3
+          other.x > 5
       );
 
 
@@ -1145,7 +1158,7 @@ function moveCar(id){
       history.pop();
 
       toast(
-        "🚧 Another car is blocking the way."
+        "🚧 Path blocked!"
       );
 
       return;
@@ -1153,9 +1166,16 @@ function moveCar(id){
     }
 
 
-    car.x = -25;
+    car.x = -24;
 
-  }else{
+  }
+
+
+  /*
+    Vertical cars move down.
+  */
+
+  else{
 
     const blocked =
       cars.some(
@@ -1163,7 +1183,7 @@ function moveCar(id){
           other.id !== car.id &&
           Math.abs(
             other.x - car.x
-          ) < 10 &&
+          ) < 9 &&
           other.y > car.y &&
           other.y < 90
       );
@@ -1174,7 +1194,7 @@ function moveCar(id){
       history.pop();
 
       toast(
-        "🚧 Another car is blocking the way."
+        "🚧 Path blocked!"
       );
 
       return;
@@ -1192,18 +1212,14 @@ function moveCar(id){
   render();
 
 
-  /*
-    Remove cars that have exited.
-  */
-
   setTimeout(
     () => {
 
       cars =
         cars.filter(
-          c =>
-            c.x > -20 &&
-            c.y < 110
+          car =>
+            car.x > -20 &&
+            car.y < 110
         );
 
 
@@ -1214,12 +1230,12 @@ function moveCar(id){
         cars.length === 0
       ){
 
-        completeLevel();
+        winLevel();
 
       }
 
     },
-    400
+    500
   );
 
 }
@@ -1247,11 +1263,13 @@ function undo(){
   cars =
     history.pop();
 
+
   moves =
     Math.max(
       0,
       moves - 1
     );
+
 
   render();
 
@@ -1271,6 +1289,7 @@ function resetLevel(){
       )
     );
 
+
   history = [];
 
   moves = 0;
@@ -1278,9 +1297,7 @@ function resetLevel(){
   render();
 
   toast(
-    "Level " +
-    currentLevel +
-    " restarted."
+    "Level reset."
   );
 
 }
@@ -1292,77 +1309,53 @@ function resetLevel(){
 
 function hint(){
 
-  clearHint();
+  const first =
+    document.querySelector(
+      ".car"
+    );
 
 
-  if(cars.length === 0)
+  if(!first)
     return;
 
 
-  const first =
-    document.querySelector(
-      `.car[data-id="${cars[0].id}"]`
-    );
+  first.animate(
+    [
+      {
+        transform:"scale(1)"
+      },
+
+      {
+        transform:"scale(1.12)"
+      },
+
+      {
+        transform:"scale(1)"
+      }
+    ],
+    {
+      duration:700,
+      iterations:3
+    }
+  );
 
 
-  if(first){
-
-    first.style.boxShadow =
-      "0 0 25px 8px white";
-
-
-    hintTimer =
-      setTimeout(
-        clearHint,
-        2500
-      );
-
-
-    toast(
-      "💡 Try this car first."
-    );
-
-  }
-
-}
-
-
-function clearHint(){
-
-  if(hintTimer){
-
-    clearTimeout(
-      hintTimer
-    );
-
-    hintTimer = null;
-
-  }
-
-
-  document
-    .querySelectorAll(
-      ".car"
-    )
-    .forEach(
-      car =>
-        car.style.boxShadow = ""
-    );
+  toast(
+    "💡 Try the highlighted car."
+  );
 
 }
 
 
 /* ==========================================
-   COMPLETE LEVEL
+   WIN
 ========================================== */
 
-function completeLevel(){
+function winLevel(){
 
-  if(
-    bestStars[currentLevel]
-  )
-    return;
-
+  /*
+    Calculate stars.
+  */
 
   let rating = 3;
 
@@ -1379,17 +1372,26 @@ function completeLevel(){
     rating = 1;
 
 
-  bestStars[currentLevel] =
-    rating;
+  stars[currentLevel] =
+    Math.max(
+      stars[currentLevel] || 0,
+      rating
+    );
 
+
+  /*
+    IMPORTANT:
+
+    Only unlock the NEXT level after
+    the current level is completed.
+  */
 
   if(
     currentLevel === unlockedLevel &&
-    currentLevel < MAX_LEVEL
+    unlockedLevel < 50
   ){
 
-    unlockedLevel =
-      currentLevel + 1;
+    unlockedLevel++;
 
   }
 
@@ -1407,16 +1409,14 @@ function completeLevel(){
     "winText"
   ).textContent =
     "⭐".repeat(rating) +
-    "  Completed in " +
-    moves +
-    " moves. +" +
+    "  You earned " +
     reward +
-    " coins";
+    " coins!";
 
 
   document
     .getElementById(
-      "winPopup"
+      "win"
     )
     .classList.add(
       "show"
@@ -1426,85 +1426,61 @@ function completeLevel(){
 
 
 /* ==========================================
-   NEXT LEVEL
+   NEXT
 ========================================== */
 
 function nextLevel(){
 
   document
     .getElementById(
-      "winPopup"
+      "win"
     )
     .classList.remove(
       "show"
     );
 
 
-  if(
-    currentLevel < unlockedLevel
-  ){
-
-    loadLevel(
-      currentLevel + 1
-    );
-
-  }
+  loadLevel(
+    currentLevel + 1
+  );
 
 }
 
 
 /* ==========================================
-   LEVEL SELECT
+   LEVEL MENU
 ========================================== */
 
-function openLevels(){
+function openLevelMenu(){
 
   document
     .getElementById(
-      "gameScreen"
+      "levelMenu"
     )
     .classList.add(
-      "hidden"
+      "show"
     );
 
 
-  document
-    .getElementById(
-      "levelScreen"
-    )
-    .classList.add(
-      "active"
-    );
-
-
-  renderLevels();
+  renderLevelMenu();
 
 }
 
 
-function closeLevels(){
+function closeLevelMenu(){
 
   document
     .getElementById(
-      "levelScreen"
+      "levelMenu"
     )
     .classList.remove(
-      "active"
-    );
-
-
-  document
-    .getElementById(
-      "gameScreen"
-    )
-    .classList.remove(
-      "hidden"
+      "show"
     );
 
 }
 
 
-function renderLevels(){
+function renderLevelMenu(){
 
   const grid =
     document.getElementById(
@@ -1516,9 +1492,9 @@ function renderLevels(){
 
 
   for(
-    let level=1;
-    level<=MAX_LEVEL;
-    level++
+    let i=1;
+    i<=50;
+    i++
   ){
 
     const button =
@@ -1528,24 +1504,37 @@ function renderLevels(){
 
 
     button.className =
-      "level-card";
+      "level-item";
 
 
-    const unlocked =
-      level <= unlockedLevel;
-
-
-    if(!unlocked){
+    if(
+      i > unlockedLevel
+    ){
 
       button.classList.add(
         "locked"
       );
 
+      button.innerHTML =
+        "🔒";
+
+    }else{
+
+      button.innerHTML =
+        `
+        <b>${i}</b><br>
+        ${
+          stars[i]
+            ? "⭐".repeat(stars[i])
+            : "—"
+        }
+        `;
+
     }
 
 
     if(
-      level === currentLevel
+      i === currentLevel
     ){
 
       button.classList.add(
@@ -1555,37 +1544,16 @@ function renderLevels(){
     }
 
 
-    const stars =
-      bestStars[level]
-        ? "⭐".repeat(
-            bestStars[level]
-          )
-        : "—";
-
-
-    button.innerHTML = `
-      <div class="level-number">
-        ${
-          unlocked
-            ? level
-            : "🔒"
-        }
-      </div>
-
-      <div class="stars">
-        ${stars}
-      </div>
-    `;
-
-
     button.onclick =
       () => {
 
-        if(!unlocked){
+        if(
+          i > unlockedLevel
+        ){
 
           document
             .getElementById(
-              "lockedPopup"
+              "locked"
             )
             .classList.add(
               "show"
@@ -1596,9 +1564,9 @@ function renderLevels(){
         }
 
 
-        loadLevel(level);
+        loadLevel(i);
 
-        closeLevels();
+        closeLevelMenu();
 
       };
 
@@ -1613,7 +1581,106 @@ function renderLevels(){
 
 
 /* ==========================================
-   POPUPS
+   LOCKED POPUP
 ========================================== */
 
-function s
+function closeLocked(){
+
+  document
+    .getElementById(
+      "locked"
+    )
+    .classList.remove(
+      "show"
+    );
+
+}
+
+
+/* ==========================================
+   SAVE
+========================================== */
+
+function save(){
+
+  localStorage.setItem(
+    "pj_current",
+    currentLevel
+  );
+
+  localStorage.setItem(
+    "pj_unlocked",
+    unlockedLevel
+  );
+
+  localStorage.setItem(
+    "pj_coins",
+    coins
+  );
+
+  localStorage.setItem(
+    "pj_stars",
+    JSON.stringify(
+      stars
+    )
+  );
+
+}
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+let toastTimer;
+
+
+function toast(text){
+
+  const box =
+    document.getElementById(
+      "toast"
+    );
+
+
+  box.textContent =
+    text;
+
+
+  box.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    toastTimer
+  );
+
+
+  toastTimer =
+    setTimeout(
+      () => {
+
+        box.classList.remove(
+          "show"
+        );
+
+      },
+      1600
+    );
+
+}
+
+
+/* ==========================================
+   START GAME
+========================================== */
+
+loadLevel(
+  currentLevel
+);
+
+</script>
+
+</body>
+</html>
