@@ -1,119 +1,1415 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CELEDIT GAME - Firebase Test</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CELEDIT GAME</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#07111f;
+  color:#fff;
+  min-height:100vh;
+}
+
+.container{
+  max-width:430px;
+  margin:auto;
+  padding:18px;
+}
+
+.logo{
+  text-align:center;
+  font-size:28px;
+  font-weight:900;
+  margin:10px 0 5px;
+}
+
+.subtitle{
+  text-align:center;
+  color:#8795a7;
+  font-size:13px;
+  margin-bottom:20px;
+}
+
+.card{
+  background:#111d2b;
+  border:1px solid #26384d;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:14px;
+}
+
+h2{
+  margin-bottom:14px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin:6px 0;
+  border:1px solid #33485f;
+  border-radius:11px;
+  background:#0b1623;
+  color:#fff;
+  outline:none;
+}
+
+button{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:11px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:7px;
+}
+
+button:disabled{
+  cursor:not-allowed;
+  opacity:.45;
+}
+
+.primary{
+  background:#f1c40f;
+  color:#111;
+}
+
+.secondary{
+  background:#203044;
+  color:#fff;
+}
+
+.danger{
+  background:#8d2635;
+  color:#fff;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.message{
+  text-align:center;
+  margin-top:10px;
+  font-size:13px;
+  min-height:20px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.stat{
+  background:#182638;
+  border-radius:13px;
+  padding:13px;
+}
+
+.stat small{
+  color:#8291a4;
+  display:block;
+  font-size:10px;
+}
+
+.stat strong{
+  display:block;
+  font-size:21px;
+  margin-top:4px;
+}
+
+.mode-title{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:7px;
+}
+
+.muted{
+  color:#8795a7;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.board{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin-top:15px;
+}
+
+.cell{
+  aspect-ratio:1;
+  background:#1b2b3d;
+  color:#fff;
+  font-size:48px;
+  border-radius:13px;
+  margin:0;
+}
+
+.cell.x{
+  color:#4ba3ff;
+}
+
+.cell.o{
+  color:#ff6177;
+}
+
+.turn{
+  text-align:center;
+  font-weight:bold;
+}
+
+.result{
+  text-align:center;
+  min-height:25px;
+  margin-top:12px;
+  font-weight:bold;
+}
+
+.levels{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+  margin-top:12px;
+}
+
+.level{
+  margin:0;
+  padding:11px 3px;
+  background:#1b2b3d;
+  color:#fff;
+}
+
+.level.active{
+  background:#f1c40f;
+  color:#111;
+}
+
+.referral{
+  background:#172638;
+  border-radius:12px;
+  padding:14px;
+  text-align:center;
+  margin-top:10px;
+}
+
+.code{
+  background:#0b1623;
+  padding:12px;
+  margin-top:8px;
+  border-radius:9px;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+
+.lock{
+  text-align:center;
+  color:#a7b2bf;
+  font-size:13px;
+  line-height:1.6;
+  margin-top:10px;
+}
+
+.profile-name{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:4px;
+}
+</style>
 </head>
 
-<body style="font-family:Arial;padding:30px">
+<body>
 
-  <h1>CELEDIT GAME</h1>
+<div class="container">
 
-  <input id="email" type="email" placeholder="Email"
-    style="display:block;margin:10px 0;padding:12px;width:250px">
+  <div class="logo">🎮 CELEDIT GAME</div>
+  <div class="subtitle">Play • Progress • Compete</div>
 
-  <input id="password" type="password" placeholder="Password"
-    style="display:block;margin:10px 0;padding:12px;width:250px">
 
-  <button id="create"
-    style="padding:12px 20px">
-    Create Account
-  </button>
+  <!-- ================= AUTH ================= -->
 
-  <p id="message"></p>
+  <div id="authScreen">
+
+    <div class="card">
+
+      <h2 id="authTitle">Create Account</h2>
+
+      <input
+        id="username"
+        type="text"
+        placeholder="Username"
+      >
+
+      <input
+        id="email"
+        type="email"
+        placeholder="Email"
+      >
+
+      <input
+        id="password"
+        type="password"
+        placeholder="Password"
+      >
+
+      <input
+        id="referralInput"
+        type="text"
+        placeholder="Referral code (optional)"
+      >
+
+      <button
+        id="authButton"
+        class="primary"
+      >
+        Create Account
+      </button>
+
+      <button
+        id="switchAuth"
+        class="secondary"
+      >
+        Already have an account? Login
+      </button>
+
+      <div
+        id="authMessage"
+        class="message"
+      ></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= APP ================= -->
+
+  <div
+    id="appScreen"
+    class="hidden"
+  >
+
+    <!-- PROFILE -->
+
+    <div class="card">
+
+      <div
+        id="profileName"
+        class="profile-name"
+      >
+        Player
+      </div>
+
+      <div
+        id="profileEmail"
+        class="muted"
+      ></div>
+
+      <br>
+
+      <div class="stats">
+
+        <div class="stat">
+          <small>POINTS</small>
+          <strong id="points">0</strong>
+        </div>
+
+        <div class="stat">
+          <small>LEVEL</small>
+          <strong id="currentLevel">1</strong>
+        </div>
+
+      </div>
+
+      <button
+        id="logoutButton"
+        class="danger"
+      >
+        Logout
+      </button>
+
+    </div>
+
+
+    <!-- COMPUTER -->
+
+    <div class="card">
+
+      <div class="mode-title">
+        🤖 Computer Mode
+      </div>
+
+      <div class="muted">
+        Beat the current level to unlock the next one.
+        Each completed level awards 50 points.
+      </div>
+
+      <button
+        id="startButton"
+        class="primary"
+      >
+        ▶ Start Game
+      </button>
+
+    </div>
+
+
+    <!-- GAME -->
+
+    <div
+      id="gameCard"
+      class="card hidden"
+    >
+
+      <div
+        id="turnText"
+        class="turn"
+      >
+        Your turn ❌
+      </div>
+
+      <div
+        id="board"
+        class="board"
+      >
+
+        <button class="cell" data-index="0"></button>
+        <button class="cell" data-index="1"></button>
+        <button class="cell" data-index="2"></button>
+
+        <button class="cell" data-index="3"></button>
+        <button class="cell" data-index="4"></button>
+        <button class="cell" data-index="5"></button>
+
+        <button class="cell" data-index="6"></button>
+        <button class="cell" data-index="7"></button>
+        <button class="cell" data-index="8"></button>
+
+      </div>
+
+      <div
+        id="gameResult"
+        class="result"
+      ></div>
+
+      <button
+        id="newGameButton"
+        class="secondary"
+      >
+        New Game
+      </button>
+
+    </div>
+
+
+    <!-- LEVELS -->
+
+    <div class="card">
+
+      <b>🎯 Levels</b>
+
+      <div
+        id="levels"
+        class="levels"
+      ></div>
+
+    </div>
+
+
+    <!-- REFERRALS -->
+
+    <div class="card">
+
+      <b>👥 Referrals</b>
+
+      <div class="muted">
+        Share your referral code with friends.
+      </div>
+
+      <div class="referral">
+
+        <div>Your referral code</div>
+
+        <div
+          id="referralCode"
+          class="code"
+        >
+          Loading...
+        </div>
+
+        <div style="margin-top:10px">
+          Referrals:
+          <b id="referralCount">0</b>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- WITHDRAWAL -->
+
+    <div class="card">
+
+      <b>💰 Withdrawal</b>
+
+      <div
+        id="withdrawalBox"
+        class="lock"
+      >
+        🔒 Withdrawal Locked
+
+        <br>
+
+        Reach
+        <b>1,000,000 points</b>
+        to request a withdrawal.
+
+        <br><br>
+
+        <span id="withdrawProgress">
+          0 / 1,000,000
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
 
 <script type="module">
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+/* =====================================================
+   FIREBASE IMPORTS
+===================================================== */
+
+import {
+  initializeApp
+} from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 import {
   getAuth,
-  createUserWithEmailAndPassword
-}
-from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  onSnapshot
+} from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyAntwXZaQ6Lrk_Dbn4uPJt9fMoKoETjOjM",
+  apiKey:
+    "AIzaSyAntwXZaQ6Lrk_Dbn4uPJt9fMoKoETjOjM",
 
-  authDomain: "celedit-game.firebaseapp.com",
+  authDomain:
+    "celedit-game.firebaseapp.com",
 
-  projectId: "celedit-game",
+  projectId:
+    "celedit-game",
 
-  storageBucket: "celedit-game.firebasestorage.app",
+  storageBucket:
+    "celedit-game.firebasestorage.app",
 
-  messagingSenderId: "430066189305",
+  messagingSenderId:
+    "430066189305",
 
-  appId: "1:430066189305:web:89953ce99876c97568f328"
+  appId:
+    "1:430066189305:web:89953ce99876c97568f328"
 
 };
 
 
-const app = initializeApp(firebaseConfig);
+const firebaseApp =
+  initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+const auth =
+  getAuth(firebaseApp);
 
-
-document.getElementById("create").onclick = async () => {
-
-  const email =
-    document.getElementById("email").value.trim();
-
-  const password =
-    document.getElementById("password").value;
-
-  const message =
-    document.getElementById("message");
+const db =
+  getFirestore(firebaseApp);
 
 
-  if (!email || !password) {
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
-    message.textContent =
-      "Enter an email and password.";
+const authScreen =
+  document.getElementById("authScreen");
 
-    return;
+const appScreen =
+  document.getElementById("appScreen");
+
+const authTitle =
+  document.getElementById("authTitle");
+
+const authButton =
+  document.getElementById("authButton");
+
+const switchAuth =
+  document.getElementById("switchAuth");
+
+const usernameInput =
+  document.getElementById("username");
+
+const emailInput =
+  document.getElementById("email");
+
+const passwordInput =
+  document.getElementById("password");
+
+const referralInput =
+  document.getElementById("referralInput");
+
+const authMessage =
+  document.getElementById("authMessage");
+
+const gameCard =
+  document.getElementById("gameCard");
+
+const gameResult =
+  document.getElementById("gameResult");
+
+const turnText =
+  document.getElementById("turnText");
+
+const cells =
+  document.querySelectorAll(".cell");
+
+
+let loginMode = false;
+let currentUser = null;
+let unsubscribeProfile = null;
+
+
+/* =====================================================
+   AUTH SWITCH
+===================================================== */
+
+switchAuth.addEventListener(
+  "click",
+  () => {
+
+    loginMode =
+      !loginMode;
+
+    usernameInput.classList.toggle(
+      "hidden",
+      loginMode
+    );
+
+    referralInput.classList.toggle(
+      "hidden",
+      loginMode
+    );
+
+    if(loginMode){
+
+      authTitle.textContent =
+        "Login";
+
+      authButton.textContent =
+        "Login";
+
+      switchAuth.textContent =
+        "Create a new account";
+
+    }
+    else{
+
+      authTitle.textContent =
+        "Create Account";
+
+      authButton.textContent =
+        "Create Account";
+
+      switchAuth.textContent =
+        "Already have an account? Login";
+
+    }
+
+    authMessage.textContent = "";
+
+  }
+);
+
+
+/* =====================================================
+   REFERRAL CODE
+===================================================== */
+
+function generateReferralCode(){
+
+  const characters =
+    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+  let code =
+    "CELEDIT-";
+
+  for(let i = 0; i < 6; i++){
+
+    code +=
+      characters[
+        Math.floor(
+          Math.random() *
+          characters.length
+        )
+      ];
 
   }
 
+  return code;
 
-  message.textContent =
-    "Creating account...";
+}
 
 
-  try {
+/* =====================================================
+   AUTH
+===================================================== */
 
-    const result =
-      await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
+authButton.addEventListener(
+  "click",
+  async () => {
+
+    const email =
+      emailInput.value.trim();
+
+    const password =
+      passwordInput.value;
+
+    authMessage.textContent =
+      "Please wait...";
+
+
+    try{
+
+      if(loginMode){
+
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+        return;
+
+      }
+
+
+      const username =
+        usernameInput.value.trim();
+
+
+      if(username.length < 3){
+
+        authMessage.textContent =
+          "Username must be at least 3 characters.";
+
+        return;
+
+      }
+
+
+      const credential =
+        await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+
+      const user =
+        credential.user;
+
+
+      const referralCode =
+        generateReferralCode();
+
+
+      await setDoc(
+        doc(
+          db,
+          "users",
+          user.uid
+        ),
+        {
+
+          username:
+            username,
+
+          email:
+            user.email,
+
+          points:
+            0,
+
+          currentLevel:
+            1,
+
+          unlockedLevel:
+            1,
+
+          referralCode:
+            referralCode,
+
+          referralCount:
+            0,
+
+          createdAt:
+            Date.now()
+
+        }
       );
 
 
-    message.textContent =
-      "✅ Account created: " +
-      result.user.email;
+      /*
+        Referral claims are intentionally
+        not awarding points from the browser.
+
+        We will secure the reward system
+        before real rewards are enabled.
+      */
+
+
+    }
+    catch(error){
+
+      console.error(error);
+
+      authMessage.textContent =
+        getErrorMessage(error);
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   ERROR HANDLING
+===================================================== */
+
+function getErrorMessage(error){
+
+  switch(error.code){
+
+    case "auth/email-already-in-use":
+      return "That email is already registered.";
+
+    case "auth/invalid-email":
+      return "Enter a valid email.";
+
+    case "auth/weak-password":
+      return "Password must be at least 6 characters.";
+
+    case "auth/invalid-credential":
+      return "Incorrect email or password.";
+
+    case "auth/user-not-found":
+      return "Account not found.";
+
+    case "auth/network-request-failed":
+      return "Network error. Check your internet connection.";
+
+    default:
+      return error.message ||
+        "Something went wrong.";
 
   }
 
-  catch(error) {
+}
 
-    console.error(error);
 
-    message.textContent =
-      "❌ " +
-      error.code +
-      " — " +
-      error.message;
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+onAuthStateChanged(
+  auth,
+  async user => {
+
+    if(unsubscribeProfile){
+
+      unsubscribeProfile();
+
+      unsubscribeProfile =
+        null;
+
+    }
+
+
+    currentUser =
+      user;
+
+
+    if(!user){
+
+      authScreen.classList.remove(
+        "hidden"
+      );
+
+      appScreen.classList.add(
+        "hidden"
+      );
+
+      return;
+
+    }
+
+
+    const userRef =
+      doc(
+        db,
+        "users",
+        user.uid
+      );
+
+
+    const snapshot =
+      await getDoc(
+        userRef
+      );
+
+
+    if(!snapshot.exists()){
+
+      await setDoc(
+        userRef,
+        {
+
+          username:
+            user.email.split("@")[0],
+
+          email:
+            user.email,
+
+          points:
+            0,
+
+          currentLevel:
+            1,
+
+          unlockedLevel:
+            1,
+
+          referralCode:
+            generateReferralCode(),
+
+          referralCount:
+            0,
+
+          createdAt:
+            Date.now()
+
+        }
+      );
+
+    }
+
+
+    authScreen.classList.add(
+      "hidden"
+    );
+
+    appScreen.classList.remove(
+      "hidden"
+    );
+
+
+    unsubscribeProfile =
+      onSnapshot(
+        userRef,
+        snapshot => {
+
+          if(snapshot.exists()){
+
+            renderProfile(
+              snapshot.data()
+            );
+
+          }
+
+        }
+      );
+
+  }
+);
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+function renderProfile(data){
+
+  const points =
+    Number(data.points || 0);
+
+  const level =
+    Number(data.currentLevel || 1);
+
+  const unlocked =
+    Number(data.unlockedLevel || 1);
+
+
+  document.getElementById(
+    "profileName"
+  ).textContent =
+    data.username || "Player";
+
+
+  document.getElementById(
+    "profileEmail"
+  ).textContent =
+    data.email || "";
+
+
+  document.getElementById(
+    "points"
+  ).textContent =
+    points.toLocaleString();
+
+
+  document.getElementById(
+    "currentLevel"
+  ).textContent =
+    level;
+
+
+  document.getElementById(
+    "referralCode"
+  ).textContent =
+    data.referralCode || "Unavailable";
+
+
+  document.getElementById(
+    "referralCount"
+  ).textContent =
+    Number(data.referralCount || 0);
+
+
+  document.getElementById(
+    "withdrawProgress"
+  ).textContent =
+    points.toLocaleString() +
+    " / 1,000,000";
+
+
+  renderLevels(
+    unlocked,
+    level
+  );
+
+}
+
+
+/* =====================================================
+   LEVEL BUTTONS
+===================================================== */
+
+function renderLevels(
+  unlocked,
+  current
+){
+
+  const container =
+    document.getElementById(
+      "levels"
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  for(
+    let i = 1;
+    i <= 10;
+    i++
+  ){
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.className =
+      "level";
+
+
+    if(i > unlocked){
+
+      button.textContent =
+        "🔒";
+
+      button.disabled =
+        true;
+
+    }
+    else{
+
+      button.textContent =
+        i;
+
+      if(i === current){
+
+        button.classList.add(
+          "active"
+        );
+
+      }
+
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          currentGameLevel =
+            i;
+
+          startGame();
+
+        }
+      );
+
+    }
+
+
+    container.appendChild(
+      button
+    );
 
   }
 
-};
+}
 
-</script>
 
-</body>
-</html>
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+document
+  .getElementById("logoutButton")
+  .addEventListener(
+    "click",
+    async () => {
+
+      await signOut(auth);
+
+    }
+  );
+
+
+/* =====================================================
+   TIC-TAC-TOE
+===================================================== */
+
+let boardState = [
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  ""
+];
+
+let gameActive =
+  false;
+
+let turn =
+  "player";
+
+let currentGameLevel =
+  1;
+
+const WINNING_LINES = [
+
+  [0,1,2],
+  [3,4,5],
+  [6,7,8],
+
+  [0,3,6],
+  [1,4,7],
+  [2,5,8],
+
+  [0,4,8],
+  [2,4,6]
+
+];
+
+
+/* =====================================================
+   CELL CLICK
+===================================================== */
+
+cells.forEach(
+  cell => {
+
+    cell.addEventListener(
+      "click",
+      () => {
+
+        if(!gameActive)
+          return;
+
+        if(turn !== "player")
+          return;
+
+
+        const index =
+          Number(
+            cell.dataset.index
+          );
+
+
+        if(boardState[index] !== "")
+          return;
+
+
+        boardState[index] =
+          "X";
+
+
+        drawBoard();
+
+
+        if(checkGame())
+          return;
+
+
+        turn =
+          "computer";
+
+
+        updateTurn();
+
+
+        setTimeout(
+          computerMove,
+          350
+        );
+
+      }
+    );
+
+  }
+);
+
+
+/* =====================================================
+   START GAME
+===================================================== */
+
+document
+  .getElementById("startButton")
+  .addEventListener(
+    "click",
+    startGame
+  );
+
+
+document
+  .getElementById("newGameButton")
+  .addEventListener(
+    "click",
+    startGame
+  );
+
+
+function startGame(){
+
+  boardState = [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ];
+
+
+  gameActive =
+    true;
+
+  turn =
+    "player";
+
+
+  gameResult.textContent =
+    "";
+
+
+  gameCard.classList.remove(
+    "hidden"
+  );
+
+
+  drawBoard();
+
+  updateTurn();
+
+}
+
+
+/* =====================================================
+   DRAW BOARD
+===================================================== */
+
+function drawBoard(){
+
+  cells.forEach(
+    cell => {
+
+      const index =
+        Number(
+          cell.dataset.index
+        );
+
+
+      cell.textContent =
+        boardState[index];
+
+
+      cell.classList.remove(
+        "x",
+        "o"
+      );
+
+
+      if(
+        boardState[index] === "X"
+      ){
+
+        cell.classList.add(
+          "x"
+        );
+
+      }
+
+
+      if(
+        boardState[index] === "O"
+      ){
+
+        cell.classList.add(
+          "o"
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   COMPUTER
+===================================================== */
+
+function computerMove(){
+
+  if(!gameActive)
+    return;
+
+
+  let move;
+
+
+  if(currentGameLevel <= 2){
+
+    move =
+      randomMove();
+
+  }
+  else if(currentGameLevel <= 4){
+
+    move =
+      Math.random() < .45
+      ? smartMove()
+      : randomMove();
+
+  }
+  else if(currentGameLevel <= 6){
+
+    move =
+      Math.random() < .65
+      ? smartMove()
+      : randomMove();
+
+  }
+  else if(currentGameLevel <= 8){
+
+    move =
+      Math.random() < .80
+      ? smartMove()
+      : randomMove();
+
+  }
+  else{
+
+    move =
+      Math.random() < .90
+      ? smartMove()
+      : randomMove();
+
+  }
+
+
+  if(move === -1)
+    return;
+
+
+  boardState[move] =
+    "O";
+
+
+  drawBoard();
+
+
+  if(checkGame())
+    return;
+
+
+  turn =
+    "player";
+
+
+  updateTurn();
+
+}
+
+
+/* =====================================================
+   RANDOM MOVE
+===================================================== */
+
+function ran
