@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Celedit Tic Tac Toe</title>
 
 <style>
@@ -10,64 +10,171 @@
   box-sizing:border-box;
   margin:0;
   padding:0;
+  -webkit-tap-highlight-color:transparent;
 }
 
 body{
   min-height:100vh;
-  background:#080d15;
+  background:linear-gradient(145deg,#07111f,#03070d);
   color:#fff;
   font-family:Arial,sans-serif;
-  display:flex;
-  justify-content:center;
 }
 
 .app{
   width:100%;
-  max-width:430px;
+  max-width:450px;
+  margin:auto;
   padding:18px;
-  text-align:center;
 }
 
-h1{
-  font-size:27px;
-  margin-bottom:5px;
+.header{
+  text-align:center;
+  margin-bottom:18px;
+}
+
+.logo{
+  font-size:28px;
+  font-weight:900;
 }
 
 .sub{
-  color:#8492a5;
+  color:#8290a2;
   font-size:13px;
-  margin-bottom:18px;
+  margin-top:4px;
+}
+
+/* TOP STATS */
+
+.topStats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-bottom:12px;
+}
+
+.stat{
+  background:#111c29;
+  border:1px solid #223247;
+  border-radius:15px;
+  padding:12px;
+}
+
+.stat small{
+  color:#7f8da0;
+  font-size:10px;
+  display:block;
+}
+
+.stat strong{
+  display:block;
+  font-size:20px;
+  margin-top:4px;
+}
+
+/* LEVEL */
+
+.levelCard{
+  background:#111c29;
+  border:1px solid #223247;
+  border-radius:18px;
+  padding:14px;
+  margin-bottom:12px;
+}
+
+.levelTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.levelTitle{
+  font-weight:900;
+}
+
+.levelNumber{
+  color:#f1c40f;
+  font-weight:900;
+}
+
+.progress{
+  height:7px;
+  background:#253244;
+  border-radius:20px;
+  margin-top:11px;
+  overflow:hidden;
+}
+
+.progressBar{
+  height:100%;
+  width:0%;
+  background:#f1c40f;
+  transition:.3s;
+}
+
+/* WITHDRAW */
+
+.withdraw{
+  background:#111c29;
+  border:1px solid #223247;
+  border-radius:18px;
+  padding:14px;
+  margin-bottom:12px;
+}
+
+.withdrawTitle{
+  font-weight:900;
+  margin-bottom:5px;
+}
+
+.withdrawText{
+  color:#8290a2;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.withdrawProgress{
+  height:6px;
+  background:#253244;
+  border-radius:20px;
+  margin-top:10px;
+  overflow:hidden;
+}
+
+.withdrawBar{
+  height:100%;
+  width:0%;
+  background:#35d07f;
 }
 
 /* CHOOSE SIDE */
 
 .choose{
-  background:#121b27;
-  border:1px solid #263548;
+  background:#111c29;
+  border:1px solid #223247;
   border-radius:18px;
-  padding:15px;
-  margin-bottom:15px;
+  padding:14px;
+  margin-bottom:12px;
 }
 
-.choose p{
+.chooseTitle{
   font-size:13px;
   font-weight:bold;
-  margin-bottom:10px;
+  margin-bottom:9px;
 }
 
-.side-buttons{
+.sideButtons{
   display:flex;
-  gap:10px;
+  gap:9px;
 }
 
 .side{
   flex:1;
-  height:58px;
-  border:2px solid #2c3b4d;
-  border-radius:14px;
-  background:#1a2533;
+  height:55px;
+  border:2px solid #29394d;
+  background:#182433;
   color:white;
-  font-size:26px;
+  border-radius:13px;
+  font-size:25px;
   cursor:pointer;
 }
 
@@ -76,44 +183,20 @@ h1{
   background:#29374a;
 }
 
-/* SCORE */
-
-.scores{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:7px;
-  margin-bottom:12px;
-}
-
-.score{
-  background:#121b27;
-  border-radius:12px;
-  padding:9px;
-}
-
-.score b{
-  display:block;
-  font-size:21px;
-}
-
-.score small{
-  color:#8290a2;
-  font-size:10px;
-}
-
 /* TURN */
 
 #turn{
+  text-align:center;
   min-height:22px;
   font-size:14px;
   font-weight:bold;
-  margin-bottom:10px;
+  margin:8px 0;
 }
 
 /* BOARD */
 
 .board{
-  width:min(92vw,380px);
+  width:min(92vw,390px);
   aspect-ratio:1;
   margin:auto;
 
@@ -121,36 +204,27 @@ h1{
   grid-template-columns:repeat(3,1fr);
   grid-template-rows:repeat(3,1fr);
 
-  gap:8px;
-  padding:8px;
+  gap:7px;
+  padding:7px;
 
-  background:#05090f;
+  background:#03070c;
   border-radius:22px;
 }
 
 .cell{
   width:100%;
   height:100%;
-
   border:0;
   border-radius:15px;
-
-  background:#1b2735;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
+  background:#1a2736;
+  color:white;
   font-size:60px;
   font-weight:900;
-
   cursor:pointer;
-  user-select:none;
-  -webkit-user-select:none;
 }
 
 .cell.x{
-  color:#4da6ff;
+  color:#4ca5ff;
 }
 
 .cell.o{
@@ -158,121 +232,165 @@ h1{
 }
 
 .cell.win{
-  background:#34445a;
+  background:#34465c;
   animation:win .45s infinite alternate;
 }
 
 @keyframes win{
+  from{
+    transform:scale(1);
+  }
   to{
     transform:scale(.94);
   }
 }
 
-/* CONTROLS */
+/* BUTTONS */
 
-.controls{
+.buttons{
   display:flex;
   gap:8px;
-  margin-top:13px;
+  margin-top:12px;
 }
 
-.control{
+.btn{
   flex:1;
   border:0;
   border-radius:12px;
-  padding:13px 8px;
-  background:#202d3c;
-  color:#fff;
-  font-weight:bold;
+  padding:13px 5px;
+  background:#1c2a3a;
+  color:white;
+  font-weight:900;
   cursor:pointer;
 }
 
-.new{
+.btn.primary{
   background:#f1c40f;
   color:#111;
 }
 
-/* DIFFICULTY */
+/* RESULT POPUP */
 
-.difficulty{
-  display:flex;
-  gap:7px;
-  margin-top:9px;
-}
-
-.diff{
-  flex:1;
-  border:1px solid #29394c;
-  background:#111923;
-  color:#7f8da0;
-  border-radius:9px;
-  padding:9px 3px;
-  font-size:10px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.diff.active{
-  background:#29394c;
-  color:#fff;
-}
-
-/* POPUP */
-
-.popup-bg{
+.overlay{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.86);
-
   display:none;
   align-items:center;
   justify-content:center;
-
   padding:20px;
-  z-index:100;
+  z-index:50;
 }
 
-.popup-bg.show{
+.overlay.show{
   display:flex;
 }
 
 .popup{
   width:100%;
-  max-width:340px;
-
-  background:#17222f;
-  border:1px solid #304054;
-
-  border-radius:24px;
-  padding:28px 20px;
-
+  max-width:350px;
+  background:#152231;
+  border:1px solid #304155;
+  border-radius:25px;
+  padding:27px 20px;
   text-align:center;
 }
 
-.popup .icon{
+.popupIcon{
   font-size:55px;
 }
 
 .popup h2{
-  margin:8px 0;
   font-size:27px;
+  margin:8px 0;
 }
 
 .popup p{
-  color:#9aa7b7;
-  margin-bottom:17px;
+  color:#9aa8b8;
+  line-height:1.5;
+  margin-bottom:15px;
 }
 
 .continue{
   width:100%;
   border:0;
-  border-radius:12px;
-  padding:14px;
   background:#f1c40f;
   color:#111;
+  border-radius:12px;
+  padding:14px;
   font-weight:900;
-  font-size:15px;
   cursor:pointer;
+}
+
+/* LEVELS */
+
+.levels{
+  margin-top:15px;
+  background:#111c29;
+  border:1px solid #223247;
+  border-radius:18px;
+  padding:14px;
+}
+
+.levels h3{
+  margin-bottom:10px;
+  font-size:15px;
+}
+
+.levelGrid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+}
+
+.levelBtn{
+  aspect-ratio:1;
+  border:1px solid #29394d;
+  border-radius:10px;
+  background:#182433;
+  color:white;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.levelBtn.active{
+  background:#f1c40f;
+  color:#111;
+}
+
+.levelBtn.locked{
+  opacity:.35;
+  cursor:not-allowed;
+}
+
+/* REFERRAL */
+
+.referral{
+  margin-top:12px;
+  background:#111c29;
+  border:1px solid #223247;
+  border-radius:18px;
+  padding:14px;
+}
+
+.referral h3{
+  font-size:15px;
+  margin-bottom:5px;
+}
+
+.referral p{
+  color:#8290a2;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.refCode{
+  margin-top:10px;
+  background:#182433;
+  border-radius:10px;
+  padding:11px;
+  font-weight:900;
+  letter-spacing:1px;
 }
 
 @media(max-width:370px){
@@ -281,9 +399,8 @@ h1{
     font-size:50px;
   }
 
-  .board{
-    gap:6px;
-    padding:6px;
+  .app{
+    padding:13px;
   }
 
 }
@@ -294,20 +411,93 @@ h1{
 
 <div class="app">
 
-  <h1>❌⭕ Celedit</h1>
-
-  <div class="sub">
-    Tic Tac Toe
+  <div class="header">
+    <div class="logo">❌⭕ Celedit</div>
+    <div class="sub">Tic Tac Toe Challenge</div>
   </div>
 
 
-  <!-- CHOOSE SYMBOL -->
+  <!-- STATS -->
+
+  <div class="topStats">
+
+    <div class="stat">
+      <small>YOUR POINTS</small>
+      <strong id="points">0</strong>
+    </div>
+
+    <div class="stat">
+      <small>LEVEL</small>
+      <strong id="currentLevel">1</strong>
+    </div>
+
+  </div>
+
+
+  <!-- LEVEL PROGRESS -->
+
+  <div class="levelCard">
+
+    <div class="levelTop">
+
+      <div class="levelTitle">
+        Current Level
+      </div>
+
+      <div
+        class="levelNumber"
+        id="levelLabel">
+        Level 1
+      </div>
+
+    </div>
+
+    <div class="progress">
+      <div
+        class="progressBar"
+        id="levelProgress">
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- WITHDRAWAL -->
+
+  <div class="withdraw">
+
+    <div class="withdrawTitle">
+      🔒 Withdrawal Locked
+    </div>
+
+    <div class="withdrawText">
+      Reach 1,000,000 points to unlock
+      withdrawal requests.
+      <br><br>
+      <b id="withdrawText">
+        0 / 1,000,000 points
+      </b>
+    </div>
+
+    <div class="withdrawProgress">
+      <div
+        class="withdrawBar"
+        id="withdrawBar">
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- SYMBOL -->
 
   <div class="choose">
 
-    <p>Choose your symbol</p>
+    <div class="chooseTitle">
+      Choose your symbol
+    </div>
 
-    <div class="side-buttons">
+    <div class="sideButtons">
 
       <button
         type="button"
@@ -328,127 +518,108 @@ h1{
   </div>
 
 
-  <!-- SCORE -->
-
-  <div class="scores">
-
-    <div class="score">
-      <b id="youScore">0</b>
-      <small>YOU</small>
-    </div>
-
-    <div class="score">
-      <b id="drawScore">0</b>
-      <small>DRAW</small>
-    </div>
-
-    <div class="score">
-      <b id="cpuScore">0</b>
-      <small>COMPUTER</small>
-    </div>
-
-  </div>
-
-
   <div id="turn">
     Your turn ❌
   </div>
 
 
-  <!-- GAME BOARD -->
+  <!-- BOARD -->
 
-  <div
-    class="board"
-    id="board">
+  <div class="board">
 
-    <button type="button" class="cell" data-cell="0"></button>
-    <button type="button" class="cell" data-cell="1"></button>
-    <button type="button" class="cell" data-cell="2"></button>
+    <button type="button" class="cell" data-i="0"></button>
+    <button type="button" class="cell" data-i="1"></button>
+    <button type="button" class="cell" data-i="2"></button>
 
-    <button type="button" class="cell" data-cell="3"></button>
-    <button type="button" class="cell" data-cell="4"></button>
-    <button type="button" class="cell" data-cell="5"></button>
+    <button type="button" class="cell" data-i="3"></button>
+    <button type="button" class="cell" data-i="4"></button>
+    <button type="button" class="cell" data-i="5"></button>
 
-    <button type="button" class="cell" data-cell="6"></button>
-    <button type="button" class="cell" data-cell="7"></button>
-    <button type="button" class="cell" data-cell="8"></button>
+    <button type="button" class="cell" data-i="6"></button>
+    <button type="button" class="cell" data-i="7"></button>
+    <button type="button" class="cell" data-i="8"></button>
 
   </div>
 
 
-  <!-- CONTROLS -->
-
-  <div class="controls">
+  <div class="buttons">
 
     <button
       type="button"
-      class="control new"
+      class="btn primary"
       id="newGame">
       🔄 New Game
     </button>
 
     <button
       type="button"
-      class="control"
+      class="btn"
       id="reset">
-      Reset Score
+      Reset
     </button>
 
   </div>
 
 
-  <!-- DIFFICULTY -->
+  <!-- LEVEL SELECT -->
 
-  <div class="difficulty">
+  <div class="levels">
 
-    <button
-      type="button"
-      class="diff active"
-      data-level="easy">
-      EASY
-    </button>
+    <h3>🎮 Levels</h3>
 
-    <button
-      type="button"
-      class="diff"
-      data-level="medium">
-      MEDIUM
-    </button>
+    <div
+      class="levelGrid"
+      id="levelGrid">
+    </div>
 
-    <button
-      type="button"
-      class="diff"
-      data-level="hard">
-      HARD
-    </button>
+  </div>
+
+
+  <!-- REFERRAL -->
+
+  <div class="referral">
+
+    <h3>👥 Invite Friends</h3>
+
+    <p>
+      Invite friends and earn
+      <b>100 points</b> for each
+      qualifying referral.
+    </p>
+
+    <div
+      class="refCode"
+      id="refCode">
+      CELEDIT100
+    </div>
 
   </div>
 
 </div>
 
 
-<!-- RESULT POPUP -->
+<!-- RESULT -->
 
 <div
-  class="popup-bg"
-  id="popup">
+  class="overlay"
+  id="overlay">
 
   <div class="popup">
 
     <div
-      class="icon"
-      id="resultIcon">
+      class="popupIcon"
+      id="popupIcon">
       🏆
     </div>
 
     <h2
-      id="resultTitle">
+      id="popupTitle">
       You Win!
     </h2>
 
     <p
-      id="resultMessage">
-      Great game!
+      id="popupMessage">
+      You completed the level.
     </p>
 
     <button
@@ -465,11 +636,11 @@ h1{
 
 <script>
 
-/* ==========================================
-   GAME VARIABLES
-========================================== */
+/* =====================================================
+   GAME DATA
+===================================================== */
 
-let game = [
+let board = [
   "",
   "",
   "",
@@ -482,70 +653,51 @@ let game = [
 ];
 
 let player = "X";
-
 let computer = "O";
 
-let current = "player";
+let turn = "player";
+let active = true;
 
-let playing = true;
+let currentLevel =
+  Number(
+    localStorage.getItem(
+      "celedit_level"
+    )
+  ) || 1;
 
-let level = "easy";
+let unlockedLevel =
+  Number(
+    localStorage.getItem(
+      "celedit_unlocked"
+    )
+  ) || 1;
 
-
-let score = {
-
-  you:
-    Number(
-      localStorage.getItem(
-        "ttt_you"
-      )
-    ) || 0,
-
-  cpu:
-    Number(
-      localStorage.getItem(
-        "ttt_cpu"
-      )
-    ) || 0,
-
-  draw:
-    Number(
-      localStorage.getItem(
-        "ttt_draw"
-      )
-    ) || 0
-
-};
+let points =
+  Number(
+    localStorage.getItem(
+      "celedit_points"
+    )
+  ) || 0;
 
 
-/* ==========================================
-   ELEMENTS
-========================================== */
+/*
+  Never allow saved level to be
+  higher than unlocked level.
+*/
 
-const cells =
-  document.querySelectorAll(".cell");
-
-const turn =
-  document.getElementById("turn");
-
-const popup =
-  document.getElementById("popup");
-
-const resultIcon =
-  document.getElementById("resultIcon");
-
-const resultTitle =
-  document.getElementById("resultTitle");
-
-const resultMessage =
-  document.getElementById("resultMessage");
+if(
+  currentLevel > unlockedLevel
+){
+  currentLevel =
+    unlockedLevel;
+}
 
 
-/* ==========================================
-   WINNING COMBINATIONS
-========================================== */
+/* =====================================================
+   WINNING LINES
+===================================================== */
 
-const lines = [
+const wins = [
 
   [0,1,2],
   [3,4,5],
@@ -561,135 +713,346 @@ const lines = [
 ];
 
 
-/* ==========================================
-   BOARD CLICK
-========================================== */
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
-cells.forEach(function(cell){
-
-  cell.addEventListener(
-    "click",
-    function(){
-
-      const index =
-        Number(
-          cell.getAttribute(
-            "data-cell"
-          )
-        );
-
-
-      /*
-        Only player can click
-        during their turn.
-      */
-
-      if(
-        !playing ||
-        current !== "player" ||
-        game[index] !== ""
-      ){
-        return;
-      }
-
-
-      game[index] =
-        player;
-
-
-      drawBoard();
-
-
-      if(
-        finishCheck()
-      ){
-        return;
-      }
-
-
-      current =
-        "computer";
-
-
-      showTurn();
-
-
-      /*
-        Give computer a small delay
-        so it feels natural.
-      */
-
-      setTimeout(
-        computerTurn,
-        350
-      );
-
-    }
+const cells =
+  document.querySelectorAll(
+    ".cell"
   );
 
-});
+const turnText =
+  document.getElementById(
+    "turn"
+  );
+
+const overlay =
+  document.getElementById(
+    "overlay"
+  );
+
+const levelGrid =
+  document.getElementById(
+    "levelGrid"
+  );
 
 
-/* ==========================================
-   DRAW BOARD
-========================================== */
+/* =====================================================
+   SAVE
+===================================================== */
 
-function drawBoard(){
+function save(){
 
-  cells.forEach(function(cell){
+  localStorage.setItem(
+    "celedit_points",
+    points
+  );
 
-    const index =
-      Number(
-        cell.getAttribute(
-          "data-cell"
-        )
-      );
+  localStorage.setItem(
+    "celedit_level",
+    currentLevel
+  );
 
-
-    cell.textContent =
-      game[index];
-
-
-    cell.classList.remove(
-      "x",
-      "o"
-    );
-
-
-    if(
-      game[index] === "X"
-    ){
-
-      cell.classList.add(
-        "x"
-      );
-
-    }
-
-
-    if(
-      game[index] === "O"
-    ){
-
-      cell.classList.add(
-        "o"
-      );
-
-    }
-
-  });
+  localStorage.setItem(
+    "celedit_unlocked",
+    unlockedLevel
+  );
 
 }
 
 
-/* ==========================================
-   COMPUTER TURN
-========================================== */
+/* =====================================================
+   UPDATE UI
+===================================================== */
 
-function computerTurn(){
+function updateUI(){
+
+  document.getElementById(
+    "points"
+  ).textContent =
+    points.toLocaleString();
+
+
+  document.getElementById(
+    "currentLevel"
+  ).textContent =
+    currentLevel;
+
+
+  document.getElementById(
+    "levelLabel"
+  ).textContent =
+    "Level " + currentLevel;
+
+
+  /*
+    Progress toward next level.
+  */
+
+  let levelProgress =
+    ((currentLevel - 1) / 9) * 100;
+
+
+  document.getElementById(
+    "levelProgress"
+  ).style.width =
+    Math.min(
+      levelProgress,
+      100
+    ) + "%";
+
+
+  /*
+    Withdrawal progress.
+  */
+
+  const withdrawalTarget =
+    1000000;
+
+
+  let withdrawalPercent =
+    (points / withdrawalTarget) * 100;
+
+
+  document.getElementById(
+    "withdrawBar"
+  ).style.width =
+    Math.min(
+      withdrawalPercent,
+      100
+    ) + "%";
+
+
+  document.getElementById(
+    "withdrawText"
+  ).textContent =
+    points.toLocaleString() +
+    " / 1,000,000 points";
+
+
+  renderLevels();
+
+}
+
+
+/* =====================================================
+   LEVEL BUTTONS
+===================================================== */
+
+function renderLevels(){
+
+  levelGrid.innerHTML = "";
+
+
+  for(
+    let i = 1;
+    i <= 10;
+    i++
+  ){
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.type =
+      "button";
+
+
+    button.className =
+      "levelBtn";
+
+
+    /*
+      Locked level.
+    */
+
+    if(
+      i > unlockedLevel
+    ){
+
+      button.classList.add(
+        "locked"
+      );
+
+      button.textContent =
+        "🔒";
+
+      button.disabled =
+        true;
+
+    }
+
+    else{
+
+      button.textContent =
+        i;
+
+
+      if(
+        i === currentLevel
+      ){
+
+        button.classList.add(
+          "active"
+        );
+
+      }
+
+
+      button.addEventListener(
+        "click",
+        function(){
+
+          currentLevel =
+            i;
+
+          save();
+
+          updateUI();
+
+          newGame();
+
+        }
+      );
+
+    }
+
+
+    levelGrid.appendChild(
+      button
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   BOARD CLICK
+===================================================== */
+
+cells.forEach(
+  function(cell){
+
+    cell.addEventListener(
+      "click",
+      function(){
+
+        const index =
+          Number(
+            cell.dataset.i
+          );
+
+
+        if(
+          !active ||
+          turn !== "player" ||
+          board[index] !== ""
+        ){
+
+          return;
+
+        }
+
+
+        board[index] =
+          player;
+
+
+        draw();
+
+
+        if(
+          checkGame()
+        ){
+
+          return;
+
+        }
+
+
+        turn =
+          "computer";
+
+
+        showTurn();
+
+
+        setTimeout(
+          computerMove,
+          300
+        );
+
+      }
+    );
+
+  }
+);
+
+
+/* =====================================================
+   DRAW BOARD
+===================================================== */
+
+function draw(){
+
+  cells.forEach(
+    function(cell){
+
+      const index =
+        Number(
+          cell.dataset.i
+        );
+
+
+      cell.textContent =
+        board[index];
+
+
+      cell.classList.remove(
+        "x",
+        "o"
+      );
+
+
+      if(
+        board[index] === "X"
+      ){
+
+        cell.classList.add(
+          "x"
+        );
+
+      }
+
+
+      if(
+        board[index] === "O"
+      ){
+
+        cell.classList.add(
+          "o"
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   COMPUTER
+===================================================== */
+
+function computerMove(){
 
   if(
-    !playing
+    !active
   )
     return;
 
@@ -697,8 +1060,12 @@ function computerTurn(){
   let move;
 
 
+  /*
+    Difficulty increases gradually.
+  */
+
   if(
-    level === "easy"
+    currentLevel <= 2
   ){
 
     move =
@@ -707,53 +1074,76 @@ function computerTurn(){
   }
 
   else if(
-    level === "medium"
+    currentLevel <= 4
   ){
 
-    if(
-      Math.random() < .65
-    ){
+    move =
+      Math.random() < .45
+        ? smartMove()
+        : randomMove();
 
-      move =
-        smartMove();
+  }
 
-    }else{
+  else if(
+    currentLevel <= 6
+  ){
 
-      move =
-        randomMove();
+    move =
+      Math.random() < .70
+        ? smartMove()
+        : randomMove();
 
-    }
+  }
+
+  else if(
+    currentLevel <= 8
+  ){
+
+    move =
+      Math.random() < .85
+        ? smartMove()
+        : randomMove();
 
   }
 
   else{
 
+    /*
+      Levels 9-10 are very difficult,
+      but not automatically unbeatable.
+    */
+
     move =
-      hardMove();
+      Math.random() < .92
+        ? smartMove()
+        : randomMove();
 
   }
 
 
   if(
-    move < 0
+    move === -1
   )
     return;
 
 
-  game[move] =
+  board[move] =
     computer;
 
 
-  drawBoard();
+  draw();
 
 
   if(
-    finishCheck()
-  )
+    checkGame()
+  ){
+
     return;
 
+  }
 
-  current =
+
+  turn =
     "player";
 
 
@@ -762,9 +1152,9 @@ function computerTurn(){
 }
 
 
-/* ==========================================
+/* =====================================================
    RANDOM MOVE
-========================================== */
+===================================================== */
 
 function randomMove(){
 
@@ -772,13 +1162,13 @@ function randomMove(){
 
 
   for(
-    let i=0;
-    i<9;
+    let i = 0;
+    i < 9;
     i++
   ){
 
     if(
-      game[i] === ""
+      board[i] === ""
     ){
 
       empty.push(i);
@@ -790,8 +1180,11 @@ function randomMove(){
 
   if(
     empty.length === 0
-  )
+  ){
+
     return -1;
+
+  }
 
 
   return empty[
@@ -804,9 +1197,9 @@ function randomMove(){
 }
 
 
-/* ==========================================
+/* =====================================================
    SMART MOVE
-========================================== */
+===================================================== */
 
 function smartMove(){
 
@@ -815,26 +1208,26 @@ function smartMove(){
   */
 
   for(
-    let i=0;
-    i<9;
+    let i = 0;
+    i < 9;
     i++
   ){
 
     if(
-      game[i] !== ""
+      board[i] !== ""
     )
       continue;
 
 
-    game[i] =
+    board[i] =
       computer;
 
 
     if(
-      hasWinner(computer)
+      winner(computer)
     ){
 
-      game[i] =
+      board[i] =
         "";
 
       return i;
@@ -842,7 +1235,7 @@ function smartMove(){
     }
 
 
-    game[i] =
+    board[i] =
       "";
 
   }
@@ -853,26 +1246,26 @@ function smartMove(){
   */
 
   for(
-    let i=0;
-    i<9;
+    let i = 0;
+    i < 9;
     i++
   ){
 
     if(
-      game[i] !== ""
+      board[i] !== ""
     )
       continue;
 
 
-    game[i] =
+    board[i] =
       player;
 
 
     if(
-      hasWinner(player)
+      winner(player)
     ){
 
-      game[i] =
+      board[i] =
         "";
 
       return i;
@@ -880,23 +1273,36 @@ function smartMove(){
     }
 
 
-    game[i] =
+    board[i] =
       "";
 
   }
 
 
+  /*
+    Take center.
+  */
+
   if(
-    game[4] === ""
-  )
+    board[4] === ""
+  ){
+
     return 4;
 
+  }
+
+
+  /*
+    Take corner.
+  */
 
   const corners =
     [0,2,6,8]
       .filter(
         function(i){
-          return game[i] === "";
+
+          return board[i] === "";
+
         }
       );
 
@@ -920,188 +1326,19 @@ function smartMove(){
 }
 
 
-/* ==========================================
-   HARD MOVE
-========================================== */
+/* =====================================================
+   WINNER
+===================================================== */
 
-function hardMove(){
+function winner(symbol){
 
-  let bestScore =
-    -Infinity;
-
-  let bestMove =
-    -1;
-
-
-  for(
-    let i=0;
-    i<9;
-    i++
-  ){
-
-    if(
-      game[i] !== ""
-    )
-      continue;
-
-
-    game[i] =
-      computer;
-
-
-    const score =
-      minimax(
-        false
-      );
-
-
-    game[i] =
-      "";
-
-
-    if(
-      score > bestScore
-    ){
-
-      bestScore =
-        score;
-
-      bestMove =
-        i;
-
-    }
-
-  }
-
-
-  return bestMove;
-
-}
-
-
-/* ==========================================
-   MINIMAX
-========================================== */
-
-function minimax(
-  maximizing
-){
-
-  if(
-    hasWinner(computer)
-  )
-    return 10;
-
-
-  if(
-    hasWinner(player)
-  )
-    return -10;
-
-
-  if(
-    game.every(
-      function(cell){
-        return cell !== "";
-      }
-    )
-  )
-    return 0;
-
-
-  if(
-    maximizing
-  ){
-
-    let best =
-      -Infinity;
-
-
-    for(
-      let i=0;
-      i<9;
-      i++
-    ){
-
-      if(
-        game[i] !== ""
-      )
-        continue;
-
-
-      game[i] =
-        computer;
-
-
-      best =
-        Math.max(
-          best,
-          minimax(false)
-        );
-
-
-      game[i] =
-        "";
-
-    }
-
-
-    return best;
-
-  }
-
-
-  let best =
-    Infinity;
-
-
-  for(
-    let i=0;
-    i<9;
-    i++
-  ){
-
-    if(
-      game[i] !== ""
-    )
-      continue;
-
-
-    game[i] =
-      player;
-
-
-    best =
-      Math.min(
-        best,
-        minimax(true)
-      );
-
-
-    game[i] =
-      "";
-
-  }
-
-
-  return best;
-
-}
-
-
-/* ==========================================
-   WINNER CHECK
-========================================== */
-
-function hasWinner(symbol){
-
-  return lines.some(
+  return wins.some(
     function(line){
 
       return (
-        game[line[0]] === symbol &&
-        game[line[1]] === symbol &&
-        game[line[2]] === symbol
+        board[line[0]] === symbol &&
+        board[line[1]] === symbol &&
+        board[line[2]] === symbol
       );
 
     }
@@ -1110,27 +1347,27 @@ function hasWinner(symbol){
 }
 
 
-/* ==========================================
-   FINISH CHECK
-========================================== */
+/* =====================================================
+   CHECK GAME
+===================================================== */
 
-function finishCheck(){
+function checkGame(){
 
   /*
-    WIN
+    WINNING LINE
   */
 
   for(
-    const line of lines
+    const line of wins
   ){
 
     if(
-      game[line[0]] !== "" &&
-      game[line[0]] === game[line[1]] &&
-      game[line[1]] === game[line[2]]
+      board[line[0]] !== "" &&
+      board[line[0]] === board[line[1]] &&
+      board[line[1]] === board[line[2]]
     ){
 
-      playing =
+      active =
         false;
 
 
@@ -1146,42 +1383,29 @@ function finishCheck(){
       );
 
 
-      const winner =
-        game[line[0]];
+      const winnerSymbol =
+        board[line[0]];
 
 
       if(
-        winner === player
+        winnerSymbol === player
       ){
 
-        score.you++;
-
-
-        showResult(
-          "🏆",
-          "You Win!",
-          "Nice one! You got the round."
-        );
+        levelWon();
 
       }
 
       else{
 
-        score.cpu++;
-
-
         showResult(
           "🤖",
           "Computer Wins",
-          "The computer got this round."
+          "Stay on Level " +
+          currentLevel +
+          " and try again."
         );
 
       }
-
-
-      saveScore();
-
-      updateScore();
 
 
       return true;
@@ -1195,34 +1419,26 @@ function finishCheck(){
     DRAW
   */
 
-  let full =
-    game.every(
-      function(cell){
-        return cell !== "";
-      }
-    );
-
-
   if(
-    full
+    board.every(
+      function(cell){
+
+        return cell !== "";
+
+      }
+    )
   ){
 
-    playing =
+    active =
       false;
-
-
-    score.draw++;
-
-
-    saveScore();
-
-    updateScore();
 
 
     showResult(
       "🤝",
       "Draw!",
-      "Nobody won this round."
+      "Try again to beat Level " +
+      currentLevel +
+      "."
     );
 
 
@@ -1236,65 +1452,152 @@ function finishCheck(){
 }
 
 
-/* ==========================================
-   SHOW TURN
-========================================== */
+/* =====================================================
+   LEVEL WON
+===================================================== */
 
-function showTurn(){
+function levelWon(){
+
+  /*
+    Give 50 points.
+  */
+
+  points += 50;
+
+
+  /*
+    Unlock next level.
+  */
+
+  let unlockedNext =
+    false;
+
 
   if(
-    current === "player"
+    currentLevel < 10 &&
+    unlockedLevel <= currentLevel
   ){
 
-    turn.textContent =
-      "Your turn " +
-      (
-        player === "X"
-          ? "❌"
-          : "⭕"
-      );
+    unlockedLevel =
+      currentLevel + 1;
+
+    unlockedNext =
+      true;
+
+  }
+
+
+  save();
+
+  updateUI();
+
+
+  if(
+    unlockedNext
+  ){
+
+    showResult(
+      "🏆",
+      "Level Complete!",
+      "+50 points! Level " +
+      (currentLevel + 1) +
+      " is now unlocked."
+    );
+
+  }
+  else if(
+    currentLevel === 10
+  ){
+
+    showResult(
+      "👑",
+      "All Levels Complete!",
+      "+50 points! You completed every level."
+    );
 
   }
   else{
 
-    turn.textContent =
-      "Computer is thinking... 🤖";
+    showResult(
+      "🏆",
+      "Level Complete!",
+      "+50 points!"
+    );
 
   }
 
 }
 
 
-/* ==========================================
-   SYMBOL BUTTONS
-========================================== */
+/* =====================================================
+   SHOW RESULT
+===================================================== */
+
+function showResult(
+  icon,
+  title,
+  message
+){
+
+  document.getElementById(
+    "popupIcon"
+  ).textContent =
+    icon;
+
+
+  document.getElementById(
+    "popupTitle"
+  ).textContent =
+    title;
+
+
+  document.getElementById(
+    "popupMessage"
+  ).textContent =
+    message;
+
+
+  overlay.classList.add(
+    "show"
+  );
+
+}
+
+
+/* =====================================================
+   CONTINUE
+===================================================== */
 
 document
-  .getElementById("xSide")
+  .getElementById(
+    "continue"
+  )
   .addEventListener(
     "click",
     function(){
 
-      player =
-        "X";
-
-      computer =
-        "O";
+      overlay.classList.remove(
+        "show"
+      );
 
 
-      document
-        .getElementById("xSide")
-        .classList.add(
-          "selected"
-        );
+      /*
+        Move to next level ONLY
+        if it was actually unlocked.
+      */
+
+      if(
+        currentLevel < unlockedLevel
+      ){
+
+        currentLevel++;
+
+        save();
+
+      }
 
 
-      document
-        .getElementById("oSide")
-        .classList.remove(
-          "selected"
-        );
-
+      updateUI();
 
       newGame();
 
@@ -1302,46 +1605,13 @@ document
   );
 
 
-document
-  .getElementById("oSide")
-  .addEventListener(
-    "click",
-    function(){
-
-      player =
-        "O";
-
-      computer =
-        "X";
-
-
-      document
-        .getElementById("oSide")
-        .classList.add(
-          "selected"
-        );
-
-
-      document
-        .getElementById("xSide")
-        .classList.remove(
-          "selected"
-        );
-
-
-      newGame();
-
-    }
-  );
-
-
-/* ==========================================
+/* =====================================================
    NEW GAME
-========================================== */
+===================================================== */
 
 function newGame(){
 
-  game = [
+  board = [
     "",
     "",
     "",
@@ -1354,272 +1624,9 @@ function newGame(){
   ];
 
 
-  playing =
+  active =
     true;
 
 
   cells.forEach(
-    function(cell){
-
-      cell.textContent =
-        "";
-
-      cell.classList.remove(
-        "x",
-        "o",
-        "win"
-      );
-
-    }
-  );
-
-
-  /*
-    X always starts.
-    Therefore if player chooses O,
-    computer starts automatically.
-  */
-
-  if(
-    player === "O"
-  ){
-
-    current =
-      "computer";
-
-
-    turn.textContent =
-      "Computer starts ❌";
-
-
-    setTimeout(
-      computerTurn,
-      400
-    );
-
-  }
-  else{
-
-    current =
-      "player";
-
-
-    showTurn();
-
-  }
-
-}
-
-
-/* ==========================================
-   CONTINUE BUTTON
-========================================== */
-
-document
-  .getElementById("continue")
-  .addEventListener(
-    "click",
-    function(){
-
-      /*
-        Close popup FIRST.
-      */
-
-      popup.classList.remove(
-        "show"
-      );
-
-
-      /*
-        Then completely reset
-        the board.
-      */
-
-      newGame();
-
-    }
-  );
-
-
-/* ==========================================
-   NEW GAME BUTTON
-========================================== */
-
-document
-  .getElementById("newGame")
-  .addEventListener(
-    "click",
-    function(){
-
-      popup.classList.remove(
-        "show"
-      );
-
-      newGame();
-
-    }
-  );
-
-
-/* ==========================================
-   RESULT POPUP
-========================================== */
-
-function showResult(
-  icon,
-  title,
-  message
-){
-
-  resultIcon.textContent =
-    icon;
-
-  resultTitle.textContent =
-    title;
-
-  resultMessage.textContent =
-    message;
-
-
-  popup.classList.add(
-    "show"
-  );
-
-}
-
-
-/* ==========================================
-   DIFFICULTY
-========================================== */
-
-document
-  .querySelectorAll(".diff")
-  .forEach(
-    function(button){
-
-      button.addEventListener(
-        "click",
-        function(){
-
-          document
-            .querySelectorAll(".diff")
-            .forEach(
-              function(b){
-                b.classList.remove(
-                  "active"
-                );
-              }
-            );
-
-
-          button.classList.add(
-            "active"
-          );
-
-
-          level =
-            button.getAttribute(
-              "data-level"
-            );
-
-
-          newGame();
-
-        }
-      );
-
-    }
-  );
-
-
-/* ==========================================
-   SCORE
-========================================== */
-
-function updateScore(){
-
-  document.getElementById(
-    "youScore"
-  ).textContent =
-    score.you;
-
-
-  document.getElementById(
-    "cpuScore"
-  ).textContent =
-    score.cpu;
-
-
-  document.getElementById(
-    "drawScore"
-  ).textContent =
-    score.draw;
-
-}
-
-
-function saveScore(){
-
-  localStorage.setItem(
-    "ttt_you",
-    score.you
-  );
-
-
-  localStorage.setItem(
-    "ttt_cpu",
-    score.cpu
-  );
-
-
-  localStorage.setItem(
-    "ttt_draw",
-    score.draw
-  );
-
-}
-
-
-/* ==========================================
-   RESET SCORE
-========================================== */
-
-document
-  .getElementById("reset")
-  .addEventListener(
-    "click",
-    function(){
-
-      score = {
-        you:0,
-        cpu:0,
-        draw:0
-      };
-
-
-      saveScore();
-
-      updateScore();
-
-      popup.classList.remove(
-        "show"
-      );
-
-      newGame();
-
-    }
-  );
-
-
-/* ==========================================
-   START
-========================================== */
-
-updateScore();
-
-newGame();
-
-</script>
-
-</body>
-  </html>
+ 
