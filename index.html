@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-
 <title>Celedit Tic Tac Toe</title>
 
 <style>
@@ -16,10 +15,9 @@
 
 body{
   min-height:100vh;
-  font-family:Arial,sans-serif;
+  background:linear-gradient(145deg,#101827,#05080d);
   color:white;
-  background:
-    radial-gradient(circle at top,#263a58,#0b1018 55%,#05070a);
+  font-family:Arial,sans-serif;
   display:flex;
   justify-content:center;
 }
@@ -27,98 +25,122 @@ body{
 .app{
   width:100%;
   max-width:480px;
-  min-height:100vh;
   padding:18px;
   text-align:center;
 }
 
-/* HEADER */
-
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:22px;
+h1{
+  font-size:27px;
+  margin-bottom:6px;
 }
 
-.logo{
-  font-size:23px;
-  font-weight:900;
+.subtitle{
+  color:#8996a8;
+  font-size:13px;
+  margin-bottom:20px;
 }
 
-.badge{
-  background:#182331;
-  padding:8px 12px;
+/* SYMBOL PICKER */
+
+.choose{
+  background:#121c29;
+  border:1px solid #263548;
   border-radius:20px;
-  font-size:12px;
-  font-weight:bold;
+  padding:18px;
+  margin-bottom:18px;
+}
+
+.chooseTitle{
+  font-weight:900;
+  margin-bottom:12px;
+}
+
+.symbols{
+  display:flex;
+  gap:10px;
+}
+
+.symbolBtn{
+  flex:1;
+  height:65px;
+  border:2px solid #2a394c;
+  border-radius:15px;
+  background:#1a2533;
+  color:white;
+  font-size:27px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.symbolBtn.selected{
+  border-color:#f1c40f;
+  background:#293548;
+  box-shadow:0 0 0 2px rgba(241,196,15,.15);
+}
+
+.symbolBtn:active{
+  transform:scale(.95);
 }
 
 /* SCORE */
 
-.scoreboard{
+.score{
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
   gap:8px;
-  margin-bottom:18px;
+  margin-bottom:14px;
 }
 
-.score{
-  background:#121b27;
-  border:1px solid #273548;
-  border-radius:15px;
-  padding:12px 5px;
+.scoreBox{
+  background:#121c29;
+  border-radius:13px;
+  padding:10px 4px;
 }
 
-.score strong{
+.scoreBox strong{
   display:block;
-  font-size:23px;
-  margin-bottom:3px;
+  font-size:22px;
 }
 
-.score span{
-  color:#8997aa;
-  font-size:11px;
+.scoreBox span{
+  color:#7f8da0;
+  font-size:10px;
 }
 
 /* TURN */
 
 .turn{
-  min-height:25px;
-  margin-bottom:15px;
-  font-size:15px;
-  font-weight:800;
+  min-height:24px;
+  margin-bottom:12px;
+  font-weight:900;
 }
 
 /* BOARD */
 
 .board{
-  position:relative;
   width:min(92vw,390px);
   aspect-ratio:1;
   margin:auto;
 
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  grid-template-rows:repeat(3,1fr);
-
   gap:8px;
 
-  background:#101722;
+  background:#080d14;
   padding:8px;
-  border-radius:25px;
+  border-radius:24px;
 
   box-shadow:
-    0 20px 55px rgba(0,0,0,.5);
+    0 20px 60px rgba(0,0,0,.55);
 }
 
 .cell{
   border:0;
-  border-radius:18px;
-  background:#1a2533;
-  color:white;
+  border-radius:17px;
+  background:#1a2635;
 
-  font-size:62px;
+  color:white;
+  font-size:64px;
   font-weight:900;
 
   cursor:pointer;
@@ -127,17 +149,15 @@ body{
   align-items:center;
   justify-content:center;
 
-  transition:
-    transform .12s,
-    background .2s;
+  transition:.12s;
 }
 
 .cell:active{
-  transform:scale(.94);
+  transform:scale(.93);
 }
 
 .cell.x{
-  color:#4da3ff;
+  color:#48a5ff;
 }
 
 .cell.o{
@@ -145,77 +165,39 @@ body{
 }
 
 .cell.win{
-  animation:
-    winPulse .55s infinite alternate;
+  animation:pulse .5s infinite alternate;
 }
 
-@keyframes winPulse{
-  from{
-    transform:scale(1);
-  }
+@keyframes pulse{
   to{
-    transform:scale(1.06);
+    transform:scale(1.07);
+    background:#28384b;
   }
 }
 
 /* CONTROLS */
 
 .controls{
-  margin-top:18px;
-  display:grid;
-  gap:10px;
-}
-
-button{
-  font-family:inherit;
+  margin-top:15px;
+  display:flex;
+  gap:8px;
 }
 
 .control{
+  flex:1;
   border:0;
-  border-radius:13px;
-  padding:13px;
-  background:#1b2735;
+  border-radius:12px;
+  padding:13px 8px;
+  background:#1a2635;
   color:white;
-  font-size:14px;
-  font-weight:800;
+  font-weight:900;
   cursor:pointer;
 }
 
-.control:active{
-  transform:scale(.97);
-}
-
-.primary{
+.control.primary{
   background:#f1c40f;
   color:#111;
 }
-
-/* MODE */
-
-.modes{
-  display:flex;
-  gap:8px;
-  margin-top:10px;
-}
-
-.mode{
-  flex:1;
-  border:1px solid #304053;
-  background:#121b27;
-  color:#9eabba;
-  border-radius:12px;
-  padding:10px 5px;
-  font-size:12px;
-  font-weight:bold;
-}
-
-.mode.active{
-  background:#29394d;
-  color:white;
-  border-color:#687b94;
-}
-
-/* DIFFICULTY */
 
 .difficulty{
   margin-top:10px;
@@ -225,18 +207,19 @@ button{
 
 .diff{
   flex:1;
-  border:1px solid #304053;
-  background:#121b27;
-  color:#9eabba;
+  border:1px solid #2a394c;
   border-radius:10px;
-  padding:9px 3px;
-  font-size:11px;
+  padding:9px 4px;
+  background:#111a25;
+  color:#8491a2;
   font-weight:bold;
+  font-size:11px;
 }
 
 .diff.active{
-  background:#27394e;
   color:white;
+  background:#263548;
+  border-color:#62758c;
 }
 
 /* POPUP */
@@ -244,15 +227,13 @@ button{
 .overlay{
   position:fixed;
   inset:0;
+  background:rgba(0,0,0,.84);
 
   display:none;
   align-items:center;
   justify-content:center;
 
-  background:rgba(0,0,0,.82);
-
   padding:20px;
-
   z-index:20;
 }
 
@@ -263,64 +244,42 @@ button{
 .popup{
   width:100%;
   max-width:350px;
-
-  background:#17212e;
-  border:1px solid #2a394c;
-
+  background:#16212e;
+  border:1px solid #2c3b4e;
   border-radius:25px;
-
-  padding:30px 22px;
-
-  box-shadow:
-    0 25px 70px rgba(0,0,0,.6);
+  padding:28px 22px;
+  text-align:center;
 }
 
 .popupIcon{
-  font-size:60px;
+  font-size:58px;
 }
 
 .popup h2{
   margin:8px 0;
-  font-size:28px;
+  font-size:27px;
 }
 
 .popup p{
-  color:#aab5c4;
+  color:#9ba8b8;
   line-height:1.5;
 }
 
 .popup button{
   width:100%;
   margin-top:16px;
-  padding:13px;
   border:0;
   border-radius:12px;
+  padding:13px;
   background:#f1c40f;
   color:#111;
   font-weight:900;
 }
 
-.resetScore{
-  margin-top:9px;
-  background:#121b27;
-  color:#8795a8;
-}
-
-.footer{
-  margin-top:18px;
-  color:#68778b;
-  font-size:11px;
-}
-
 @media(max-width:380px){
 
-  .app{
-    padding:12px;
-  }
-
   .cell{
-    font-size:51px;
-    border-radius:15px;
+    font-size:52px;
   }
 
   .board{
@@ -335,14 +294,37 @@ button{
 
 <div class="app">
 
-  <div class="header">
+  <h1>❌⭕ Celedit Tic Tac Toe</h1>
 
-    <div class="logo">
-      ❌⭕ Celedit
+  <div class="subtitle">
+    Choose your side and challenge the computer.
+  </div>
+
+
+  <!-- SYMBOL CHOICE -->
+
+  <div class="choose">
+
+    <div class="chooseTitle">
+      Choose your symbol
     </div>
 
-    <div class="badge">
-      TIC TAC TOE
+    <div class="symbols">
+
+      <button
+        class="symbolBtn selected"
+        id="chooseX"
+        onclick="chooseSymbol('X')">
+        ❌
+      </button>
+
+      <button
+        class="symbolBtn"
+        id="chooseO"
+        onclick="chooseSymbol('O')">
+        ⭕
+      </button>
+
     </div>
 
   </div>
@@ -350,21 +332,21 @@ button{
 
   <!-- SCORE -->
 
-  <div class="scoreboard">
+  <div class="score">
 
-    <div class="score">
+    <div class="scoreBox">
       <strong id="playerScore">0</strong>
-      <span id="playerLabel">YOU ❌</span>
+      <span>YOU</span>
     </div>
 
-    <div class="score">
+    <div class="scoreBox">
       <strong id="drawScore">0</strong>
       <span>DRAWS</span>
     </div>
 
-    <div class="score">
-      <strong id="computerScore">0</strong>
-      <span id="computerLabel">CPU ⭕</span>
+    <div class="scoreBox">
+      <strong id="cpuScore">0</strong>
+      <span>COMPUTER</span>
     </div>
 
   </div>
@@ -373,7 +355,7 @@ button{
   <div
     class="turn"
     id="turn">
-    Your turn
+    Your turn ❌
   </div>
 
 
@@ -383,17 +365,17 @@ button{
     class="board"
     id="board">
 
-    <button class="cell" data-index="0"></button>
-    <button class="cell" data-index="1"></button>
-    <button class="cell" data-index="2"></button>
+    <button class="cell" data-i="0"></button>
+    <button class="cell" data-i="1"></button>
+    <button class="cell" data-i="2"></button>
 
-    <button class="cell" data-index="3"></button>
-    <button class="cell" data-index="4"></button>
-    <button class="cell" data-index="5"></button>
+    <button class="cell" data-i="3"></button>
+    <button class="cell" data-i="4"></button>
+    <button class="cell" data-i="5"></button>
 
-    <button class="cell" data-index="6"></button>
-    <button class="cell" data-index="7"></button>
-    <button class="cell" data-index="8"></button>
+    <button class="cell" data-i="6"></button>
+    <button class="cell" data-i="7"></button>
+    <button class="cell" data-i="8"></button>
 
   </div>
 
@@ -404,67 +386,43 @@ button{
 
     <button
       class="control primary"
-      onclick="newRound()">
-      🔄 New Round
+      onclick="newGame()">
+      🔄 New Game
     </button>
-
-    <div class="modes">
-
-      <button
-        class="mode active"
-        id="cpuMode"
-        onclick="setMode('cpu')">
-        🤖 VS COMPUTER
-      </button>
-
-      <button
-        class="mode"
-        id="friendMode"
-        onclick="setMode('friend')">
-        👥 TWO PLAYERS
-      </button>
-
-    </div>
-
-
-    <div
-      class="difficulty"
-      id="difficulty">
-
-      <button
-        class="diff active"
-        onclick="setDifficulty('easy')"
-        id="easy">
-        EASY
-      </button>
-
-      <button
-        class="diff"
-        onclick="setDifficulty('medium')"
-        id="medium">
-        MEDIUM
-      </button>
-
-      <button
-        class="diff"
-        onclick="setDifficulty('hard')"
-        id="hard">
-        HARD
-      </button>
-
-    </div>
 
     <button
       class="control"
-      onclick="resetScores()">
-      🗑 Reset Scores
+      onclick="resetScore()">
+      Reset Score
     </button>
 
   </div>
 
 
-  <div class="footer">
-    Progress is automatically saved on this device.
+  <div
+    class="difficulty">
+
+    <button
+      class="diff active"
+      id="easy"
+      onclick="setDifficulty('easy')">
+      EASY
+    </button>
+
+    <button
+      class="diff"
+      id="medium"
+      onclick="setDifficulty('medium')">
+      MEDIUM
+    </button>
+
+    <button
+      class="diff"
+      id="hard"
+      onclick="setDifficulty('hard')">
+      HARD
+    </button>
+
   </div>
 
 </div>
@@ -489,10 +447,10 @@ button{
     </h2>
 
     <p id="popupText">
-      Nice move!
+      Great game!
     </p>
 
-    <button onclick="newRound()">
+    <button onclick="newGame()">
       Play Again
     </button>
 
@@ -503,42 +461,9 @@ button{
 
 <script>
 
-/*
-==================================================
- CELEDIT TIC TAC TOE
- No Firebase
- No API
- No external libraries
-==================================================
-*/
-
-
-/* ================================================
-   ELEMENTS
-================================================ */
-
-const cells =
-  document.querySelectorAll(".cell");
-
-const turnText =
-  document.getElementById("turn");
-
-const overlay =
-  document.getElementById("overlay");
-
-const popupIcon =
-  document.getElementById("popupIcon");
-
-const popupTitle =
-  document.getElementById("popupTitle");
-
-const popupText =
-  document.getElementById("popupText");
-
-
-/* ================================================
-   GAME DATA
-================================================ */
+/* =========================================
+   GAME STATE
+========================================= */
 
 let board = [
   "",
@@ -552,54 +477,56 @@ let board = [
   ""
 ];
 
+let playerSymbol = "X";
 
-let currentPlayer =
-  "X";
+let computerSymbol = "O";
 
+let turn = "player";
 
-let gameActive =
-  true;
+let gameActive = true;
 
-
-let mode =
-  "cpu";
-
-
-let difficulty =
-  "easy";
+let difficulty = "easy";
 
 
 let scores = {
 
   player:
     Number(
-      localStorage.getItem(
-        "tttPlayer"
-      )
+      localStorage.getItem("celedit_ttt_player")
     ) || 0,
 
   computer:
     Number(
-      localStorage.getItem(
-        "tttComputer"
-      )
+      localStorage.getItem("celedit_ttt_cpu")
     ) || 0,
 
   draws:
     Number(
-      localStorage.getItem(
-        "tttDraws"
-      )
+      localStorage.getItem("celedit_ttt_draws")
     ) || 0
 
 };
 
 
-/* ================================================
-   WINNING COMBINATIONS
-================================================ */
+/* =========================================
+   ELEMENTS
+========================================= */
 
-const wins = [
+const cells =
+  document.querySelectorAll(".cell");
+
+const turnText =
+  document.getElementById("turn");
+
+const overlay =
+  document.getElementById("overlay");
+
+
+/* =========================================
+   WINNING LINES
+========================================= */
+
+const winningLines = [
 
   [0,1,2],
   [3,4,5],
@@ -615,183 +542,190 @@ const wins = [
 ];
 
 
-/* ================================================
-   SOUNDS
-================================================ */
+/* =========================================
+   CLICK BOARD
+========================================= */
 
-let audioContext;
+cells.forEach(cell => {
 
+  cell.addEventListener(
+    "click",
+    () => {
 
-function sound(
-  frequency,
-  duration
-){
+      const index =
+        Number(
+          cell.dataset.i
+        );
 
-  try{
-
-    if(!audioContext){
-
-      audioContext =
-        new (
-          window.AudioContext ||
-          window.webkitAudioContext
-        )();
+      playerMove(index);
 
     }
+  );
+
+});
 
 
-    const oscillator =
-      audioContext.createOscillator();
+/* =========================================
+   CHOOSE X OR O
+========================================= */
 
-    const gain =
-      audioContext.createGain();
+function chooseSymbol(symbol){
 
-
-    oscillator.frequency.value =
-      frequency;
-
-    oscillator.type =
-      "sine";
+  playerSymbol =
+    symbol;
 
 
-    gain.gain.setValueAtTime(
-      .08,
-      audioContext.currentTime
+  computerSymbol =
+    symbol === "X"
+      ? "O"
+      : "X";
+
+
+  document
+    .getElementById("chooseX")
+    .classList.toggle(
+      "selected",
+      symbol === "X"
     );
 
 
-    gain.gain.exponentialRampToValueAtTime(
-      .001,
-      audioContext.currentTime +
-      duration
+  document
+    .getElementById("chooseO")
+    .classList.toggle(
+      "selected",
+      symbol === "O"
     );
 
 
-    oscillator.connect(gain);
-
-    gain.connect(
-      audioContext.destination
-    );
-
-
-    oscillator.start();
-
-    oscillator.stop(
-      audioContext.currentTime +
-      duration
-    );
-
-  }catch(e){}
+  newGame();
 
 }
 
 
-/* ================================================
-   CLICK EVENTS
-================================================ */
+/* =========================================
+   NEW GAME
+========================================= */
 
-cells.forEach(
-  cell => {
+function newGame(){
 
-    cell.addEventListener(
-      "click",
-      () => {
+  board = [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ];
 
-        const index =
-          Number(
-            cell.dataset.index
-          );
+
+  gameActive =
+    true;
 
 
-        playerMove(index);
+  turn =
+    "player";
 
-      }
+
+  cells.forEach(
+    cell => {
+
+      cell.textContent =
+        "";
+
+      cell.className =
+        "cell";
+
+    }
+  );
+
+
+  /*
+    If player chooses O,
+    computer starts.
+  */
+
+  if(
+    playerSymbol === "O"
+  ){
+
+    turn =
+      "computer";
+
+
+    turnText.textContent =
+      "Computer starts ❌";
+
+
+    setTimeout(
+      computerMove,
+      500
     );
 
   }
-);
+
+  else{
+
+    turnText.textContent =
+      "Your turn ❌";
+
+  }
+
+}
 
 
-/* ================================================
+/* =========================================
    PLAYER MOVE
-================================================ */
+========================================= */
 
 function playerMove(index){
 
   if(
     !gameActive ||
+    turn !== "player" ||
     board[index] !== ""
   )
     return;
 
 
-  if(
-    mode === "cpu" &&
-    currentPlayer !== "X"
-  )
-    return;
-
-
   board[index] =
-    currentPlayer;
-
-
-  sound(
-    currentPlayer === "X"
-      ? 520
-      : 350,
-    .08
-  );
+    playerSymbol;
 
 
   render();
 
 
-  const result =
-    checkGame();
-
-
-  if(result)
+  if(
+    checkResult()
+  )
     return;
 
 
-  currentPlayer =
-    currentPlayer === "X"
-      ? "O"
-      : "X";
+  turn =
+    "computer";
 
 
-  updateTurn();
+  turnText.textContent =
+    "Computer is thinking... 🤖";
 
 
-  /*
-    Computer turn.
-  */
-
-  if(
-    mode === "cpu" &&
-    currentPlayer === "O"
-  ){
-
-    setTimeout(
-      computerMove,
-      400
-    );
-
-  }
+  setTimeout(
+    computerMove,
+    400
+  );
 
 }
 
 
-/* ================================================
-   COMPUTER
-================================================ */
+/* =========================================
+   COMPUTER MOVE
+========================================= */
 
 function computerMove(){
 
   if(
-    !gameActive ||
-    mode !== "cpu"
+    !gameActive
   )
     return;
 
@@ -808,37 +742,21 @@ function computerMove(){
 
   }
 
-
   else if(
     difficulty === "medium"
   ){
 
-    /*
-      60% smart,
-      40% random.
-    */
-
-    if(
+    move =
       Math.random() < .6
-    ){
-
-      move =
-        smartMove();
-
-    }else{
-
-      move =
-        randomMove();
-
-    }
+        ? smartMove()
+        : randomMove();
 
   }
-
 
   else{
 
     move =
-      bestMove();
+      minimaxMove();
 
   }
 
@@ -848,38 +766,31 @@ function computerMove(){
 
 
   board[move] =
-    "O";
-
-
-  sound(
-    350,
-    .08
-  );
+    computerSymbol;
 
 
   render();
 
 
-  const result =
-    checkGame();
-
-
-  if(result)
+  if(
+    checkResult()
+  )
     return;
 
 
-  currentPlayer =
-    "X";
+  turn =
+    "player";
 
 
-  updateTurn();
+  turnText.textContent =
+    `Your turn ${playerSymbol === "X" ? "❌" : "⭕"}`;
 
 }
 
 
-/* ================================================
+/* =========================================
    RANDOM MOVE
-================================================ */
+========================================= */
 
 function randomMove(){
 
@@ -889,15 +800,17 @@ function randomMove(){
         (value,index) =>
           value === ""
             ? index
-            : null
+            : -1
       )
       .filter(
         index =>
-          index !== null
+          index !== -1
       );
 
 
-  if(!empty.length)
+  if(
+    empty.length === 0
+  )
     return -1;
 
 
@@ -911,14 +824,14 @@ function randomMove(){
 }
 
 
-/* ================================================
+/* =========================================
    SMART MOVE
-================================================ */
+========================================= */
 
 function smartMove(){
 
   /*
-    Try winning.
+    WIN
   */
 
   for(
@@ -934,11 +847,13 @@ function smartMove(){
 
 
     board[i] =
-      "O";
+      computerSymbol;
 
 
     if(
-      winner("O")
+      isWinner(
+        computerSymbol
+      )
     ){
 
       board[i] =
@@ -956,7 +871,7 @@ function smartMove(){
 
 
   /*
-    Block player.
+    BLOCK PLAYER
   */
 
   for(
@@ -972,11 +887,13 @@ function smartMove(){
 
 
     board[i] =
-      "X";
+      playerSymbol;
 
 
     if(
-      winner("X")
+      isWinner(
+        playerSymbol
+      )
     ){
 
       board[i] =
@@ -994,7 +911,7 @@ function smartMove(){
 
 
   /*
-    Prefer center.
+    CENTER
   */
 
   if(
@@ -1004,7 +921,7 @@ function smartMove(){
 
 
   /*
-    Prefer corners.
+    CORNERS
   */
 
   const corners =
@@ -1015,7 +932,9 @@ function smartMove(){
       );
 
 
-  if(corners.length){
+  if(
+    corners.length
+  ){
 
     return corners[
       Math.floor(
@@ -1032,17 +951,16 @@ function smartMove(){
 }
 
 
-/* ================================================
-   HARD AI
-   MINIMAX
-================================================ */
+/* =========================================
+   PERFECT AI
+========================================= */
 
-function bestMove(){
+function minimaxMove(){
 
   let bestScore =
     -Infinity;
 
-  let move =
+  let bestIndex =
     -1;
 
 
@@ -1059,12 +977,11 @@ function bestMove(){
 
 
     board[i] =
-      "O";
+      computerSymbol;
 
 
     const score =
       minimax(
-        board,
         false
       );
 
@@ -1080,7 +997,7 @@ function bestMove(){
       bestScore =
         score;
 
-      move =
+      bestIndex =
         i;
 
     }
@@ -1088,30 +1005,33 @@ function bestMove(){
   }
 
 
-  return move;
+  return bestIndex;
 
 }
 
 
 function minimax(
-  position,
   maximizing
 ){
 
   if(
-    winner("O")
+    isWinner(
+      computerSymbol
+    )
   )
     return 10;
 
 
   if(
-    winner("X")
+    isWinner(
+      playerSymbol
+    )
   )
     return -10;
 
 
   if(
-    position.every(
+    board.every(
       cell =>
         cell !== ""
     )
@@ -1132,70 +1052,23 @@ function minimax(
     ){
 
       if(
-        position[i] !== ""
+        board[i] !== ""
       )
         continue;
 
 
-      position[i] =
-        "O";
+      board[i] =
+        computerSymbol;
 
 
       best =
         Math.max(
           best,
-          minimax(
-            position,
-            false
-          )
+          minimax(false)
         );
 
 
-      position[i] =
-        "";
-
-
-    }
-
-
-    return best;
-
-  }
-
-
-  else{
-
-    let best =
-      Infinity;
-
-
-    for(
-      let i=0;
-      i<9;
-      i++
-    ){
-
-      if(
-        position[i] !== ""
-      )
-        continue;
-
-
-      position[i] =
-        "X";
-
-
-      best =
-        Math.min(
-          best,
-          minimax(
-            position,
-            true
-          )
-        );
-
-
-      position[i] =
+      board[i] =
         "";
 
     }
@@ -1204,21 +1077,55 @@ function minimax(
     return best;
 
   }
+
+
+  let best =
+    Infinity;
+
+
+  for(
+    let i=0;
+    i<9;
+    i++
+  ){
+
+    if(
+      board[i] !== ""
+    )
+      continue;
+
+
+    board[i] =
+      playerSymbol;
+
+
+    best =
+      Math.min(
+        best,
+        minimax(true)
+      );
+
+
+    board[i] =
+      "";
+
+  }
+
+
+  return best;
 
 }
 
 
-/* ================================================
+/* =========================================
    CHECK WINNER
-================================================ */
+========================================= */
 
-function winner(
-  symbol
-){
+function isWinner(symbol){
 
-  return wins.some(
-    combo =>
-      combo.every(
+  return winningLines.some(
+    line =>
+      line.every(
         index =>
           board[index] === symbol
       )
@@ -1227,127 +1134,80 @@ function winner(
 }
 
 
-/* ================================================
-   CHECK GAME
-================================================ */
+/* =========================================
+   CHECK RESULT
+========================================= */
 
-function checkGame(){
-
-  let winningCombo =
-    null;
-
+function checkResult(){
 
   for(
-    const combo of wins
+    const line of winningLines
   ){
 
     if(
-      combo.every(
+      board[line[0]] !== "" &&
+      board[line[0]] === board[line[1]] &&
+      board[line[1]] === board[line[2]]
+    ){
+
+      gameActive =
+        false;
+
+
+      line.forEach(
         index =>
-          board[index] !== "" &&
-          board[index] ===
-          board[combo[0]]
-      )
-    ){
-
-      winningCombo =
-        combo;
-
-      break;
-
-    }
-
-  }
+          cells[index]
+            .classList.add(
+              "win"
+            )
+      );
 
 
-  if(winningCombo){
+      const winner =
+        board[line[0]];
 
-    gameActive =
-      false;
-
-
-    winningCombo.forEach(
-      index =>
-        cells[index]
-          .classList.add(
-            "win"
-          )
-    );
-
-
-    const winnerSymbol =
-      board[
-        winningCombo[0]
-      ];
-
-
-    if(
-      mode === "friend"
-    ){
 
       if(
-        winnerSymbol === "X"
+        winner === playerSymbol
       ){
 
         scores.player++;
 
-      }else{
-
-        scores.computer++;
-
-      }
-
-    }
-
-
-    else{
-
-      if(
-        winnerSymbol === "X"
-      ){
-
-        scores.player++;
-
-      }else{
-
-        scores.computer++;
-
-      }
-
-    }
-
-
-    saveScores();
-
-    updateScores();
-
-
-    sound(
-      winnerSymbol === "X"
-        ? 700
-        : 430,
-      .25
-    );
-
-
-    setTimeout(
-      () =>
         showResult(
-          winnerSymbol === "X"
-            ? "X"
-            : "O"
-        ),
-      500
-    );
+          "🏆",
+          "You Win!",
+          `You won as ${playerSymbol === "X" ? "❌" : "⭕"}!`
+        );
+
+      }
+
+      else{
+
+        scores.computer++;
+
+        showResult(
+          "🤖",
+          "Computer Wins",
+          "The computer got this round."
+        );
+
+      }
 
 
-    return true;
+      saveScores();
+
+      updateScores();
+
+
+      return true;
+
+    }
 
   }
 
 
   /*
-    Draw.
+    DRAW
   */
 
   if(
@@ -1363,20 +1223,16 @@ function checkGame(){
 
     scores.draws++;
 
+
     saveScores();
 
     updateScores();
 
 
-    sound(
-      250,
-      .2
-    );
-
-
-    setTimeout(
-      showDraw,
-      400
+    showResult(
+      "🤝",
+      "Draw!",
+      "Nobody won this round."
     );
 
 
@@ -1390,9 +1246,9 @@ function checkGame(){
 }
 
 
-/* ================================================
+/* =========================================
    RENDER
-================================================ */
+========================================= */
 
 function render(){
 
@@ -1411,18 +1267,24 @@ function render(){
 
       if(
         board[index] === "X"
-      )
+      ){
+
         cell.classList.add(
           "x"
         );
 
+      }
+
 
       if(
         board[index] === "O"
-      )
+      ){
+
         cell.classList.add(
           "o"
         );
+
+      }
 
     }
   );
@@ -1430,128 +1292,44 @@ function render(){
 }
 
 
-/* ================================================
-   TURN
-================================================ */
+/* =========================================
+   RESULT POPUP
+========================================= */
 
-function updateTurn(){
+function showResult(
+  icon,
+  title,
+  text
+){
 
-  if(
-    mode === "friend"
-  ){
-
-    turnText.textContent =
-      currentPlayer === "X"
-        ? "Player 1 — your turn ❌"
-        : "Player 2 — your turn ⭕";
-
-  }
-
-  else{
-
-    turnText.textContent =
-      currentPlayer === "X"
-        ? "Your turn ❌"
-        : "Computer is thinking... 🤖";
-
-  }
-
-}
+  document.getElementById(
+    "popupIcon"
+  ).textContent =
+    icon;
 
 
-/* ================================================
-   NEW ROUND
-================================================ */
-
-function newRound(){
-
-  board =
-    [
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
-    ];
+  document.getElementById(
+    "popupTitle"
+  ).textContent =
+    title;
 
 
-  currentPlayer =
-    "X";
+  document.getElementById(
+    "popupText"
+  ).textContent =
+    text;
 
 
-  gameActive =
-    true;
-
-
-  cells.forEach(
-    cell =>
-      cell.classList.remove(
-        "win"
-      )
-  );
-
-
-  overlay.classList.remove(
+  overlay.classList.add(
     "show"
   );
 
-
-  render();
-
-  updateTurn();
-
 }
 
 
-/* ================================================
-   MODE
-================================================ */
-
-function setMode(
-  newMode
-){
-
-  mode =
-    newMode;
-
-
-  document
-    .getElementById("cpuMode")
-    .classList.toggle(
-      "active",
-      mode === "cpu"
-    );
-
-
-  document
-    .getElementById("friendMode")
-    .classList.toggle(
-      "active",
-      mode === "friend"
-    );
-
-
-  document
-    .getElementById("difficulty")
-    .style.display =
-      mode === "cpu"
-        ? "flex"
-        : "none";
-
-
-  updateLabels();
-
-  newRound();
-
-}
-
-
-/* ================================================
+/* =========================================
    DIFFICULTY
-================================================ */
+========================================= */
 
 function setDifficulty(
   level
@@ -1578,127 +1356,88 @@ function setDifficulty(
     );
 
 
-  newRound();
+  newGame();
 
 }
 
 
-/* ================================================
-   LABELS
-================================================ */
+/* =========================================
+   SCORE
+========================================= */
 
-function updateLabels(){
+function updateScores(){
 
-  const playerLabel =
-    document.getElementById(
-      "playerLabel"
-    );
-
-  const computerLabel =
-    document.getElementById(
-      "computerLabel"
-    );
+  document.getElementById(
+    "playerScore"
+  ).textContent =
+    scores.player;
 
 
-  if(
-    mode === "friend"
-  ){
-
-    playerLabel.textContent =
-      "PLAYER 1 ❌";
+  document.getElementById(
+    "cpuScore"
+  ).textContent =
+    scores.computer;
 
 
-    computerLabel.textContent =
-      "PLAYER 2 ⭕";
-
-  }
-
-  else{
-
-    playerLabel.textContent =
-      "YOU ❌";
-
-
-    computerLabel.textContent =
-      "CPU ⭕";
-
-  }
+  document.getElementById(
+    "drawScore"
+  ).textContent =
+    scores.draws;
 
 }
 
 
-/* ================================================
-   RESULT POPUP
-================================================ */
+function saveScores(){
 
-function showResult(
-  symbol
-){
-
-  overlay.classList.add(
-    "show"
+  localStorage.setItem(
+    "celedit_ttt_player",
+    scores.player
   );
 
 
-  if(
-    mode === "friend"
-  ){
+  localStorage.setItem(
+    "celedit_ttt_cpu",
+    scores.computer
+  );
 
-    if(symbol === "X"){
 
-      popupIcon.textContent =
-        "🏆";
-
-      popupTitle.textContent =
-        "Player 1 Wins!";
-
-      popupText.textContent =
-        "Nice game! ❌";
-
-    }else{
-
-      popupIcon.textContent =
-        "🏆";
-
-      popupTitle.textContent =
-        "Player 2 Wins!";
-
-      popupText.textContent =
-        "Nice game! ⭕";
-
-    }
-
-  }
-
-  else{
-
-    if(symbol === "X"){
-
-      popupIcon.textContent =
-        "🏆";
-
-      popupTitle.textContent =
-        "You Win!";
-
-      popupText.textContent =
-        "You outplayed the computer. 🔥";
-
-    }else{
-
-      popupIcon.textContent =
-        "🤖";
-
-      popupTitle.textContent =
-        "Computer Wins";
-
-      popupText.textContent =
-        "The CPU got you this round.";
-
-    }
-
-  }
+  localStorage.setItem(
+    "celedit_ttt_draws",
+    scores.draws
+  );
 
 }
 
 
-/* =======================
+function resetScore(){
+
+  scores = {
+
+    player:0,
+    computer:0,
+    draws:0
+
+  };
+
+
+  saveScores();
+
+  updateScores();
+
+  newGame();
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+updateScores();
+
+newGame();
+
+</script>
+
+</body>
+  </html>
