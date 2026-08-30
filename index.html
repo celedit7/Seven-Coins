@@ -1,989 +1,864 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>CELEDIT GAME</title>
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-body{
-  font-family:Arial,sans-serif;
-  background:#07111f;
-  color:#fff;
-  min-height:100vh;
-}
+  <title>CELEDIT Mini App</title>
 
-.container{
-  max-width:430px;
-  margin:auto;
-  padding:18px;
-}
+  <!-- =========================================
+       MONETAG SDK
+  ========================================== -->
 
-.logo{
-  text-align:center;
-  font-size:28px;
-  font-weight:900;
-  margin:10px 0 5px;
-}
+  <script
+    src="//libtl.com/sdk.js"
+    data-zone="11687570"
+    data-sdk="show_11687570">
+  </script>
 
-.subtitle{
-  text-align:center;
-  color:#8795a7;
-  font-size:13px;
-  margin-bottom:20px;
-}
 
-.card{
-  background:#111d2b;
-  border:1px solid #26384d;
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:14px;
-}
+  <style>
 
-h2{
-  margin-bottom:14px;
-}
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
 
-input{
-  width:100%;
-  padding:14px;
-  margin:6px 0;
-  border:1px solid #33485f;
-  border-radius:11px;
-  background:#0b1623;
-  color:#fff;
-  outline:none;
-}
+    body{
+      font-family:Arial,Helvetica,sans-serif;
+      background:#07111f;
+      color:#ffffff;
+      min-height:100vh;
+    }
 
-button{
-  width:100%;
-  padding:13px;
-  border:0;
-  border-radius:11px;
-  font-weight:bold;
-  cursor:pointer;
-  margin-top:7px;
-}
+    .app{
+      width:100%;
+      max-width:480px;
+      margin:auto;
+      min-height:100vh;
+      padding-bottom:85px;
+    }
 
-button:disabled{
-  cursor:not-allowed;
-  opacity:.45;
-}
+    /* HEADER */
 
-.primary{
-  background:#f1c40f;
-  color:#111;
-}
+    .header{
+      padding:18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
 
-.secondary{
-  background:#203044;
-  color:#fff;
-}
+    .logo{
+      font-size:21px;
+      font-weight:900;
+    }
 
-.danger{
-  background:#8d2635;
-  color:#fff;
-}
+    .balance{
+      background:#16263a;
+      border:1px solid #2a4059;
+      border-radius:20px;
+      padding:8px 13px;
+      font-size:13px;
+    }
 
-.hidden{
-  display:none!important;
-}
+    /* HERO */
 
-.message{
-  text-align:center;
-  margin-top:10px;
-  font-size:13px;
-  min-height:20px;
-}
+    .hero{
+      margin:5px 16px 16px;
+      padding:22px;
+      border-radius:20px;
+      background:linear-gradient(135deg,#183450,#102238);
+      border:1px solid #294765;
+    }
 
-.stats{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
+    .hero h1{
+      font-size:25px;
+      margin-bottom:8px;
+    }
 
-.stat{
-  background:#182638;
-  border-radius:13px;
-  padding:13px;
-}
+    .hero p{
+      color:#a4b2c1;
+      line-height:1.5;
+      font-size:14px;
+    }
 
-.stat small{
-  color:#8291a4;
-  display:block;
-  font-size:10px;
-}
+    /* AD CONTAINER */
 
-.stat strong{
-  display:block;
-  font-size:21px;
-  margin-top:4px;
-}
+    .ad-box{
+      margin:14px 16px;
+      min-height:90px;
+      border:1px dashed #3a4d63;
+      border-radius:15px;
+      background:#0d1927;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      overflow:hidden;
+    }
 
-.mode-title{
-  font-size:18px;
-  font-weight:bold;
-  margin-bottom:7px;
-}
+    .ad-label{
+      color:#718095;
+      font-size:11px;
+    }
 
-.muted{
-  color:#8795a7;
-  font-size:13px;
-  line-height:1.5;
-}
+    /* SECTION */
 
-.board{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:7px;
-  margin-top:15px;
-}
+    .section{
+      padding:0 16px;
+    }
 
-.cell{
-  aspect-ratio:1;
-  background:#1b2b3d;
-  color:#fff;
-  font-size:48px;
-  border-radius:13px;
-  margin:0;
-}
+    .section-title{
+      margin:21px 0 11px;
+      font-size:17px;
+      font-weight:bold;
+    }
 
-.cell.x{
-  color:#4ba3ff;
-}
+    /* CARDS */
 
-.cell.o{
-  color:#ff6177;
-}
+    .card{
+      background:#101d2c;
+      border:1px solid #273a50;
+      border-radius:17px;
+      padding:16px;
+      margin-bottom:11px;
+    }
 
-.turn{
-  text-align:center;
-  font-weight:bold;
-}
+    .row{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
 
-.result{
-  text-align:center;
-  min-height:25px;
-  margin-top:12px;
-  font-weight:bold;
-}
+    .icon{
+      width:45px;
+      height:45px;
+      border-radius:12px;
+      background:#1b3048;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-size:22px;
+      flex-shrink:0;
+    }
 
-.levels{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:7px;
-  margin-top:12px;
-}
+    .info{
+      flex:1;
+    }
 
-.level{
-  margin:0;
-  padding:11px 3px;
-  background:#1b2b3d;
-  color:#fff;
-}
+    .info h3{
+      font-size:15px;
+      margin-bottom:4px;
+    }
 
-.level.active{
-  background:#f1c40f;
-  color:#111;
-}
+    .info p{
+      color:#8796a8;
+      font-size:12px;
+      line-height:1.4;
+    }
 
-.referral{
-  background:#172638;
-  border-radius:12px;
-  padding:14px;
-  text-align:center;
-  margin-top:10px;
-}
+    button{
+      font-family:inherit;
+      cursor:pointer;
+    }
 
-.code{
-  background:#0b1623;
-  padding:12px;
-  margin-top:8px;
-  border-radius:9px;
-  font-weight:bold;
-  letter-spacing:1px;
-}
+    .open{
+      width:auto;
+      border:0;
+      border-radius:9px;
+      padding:9px 13px;
+      background:#f1c40f;
+      color:#111;
+      font-weight:bold;
+    }
 
-.lock{
-  text-align:center;
-  color:#a7b2bf;
-  font-size:13px;
-  line-height:1.6;
-  margin-top:10px;
-}
+    /* TASK PAGE */
 
-.profile-name{
-  font-size:18px;
-  font-weight:bold;
-  margin-bottom:4px;
-}
-</style>
+    .back{
+      width:auto;
+      margin:14px 16px;
+      border:0;
+      border-radius:9px;
+      padding:9px 13px;
+      background:#1b2c40;
+      color:#fff;
+    }
+
+    .task{
+      background:#101d2c;
+      border:1px solid #273a50;
+      border-radius:17px;
+      padding:18px;
+    }
+
+    .task h2{
+      margin-bottom:8px;
+    }
+
+    .task p{
+      color:#8d9caf;
+      font-size:13px;
+      line-height:1.5;
+      margin-bottom:15px;
+    }
+
+    .main-button{
+      width:100%;
+      border:0;
+      border-radius:11px;
+      padding:14px;
+      background:#f1c40f;
+      color:#111;
+      font-weight:bold;
+      font-size:14px;
+    }
+
+    /* INFO */
+
+    .notice{
+      margin:14px 16px;
+      padding:12px;
+      border-radius:12px;
+      background:#101d2c;
+      color:#8291a4;
+      font-size:11px;
+      line-height:1.5;
+    }
+
+    /* PAGES */
+
+    .page{
+      display:none;
+    }
+
+    .page.active{
+      display:block;
+    }
+
+    /* BOTTOM NAV */
+
+    .nav{
+      position:fixed;
+      bottom:0;
+      left:50%;
+      transform:translateX(-50%);
+      width:100%;
+      max-width:480px;
+      height:67px;
+      background:#0c1826;
+      border-top:1px solid #26384d;
+      display:flex;
+      justify-content:space-around;
+      align-items:center;
+      z-index:100;
+    }
+
+    .nav button{
+      border:0;
+      background:none;
+      color:#728196;
+      font-size:11px;
+    }
+
+    .nav button span{
+      display:block;
+      font-size:20px;
+      margin-bottom:3px;
+    }
+
+    .nav button.active{
+      color:#f1c40f;
+    }
+
+    /* WALLET */
+
+    .wallet{
+      text-align:center;
+      padding:20px;
+    }
+
+    .wallet-number{
+      font-size:32px;
+      font-weight:900;
+      margin:12px 0;
+    }
+
+    .locked{
+      background:#172638;
+      border-radius:14px;
+      padding:16px;
+      color:#8998aa;
+      font-size:13px;
+      line-height:1.6;
+    }
+
+  </style>
+
 </head>
+
 
 <body>
 
-<div class="container">
-
-  <div class="logo">🎮 CELEDIT GAME</div>
-  <div class="subtitle">Play • Progress • Compete</div>
+<div class="app">
 
 
-  <!-- ================= AUTH ================= -->
+  <!-- =========================================
+       HOME
+  ========================================== -->
 
-  <div id="authScreen">
+  <div
+    id="homePage"
+    class="page active"
+  >
 
-    <div class="card">
+    <header class="header">
 
-      <h2 id="authTitle">Create Account</h2>
+      <div class="logo">
+        CELEDIT
+      </div>
 
-      <input
-        id="username"
-        type="text"
-        placeholder="Username"
-      >
+      <div class="balance">
+        ⭐ <span id="points">0</span>
+      </div>
 
-      <input
-        id="email"
-        type="email"
-        placeholder="Email"
-      >
+    </header>
 
-      <input
-        id="password"
-        type="password"
-        placeholder="Password"
-      >
 
-      <input
-        id="referralInput"
-        type="text"
-        placeholder="Referral code (optional)"
-      >
+    <section class="hero">
 
-      <button
-        id="authButton"
-        class="primary"
-      >
-        Create Account
-      </button>
+      <h1>
+        Welcome 👋
+      </h1>
 
-      <button
-        id="switchAuth"
-        class="secondary"
-      >
-        Already have an account? Login
-      </button>
+      <p>
+        Explore tasks, play games and
+        keep track of your points.
+      </p>
+
+    </section>
+
+
+    <!-- =====================================
+         ADSTERRA NATIVE AD
+    ====================================== -->
+
+    <div class="ad-box">
 
       <div
-        id="authMessage"
-        class="message"
-      ></div>
+        id="container-4b056cbeb341057fc1515bfa7767e1a0"
+      >
+
+        <span class="ad-label">
+          Advertisement
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <section class="section">
+
+      <div class="section-title">
+        Available
+      </div>
+
+
+      <div class="card">
+
+        <div class="row">
+
+          <div class="icon">
+            📧
+          </div>
+
+          <div class="info">
+
+            <h3>
+              Read & Discover
+            </h3>
+
+            <p>
+              Open the available external
+              content.
+            </p>
+
+          </div>
+
+          <button
+            class="open"
+            onclick="openTask()"
+          >
+            Open
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="row">
+
+          <div class="icon">
+            🎮
+          </div>
+
+          <div class="info">
+
+            <h3>
+              Mini Games
+            </h3>
+
+            <p>
+              Play simple games directly
+              inside the mini-app.
+            </p>
+
+          </div>
+
+          <button
+            class="open"
+            onclick="showPage('gamesPage')"
+          >
+            Play
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <div class="notice">
+
+      Advertisement helps support this
+      mini-app. Please interact with ads
+      only when genuinely interested.
 
     </div>
 
   </div>
 
 
-  <!-- ================= APP ================= -->
+  <!-- =========================================
+       TASK PAGE
+  ========================================== -->
 
   <div
-    id="appScreen"
-    class="hidden"
+    id="taskPage"
+    class="page"
   >
 
-    <!-- PROFILE -->
-
-    <div class="card">
-
-      <div
-        id="profileName"
-        class="profile-name"
-      >
-        Player
-      </div>
-
-      <div
-        id="profileEmail"
-        class="muted"
-      ></div>
-
-      <br>
-
-      <div class="stats">
-
-        <div class="stat">
-          <small>POINTS</small>
-          <strong id="points">0</strong>
-        </div>
-
-        <div class="stat">
-          <small>LEVEL</small>
-          <strong id="currentLevel">1</strong>
-        </div>
-
-      </div>
-
-      <button
-        id="logoutButton"
-        class="danger"
-      >
-        Logout
-      </button>
-
-    </div>
-
-
-    <!-- COMPUTER -->
-
-    <div class="card">
-
-      <div class="mode-title">
-        🤖 Computer Mode
-      </div>
-
-      <div class="muted">
-        Beat the current level to unlock the next one.
-        Each completed level awards 50 points.
-      </div>
-
-      <button
-        id="startButton"
-        class="primary"
-      >
-        ▶ Start Game
-      </button>
-
-    </div>
-
-
-    <!-- GAME -->
-
-    <div
-      id="gameCard"
-      class="card hidden"
+    <button
+      class="back"
+      onclick="showPage('homePage')"
     >
+      ← Back
+    </button>
+
+
+    <section class="section">
+
+      <div class="section-title">
+        Available Task
+      </div>
+
+
+      <div class="task">
+
+        <h2>
+          📧 Read & Discover
+        </h2>
+
+        <p>
+          Open the external page below.
+          The external website controls
+          its own content and requirements.
+        </p>
+
+        <button
+          class="main-button"
+          onclick="openExternalLink()"
+        >
+          Open External Page
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- SECOND AD -->
+
+    <div class="ad-box">
+
+      <span class="ad-label">
+        Advertisement
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       GAMES
+  ========================================== -->
+
+  <div
+    id="gamesPage"
+    class="page"
+  >
+
+    <button
+      class="back"
+      onclick="showPage('homePage')"
+    >
+      ← Back
+    </button>
+
+
+    <section class="section">
+
+      <div class="section-title">
+        Games 🎮
+      </div>
+
+
+      <div class="card">
+
+        <div class="row">
+
+          <div class="icon">
+            ❌
+          </div>
+
+          <div class="info">
+
+            <h3>
+              Tic-Tac-Toe
+            </h3>
+
+            <p>
+              Play a quick match against
+              the computer.
+            </p>
+
+          </div>
+
+          <button
+            class="open"
+            onclick="startGame()"
+          >
+            Play
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+
+  <!-- =========================================
+       TIC TAC TOE
+  ========================================== -->
+
+  <div
+    id="gamePage"
+    class="page"
+  >
+
+    <button
+      class="back"
+      onclick="showPage('gamesPage')"
+    >
+      ← Back
+    </button>
+
+
+    <section class="section">
+
+      <div class="section-title">
+        Tic-Tac-Toe
+      </div>
+
 
       <div
-        id="turnText"
-        class="turn"
+        id="gameBoard"
+        style="
+          display:grid;
+          grid-template-columns:repeat(3,1fr);
+          gap:7px;
+        "
+      >
+
+        <button onclick="move(0)" class="gameCell"></button>
+        <button onclick="move(1)" class="gameCell"></button>
+        <button onclick="move(2)" class="gameCell"></button>
+
+        <button onclick="move(3)" class="gameCell"></button>
+        <button onclick="move(4)" class="gameCell"></button>
+        <button onclick="move(5)" class="gameCell"></button>
+
+        <button onclick="move(6)" class="gameCell"></button>
+        <button onclick="move(7)" class="gameCell"></button>
+        <button onclick="move(8)" class="gameCell"></button>
+
+      </div>
+
+
+      <div
+        id="gameStatus"
+        style="
+          text-align:center;
+          margin:15px 0;
+          font-weight:bold;
+        "
       >
         Your turn ❌
       </div>
 
-      <div
-        id="board"
-        class="board"
-      >
-
-        <button class="cell" data-index="0"></button>
-        <button class="cell" data-index="1"></button>
-        <button class="cell" data-index="2"></button>
-
-        <button class="cell" data-index="3"></button>
-        <button class="cell" data-index="4"></button>
-        <button class="cell" data-index="5"></button>
-
-        <button class="cell" data-index="6"></button>
-        <button class="cell" data-index="7"></button>
-        <button class="cell" data-index="8"></button>
-
-      </div>
-
-      <div
-        id="gameResult"
-        class="result"
-      ></div>
 
       <button
-        id="newGameButton"
-        class="secondary"
+        class="main-button"
+        onclick="startGame()"
       >
         New Game
       </button>
 
-    </div>
-
-
-    <!-- LEVELS -->
-
-    <div class="card">
-
-      <b>🎯 Levels</b>
-
-      <div
-        id="levels"
-        class="levels"
-      ></div>
-
-    </div>
-
-
-    <!-- REFERRALS -->
-
-    <div class="card">
-
-      <b>👥 Referrals</b>
-
-      <div class="muted">
-        Share your referral code with friends.
-      </div>
-
-      <div class="referral">
-
-        <div>Your referral code</div>
-
-        <div
-          id="referralCode"
-          class="code"
-        >
-          Loading...
-        </div>
-
-        <div style="margin-top:10px">
-          Referrals:
-          <b id="referralCount">0</b>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- WITHDRAWAL -->
-
-    <div class="card">
-
-      <b>💰 Withdrawal</b>
-
-      <div
-        id="withdrawalBox"
-        class="lock"
-      >
-        🔒 Withdrawal Locked
-
-        <br>
-
-        Reach
-        <b>1,000,000 points</b>
-        to request a withdrawal.
-
-        <br><br>
-
-        <span id="withdrawProgress">
-          0 / 1,000,000
-        </span>
-      </div>
-
-    </div>
+    </section>
 
   </div>
+
+
+  <!-- =========================================
+       WALLET
+  ========================================== -->
+
+  <div
+    id="walletPage"
+    class="page"
+  >
+
+    <button
+      class="back"
+      onclick="showPage('homePage')"
+    >
+      ← Back
+    </button>
+
+
+    <section class="section">
+
+      <div class="card wallet">
+
+        <h2>
+          💰 Wallet
+        </h2>
+
+        <div class="wallet-number">
+          ⭐ <span id="walletPoints">0</span>
+        </div>
+
+        <div class="locked">
+
+          🔒 Withdrawal Locked
+
+          <br><br>
+
+          Withdrawal becomes available
+          at the required point threshold.
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+
+  <!-- =========================================
+       BOTTOM NAV
+  ========================================== -->
+
+  <nav class="nav">
+
+    <button
+      class="active"
+      onclick="setNav(this);showPage('homePage')"
+    >
+      <span>🏠</span>
+      Home
+    </button>
+
+
+    <button
+      onclick="setNav(this);showPage('taskPage')"
+    >
+      <span>📧</span>
+      Tasks
+    </button>
+
+
+    <button
+      onclick="setNav(this);showPage('gamesPage')"
+    >
+      <span>🎮</span>
+      Games
+    </button>
+
+
+    <button
+      onclick="setNav(this);showPage('walletPage')"
+    >
+      <span>💰</span>
+      Wallet
+    </button>
+
+  </nav>
 
 </div>
 
 
-<script type="module">
+<!-- =========================================
+     ADSTERRA NATIVE SCRIPT
+========================================== -->
 
-/* =====================================================
-   FIREBASE IMPORTS
-===================================================== */
-
-import {
-  initializeApp
-} from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
-
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  onSnapshot
-} from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+<script
+  async
+  data-cfasync="false"
+  src="https://tightslybella.com/4b056cbeb341057fc1515bfa7767e1a0/invoke.js">
+</script>
 
 
-/* =====================================================
-   FIREBASE CONFIG
-===================================================== */
+<!-- =========================================
+     MONETAG IN-APP INTERSTITIAL
+========================================== -->
 
-const firebaseConfig = {
+<script>
 
-  apiKey:
-    "AIzaSyAntwXZaQ6Lrk_Dbn4uPJt9fMoKoETjOjM",
+  if(typeof show_11687570 === "function"){
 
-  authDomain:
-    "celedit-game.firebaseapp.com",
+    show_11687570({
 
-  projectId:
-    "celedit-game",
+      type: "inApp",
 
-  storageBucket:
-    "celedit-game.firebasestorage.app",
+      inAppSettings: {
 
-  messagingSenderId:
-    "430066189305",
+        frequency: 1,
 
-  appId:
-    "1:430066189305:web:89953ce99876c97568f328"
+        capping: 0.1,
 
-};
+        interval: 60,
 
+        timeout: 5,
 
-const firebaseApp =
-  initializeApp(firebaseConfig);
+        everyPage: false
 
-const auth =
-  getAuth(firebaseApp);
+      }
 
-const db =
-  getFirestore(firebaseApp);
-
-
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-const authScreen =
-  document.getElementById("authScreen");
-
-const appScreen =
-  document.getElementById("appScreen");
-
-const authTitle =
-  document.getElementById("authTitle");
-
-const authButton =
-  document.getElementById("authButton");
-
-const switchAuth =
-  document.getElementById("switchAuth");
-
-const usernameInput =
-  document.getElementById("username");
-
-const emailInput =
-  document.getElementById("email");
-
-const passwordInput =
-  document.getElementById("password");
-
-const referralInput =
-  document.getElementById("referralInput");
-
-const authMessage =
-  document.getElementById("authMessage");
-
-const gameCard =
-  document.getElementById("gameCard");
-
-const gameResult =
-  document.getElementById("gameResult");
-
-const turnText =
-  document.getElementById("turnText");
-
-const cells =
-  document.querySelectorAll(".cell");
-
-
-let loginMode = false;
-let currentUser = null;
-let unsubscribeProfile = null;
-
-
-/* =====================================================
-   AUTH SWITCH
-===================================================== */
-
-switchAuth.addEventListener(
-  "click",
-  () => {
-
-    loginMode =
-      !loginMode;
-
-    usernameInput.classList.toggle(
-      "hidden",
-      loginMode
-    );
-
-    referralInput.classList.toggle(
-      "hidden",
-      loginMode
-    );
-
-    if(loginMode){
-
-      authTitle.textContent =
-        "Login";
-
-      authButton.textContent =
-        "Login";
-
-      switchAuth.textContent =
-        "Create a new account";
-
-    }
-    else{
-
-      authTitle.textContent =
-        "Create Account";
-
-      authButton.textContent =
-        "Create Account";
-
-      switchAuth.textContent =
-        "Already have an account? Login";
-
-    }
-
-    authMessage.textContent = "";
-
-  }
-);
-
-
-/* =====================================================
-   REFERRAL CODE
-===================================================== */
-
-function generateReferralCode(){
-
-  const characters =
-    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-  let code =
-    "CELEDIT-";
-
-  for(let i = 0; i < 6; i++){
-
-    code +=
-      characters[
-        Math.floor(
-          Math.random() *
-          characters.length
-        )
-      ];
+    });
 
   }
 
-  return code;
+</script>
+
+
+<script>
+
+/* =========================================
+   EXTERNAL LINK
+========================================= */
+
+const EXTERNAL_LINK =
+  "https://www.paid-to-read-email.com/points?read=2";
+
+
+function openExternalLink(){
+
+  window.open(
+    EXTERNAL_LINK,
+    "_blank",
+    "noopener,noreferrer"
+  );
 
 }
 
 
-/* =====================================================
-   AUTH
-===================================================== */
+/* =========================================
+   PAGE NAVIGATION
+========================================= */
 
-authButton.addEventListener(
-  "click",
-  async () => {
+function showPage(pageId){
 
-    const email =
-      emailInput.value.trim();
+  document
+    .querySelectorAll(".page")
+    .forEach(page => {
 
-    const password =
-      passwordInput.value;
+      page.classList.remove("active");
 
-    authMessage.textContent =
-      "Please wait...";
+    });
 
 
-    try{
-
-      if(loginMode){
-
-        await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-        return;
-
-      }
+  const page =
+    document.getElementById(pageId);
 
 
-      const username =
-        usernameInput.value.trim();
+  if(page){
 
-
-      if(username.length < 3){
-
-        authMessage.textContent =
-          "Username must be at least 3 characters.";
-
-        return;
-
-      }
-
-
-      const credential =
-        await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-
-      const user =
-        credential.user;
-
-
-      const referralCode =
-        generateReferralCode();
-
-
-      await setDoc(
-        doc(
-          db,
-          "users",
-          user.uid
-        ),
-        {
-
-          username:
-            username,
-
-          email:
-            user.email,
-
-          points:
-            0,
-
-          currentLevel:
-            1,
-
-          unlockedLevel:
-            1,
-
-          referralCode:
-            referralCode,
-
-          referralCount:
-            0,
-
-          createdAt:
-            Date.now()
-
-        }
-      );
-
-
-      /*
-        Referral claims are intentionally
-        not awarding points from the browser.
-
-        We will secure the reward system
-        before real rewards are enabled.
-      */
-
-
-    }
-    catch(error){
-
-      console.error(error);
-
-      authMessage.textContent =
-        getErrorMessage(error);
-
-    }
+    page.classList.add("active");
 
   }
-);
 
 
-/* =====================================================
-   ERROR HANDLING
-===================================================== */
-
-function getErrorMessage(error){
-
-  switch(error.code){
-
-    case "auth/email-already-in-use":
-      return "That email is already registered.";
-
-    case "auth/invalid-email":
-      return "Enter a valid email.";
-
-    case "auth/weak-password":
-      return "Password must be at least 6 characters.";
-
-    case "auth/invalid-credential":
-      return "Incorrect email or password.";
-
-    case "auth/user-not-found":
-      return "Account not found.";
-
-    case "auth/network-request-failed":
-      return "Network error. Check your internet connection.";
-
-    default:
-      return error.message ||
-        "Something went wrong.";
-
-  }
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }
 
 
-/* =====================================================
-   AUTH STATE
-===================================================== */
+/* =========================================
+   NAVIGATION
+========================================= */
 
-onAuthStateChanged(
-  auth,
-  async user => {
+function setNav(button){
 
-    if(unsubscribeProfile){
+  document
+    .querySelectorAll(".nav button")
+    .forEach(btn => {
 
-      unsubscribeProfile();
+      btn.classList.remove("active");
 
-      unsubscribeProfile =
-        null;
-
-    }
+    });
 
 
-    currentUser =
-      user;
+  button.classList.add("active");
+
+}
 
 
-    if(!user){
+/* =========================================
+   POINTS
+========================================= */
 
-      authScreen.classList.remove(
-        "hidden"
-      );
-
-      appScreen.classList.add(
-        "hidden"
-      );
-
-      return;
-
-    }
+let points =
+  Number(
+    localStorage.getItem("celedit_points") || 0
+  );
 
 
-    const userRef =
-      doc(
-        db,
-        "users",
-        user.uid
-      );
-
-
-    const snapshot =
-      await getDoc(
-        userRef
-      );
-
-
-    if(!snapshot.exists()){
-
-      await setDoc(
-        userRef,
-        {
-
-          username:
-            user.email.split("@")[0],
-
-          email:
-            user.email,
-
-          points:
-            0,
-
-          currentLevel:
-            1,
-
-          unlockedLevel:
-            1,
-
-          referralCode:
-            generateReferralCode(),
-
-          referralCount:
-            0,
-
-          createdAt:
-            Date.now()
-
-        }
-      );
-
-    }
-
-
-    authScreen.classList.add(
-      "hidden"
-    );
-
-    appScreen.classList.remove(
-      "hidden"
-    );
-
-
-    unsubscribeProfile =
-      onSnapshot(
-        userRef,
-        snapshot => {
-
-          if(snapshot.exists()){
-
-            renderProfile(
-              snapshot.data()
-            );
-
-          }
-
-        }
-      );
-
-  }
-);
-
-
-/* =====================================================
-   PROFILE
-===================================================== */
-
-function renderProfile(data){
-
-  const points =
-    Number(data.points || 0);
-
-  const level =
-    Number(data.currentLevel || 1);
-
-  const unlocked =
-    Number(data.unlockedLevel || 1);
-
-
-  document.getElementById(
-    "profileName"
-  ).textContent =
-    data.username || "Player";
-
-
-  document.getElementById(
-    "profileEmail"
-  ).textContent =
-    data.email || "";
-
+function updatePoints(){
 
   document.getElementById(
     "points"
@@ -992,141 +867,33 @@ function renderProfile(data){
 
 
   document.getElementById(
-    "currentLevel"
+    "walletPoints"
   ).textContent =
-    level;
-
-
-  document.getElementById(
-    "referralCode"
-  ).textContent =
-    data.referralCode || "Unavailable";
-
-
-  document.getElementById(
-    "referralCount"
-  ).textContent =
-    Number(data.referralCount || 0);
-
-
-  document.getElementById(
-    "withdrawProgress"
-  ).textContent =
-    points.toLocaleString() +
-    " / 1,000,000";
-
-
-  renderLevels(
-    unlocked,
-    level
-  );
+    points.toLocaleString();
 
 }
 
 
-/* =====================================================
-   LEVEL BUTTONS
-===================================================== */
+function savePoints(){
 
-function renderLevels(
-  unlocked,
-  current
-){
+  localStorage.setItem(
+    "celedit_points",
+    points
+  );
 
-  const container =
-    document.getElementById(
-      "levels"
-    );
-
-
-  container.innerHTML =
-    "";
-
-
-  for(
-    let i = 1;
-    i <= 10;
-    i++
-  ){
-
-    const button =
-      document.createElement(
-        "button"
-      );
-
-
-    button.className =
-      "level";
-
-
-    if(i > unlocked){
-
-      button.textContent =
-        "🔒";
-
-      button.disabled =
-        true;
-
-    }
-    else{
-
-      button.textContent =
-        i;
-
-      if(i === current){
-
-        button.classList.add(
-          "active"
-        );
-
-      }
-
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          currentGameLevel =
-            i;
-
-          startGame();
-
-        }
-      );
-
-    }
-
-
-    container.appendChild(
-      button
-    );
-
-  }
+  updatePoints();
 
 }
 
 
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-document
-  .getElementById("logoutButton")
-  .addEventListener(
-    "click",
-    async () => {
-
-      await signOut(auth);
-
-    }
-  );
+updatePoints();
 
 
-/* =====================================================
-   TIC-TAC-TOE
-===================================================== */
+/* =========================================
+   TIC TAC TOE
+========================================= */
 
-let boardState = [
+let board = [
   "",
   "",
   "",
@@ -1138,16 +905,12 @@ let boardState = [
   ""
 ];
 
-let gameActive =
-  false;
+let activeGame = false;
 
-let turn =
-  "player";
+let playerTurn = true;
 
-let currentGameLevel =
-  1;
 
-const WINNING_LINES = [
+const winningLines = [
 
   [0,1,2],
   [3,4,5],
@@ -1163,87 +926,12 @@ const WINNING_LINES = [
 ];
 
 
-/* =====================================================
-   CELL CLICK
-===================================================== */
-
-cells.forEach(
-  cell => {
-
-    cell.addEventListener(
-      "click",
-      () => {
-
-        if(!gameActive)
-          return;
-
-        if(turn !== "player")
-          return;
-
-
-        const index =
-          Number(
-            cell.dataset.index
-          );
-
-
-        if(boardState[index] !== "")
-          return;
-
-
-        boardState[index] =
-          "X";
-
-
-        drawBoard();
-
-
-        if(checkGame())
-          return;
-
-
-        turn =
-          "computer";
-
-
-        updateTurn();
-
-
-        setTimeout(
-          computerMove,
-          350
-        );
-
-      }
-    );
-
-  }
-);
-
-
-/* =====================================================
-   START GAME
-===================================================== */
-
-document
-  .getElementById("startButton")
-  .addEventListener(
-    "click",
-    startGame
-  );
-
-
-document
-  .getElementById("newGameButton")
-  .addEventListener(
-    "click",
-    startGame
-  );
-
-
 function startGame(){
 
-  boardState = [
+  showPage("gamePage");
+
+
+  board = [
     "",
     "",
     "",
@@ -1256,139 +944,112 @@ function startGame(){
   ];
 
 
-  gameActive =
-    true;
+  activeGame = true;
 
-  turn =
-    "player";
-
-
-  gameResult.textContent =
-    "";
-
-
-  gameCard.classList.remove(
-    "hidden"
-  );
+  playerTurn = true;
 
 
   drawBoard();
 
-  updateTurn();
+
+  document.getElementById(
+    "gameStatus"
+  ).textContent =
+    "Your turn ❌";
 
 }
 
 
-/* =====================================================
-   DRAW BOARD
-===================================================== */
-
 function drawBoard(){
 
-  cells.forEach(
-    cell => {
+  document
+    .querySelectorAll(".gameCell")
+    .forEach(
+      (cell,index) => {
 
-      const index =
-        Number(
-          cell.dataset.index
-        );
-
-
-      cell.textContent =
-        boardState[index];
-
-
-      cell.classList.remove(
-        "x",
-        "o"
-      );
-
-
-      if(
-        boardState[index] === "X"
-      ){
-
-        cell.classList.add(
-          "x"
-        );
+        cell.textContent =
+          board[index];
 
       }
+    );
+
+}
 
 
-      if(
-        boardState[index] === "O"
-      ){
+function move(index){
 
-        cell.classList.add(
-          "o"
-        );
+  if(!activeGame)
+    return;
 
-      }
+  if(!playerTurn)
+    return;
 
-    }
+  if(board[index] !== "")
+    return;
+
+
+  board[index] =
+    "X";
+
+
+  drawBoard();
+
+
+  if(checkGame())
+    return;
+
+
+  playerTurn = false;
+
+
+  document.getElementById(
+    "gameStatus"
+  ).textContent =
+    "Computer is thinking...";
+
+
+  setTimeout(
+    computerMove,
+    400
   );
 
 }
 
 
-/* =====================================================
-   COMPUTER
-===================================================== */
-
 function computerMove(){
 
-  if(!gameActive)
+  if(!activeGame)
     return;
 
 
-  let move;
+  const empty =
+    board
+      .map(
+        (value,index) =>
+          value === ""
+          ? index
+          : null
+      )
+      .filter(
+        value =>
+          value !== null
+      );
 
 
-  if(currentGameLevel <= 2){
-
-    move =
-      randomMove();
-
-  }
-  else if(currentGameLevel <= 4){
-
-    move =
-      Math.random() < .45
-      ? smartMove()
-      : randomMove();
-
-  }
-  else if(currentGameLevel <= 6){
-
-    move =
-      Math.random() < .65
-      ? smartMove()
-      : randomMove();
-
-  }
-  else if(currentGameLevel <= 8){
-
-    move =
-      Math.random() < .80
-      ? smartMove()
-      : randomMove();
-
-  }
-  else{
-
-    move =
-      Math.random() < .90
-      ? smartMove()
-      : randomMove();
-
-  }
-
-
-  if(move === -1)
+  if(!empty.length)
     return;
 
 
-  boardState[move] =
+  const index =
+    empty[
+      Math.floor(
+        Math.random() *
+        empty.length
+      )
+    ];
+
+
+  board[index] =
     "O";
 
 
@@ -1399,17 +1060,91 @@ function computerMove(){
     return;
 
 
-  turn =
-    "player";
+  playerTurn = true;
 
 
-  updateTurn();
+  document.getElementById(
+    "gameStatus"
+  ).textContent =
+    "Your turn ❌";
 
 }
 
 
-/* =====================================================
-   RANDOM MOVE
-===================================================== */
+function hasWinner(symbol){
 
-function ran
+  return winningLines.some(
+    line =>
+
+      board[line[0]] === symbol &&
+      board[line[1]] === symbol &&
+      board[line[2]] === symbol
+
+  );
+
+}
+
+
+function checkGame(){
+
+  if(hasWinner("X")){
+
+    activeGame = false;
+
+
+    document.getElementById(
+      "gameStatus"
+    ).textContent =
+      "🏆 You won!";
+
+
+    return true;
+
+  }
+
+
+  if(hasWinner("O")){
+
+    activeGame = false;
+
+
+    document.getElementById(
+      "gameStatus"
+    ).textContent =
+      "🤖 Computer won.";
+
+
+    return true;
+
+  }
+
+
+  if(
+    board.every(
+      value =>
+        value !== ""
+    )
+  ){
+
+    activeGame = false;
+
+
+    document.getElementById(
+      "gameStatus"
+    ).textContent =
+      "🤝 Draw.";
+
+
+    return true;
+
+  }
+
+
+  return false;
+
+}
+
+</script>
+
+</body>
+</html>
