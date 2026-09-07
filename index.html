@@ -1,1150 +1,422 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>CELEDIT Mini App</title>
+  <title>Live Request</title>
 
-  <!-- =========================================
-       MONETAG SDK
-  ========================================== -->
-
-  <script
-    src="//libtl.com/sdk.js"
-    data-zone="11687570"
-    data-sdk="show_11687570">
-  </script>
-
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
-
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    body{
-      font-family:Arial,Helvetica,sans-serif;
-      background:#07111f;
-      color:#ffffff;
-      min-height:100vh;
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #07111f;
+      color: #fff;
+      min-height: 100vh;
     }
 
-    .app{
-      width:100%;
-      max-width:480px;
-      margin:auto;
-      min-height:100vh;
-      padding-bottom:85px;
+    .app {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      margin: auto;
+      padding: 20px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* HEADER */
-
-    .header{
-      padding:18px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
+    .card {
+      width: 100%;
+      background: #101d2c;
+      border: 1px solid #273a50;
+      border-radius: 22px;
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,.25);
     }
 
-    .logo{
-      font-size:21px;
-      font-weight:900;
+    .live-icon {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      background: #1a2b3f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
     }
 
-    .balance{
-      background:#16263a;
-      border:1px solid #2a4059;
-      border-radius:20px;
-      padding:8px 13px;
-      font-size:13px;
+    h1 {
+      font-size: 27px;
+      margin-bottom: 10px;
     }
 
-    /* HERO */
-
-    .hero{
-      margin:5px 16px 16px;
-      padding:22px;
-      border-radius:20px;
-      background:linear-gradient(135deg,#183450,#102238);
-      border:1px solid #294765;
+    .welcome {
+      color: #9aa9ba;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 24px;
     }
 
-    .hero h1{
-      font-size:25px;
-      margin-bottom:8px;
+    .price {
+      font-size: 38px;
+      font-weight: 900;
+      margin-bottom: 8px;
     }
 
-    .hero p{
-      color:#a4b2c1;
-      line-height:1.5;
-      font-size:14px;
+    .price-label {
+      color: #8d9caf;
+      font-size: 13px;
+      margin-bottom: 24px;
     }
 
-    /* AD CONTAINER */
-
-    .ad-box{
-      margin:14px 16px;
-      min-height:90px;
-      border:1px dashed #3a4d63;
-      border-radius:15px;
-      background:#0d1927;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      text-align:center;
-      overflow:hidden;
+    .info {
+      background: #0c1826;
+      border: 1px solid #26384d;
+      border-radius: 14px;
+      padding: 15px;
+      text-align: left;
+      margin-bottom: 20px;
     }
 
-    .ad-label{
-      color:#718095;
-      font-size:11px;
+    .info-title {
+      font-weight: bold;
+      margin-bottom: 7px;
     }
 
-    /* SECTION */
-
-    .section{
-      padding:0 16px;
+    .info-text {
+      color: #8998aa;
+      font-size: 12px;
+      line-height: 1.5;
     }
 
-    .section-title{
-      margin:21px 0 11px;
-      font-size:17px;
-      font-weight:bold;
+    .pay-button {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 15px;
+      background: #f1c40f;
+      color: #111;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    /* CARDS */
-
-    .card{
-      background:#101d2c;
-      border:1px solid #273a50;
-      border-radius:17px;
-      padding:16px;
-      margin-bottom:11px;
+    .pay-button:active {
+      transform: scale(.98);
     }
 
-    .row{
-      display:flex;
-      align-items:center;
-      gap:12px;
+    #status {
+      margin-top: 16px;
+      color: #9aa9ba;
+      font-size: 13px;
+      line-height: 1.5;
     }
 
-    .icon{
-      width:45px;
-      height:45px;
-      border-radius:12px;
-      background:#1b3048;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      font-size:22px;
-      flex-shrink:0;
+    .btc-box {
+      display: none;
+      margin-top: 20px;
+      padding: 16px;
+      background: #0c1826;
+      border: 1px solid #26384d;
+      border-radius: 14px;
+      text-align: left;
     }
 
-    .info{
-      flex:1;
+    .btc-title {
+      font-weight: bold;
+      margin-bottom: 10px;
     }
 
-    .info h3{
-      font-size:15px;
-      margin-bottom:4px;
+    .btc-address {
+      word-break: break-all;
+      color: #f1c40f;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-bottom: 12px;
     }
 
-    .info p{
-      color:#8796a8;
-      font-size:12px;
-      line-height:1.4;
+    .copy-button {
+      width: 100%;
+      border: 0;
+      border-radius: 10px;
+      padding: 11px;
+      background: #1b2c40;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    button{
-      font-family:inherit;
-      cursor:pointer;
+    .check-button {
+      width: 100%;
+      margin-top: 10px;
+      border: 0;
+      border-radius: 10px;
+      padding: 12px;
+      background: #f1c40f;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    .open{
-      width:auto;
-      border:0;
-      border-radius:9px;
-      padding:9px 13px;
-      background:#f1c40f;
-      color:#111;
-      font-weight:bold;
+    .join-button {
+      display: none;
+      width: 100%;
+      margin-top: 15px;
+      border: 0;
+      border-radius: 12px;
+      padding: 15px;
+      background: #20bf6b;
+      color: #fff;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    /* TASK PAGE */
-
-    .back{
-      width:auto;
-      margin:14px 16px;
-      border:0;
-      border-radius:9px;
-      padding:9px 13px;
-      background:#1b2c40;
-      color:#fff;
+    .small {
+      color: #66778b;
+      font-size: 11px;
+      margin-top: 18px;
+      line-height: 1.5;
     }
-
-    .task{
-      background:#101d2c;
-      border:1px solid #273a50;
-      border-radius:17px;
-      padding:18px;
-    }
-
-    .task h2{
-      margin-bottom:8px;
-    }
-
-    .task p{
-      color:#8d9caf;
-      font-size:13px;
-      line-height:1.5;
-      margin-bottom:15px;
-    }
-
-    .main-button{
-      width:100%;
-      border:0;
-      border-radius:11px;
-      padding:14px;
-      background:#f1c40f;
-      color:#111;
-      font-weight:bold;
-      font-size:14px;
-    }
-
-    /* INFO */
-
-    .notice{
-      margin:14px 16px;
-      padding:12px;
-      border-radius:12px;
-      background:#101d2c;
-      color:#8291a4;
-      font-size:11px;
-      line-height:1.5;
-    }
-
-    /* PAGES */
-
-    .page{
-      display:none;
-    }
-
-    .page.active{
-      display:block;
-    }
-
-    /* BOTTOM NAV */
-
-    .nav{
-      position:fixed;
-      bottom:0;
-      left:50%;
-      transform:translateX(-50%);
-      width:100%;
-      max-width:480px;
-      height:67px;
-      background:#0c1826;
-      border-top:1px solid #26384d;
-      display:flex;
-      justify-content:space-around;
-      align-items:center;
-      z-index:100;
-    }
-
-    .nav button{
-      border:0;
-      background:none;
-      color:#728196;
-      font-size:11px;
-    }
-
-    .nav button span{
-      display:block;
-      font-size:20px;
-      margin-bottom:3px;
-    }
-
-    .nav button.active{
-      color:#f1c40f;
-    }
-
-    /* WALLET */
-
-    .wallet{
-      text-align:center;
-      padding:20px;
-    }
-
-    .wallet-number{
-      font-size:32px;
-      font-weight:900;
-      margin:12px 0;
-    }
-
-    .locked{
-      background:#172638;
-      border-radius:14px;
-      padding:16px;
-      color:#8998aa;
-      font-size:13px;
-      line-height:1.6;
-    }
-
   </style>
-
 </head>
-
 
 <body>
 
-<div class="app">
+  <div class="app">
 
+    <div class="card">
 
-  <!-- =========================================
-       HOME
-  ========================================== -->
-
-  <div
-    id="homePage"
-    class="page active"
-  >
-
-    <header class="header">
-
-      <div class="logo">
-        CELEDIT
+      <div class="live-icon">
+        🔴
       </div>
-
-      <div class="balance">
-        ⭐ <span id="points">0</span>
-      </div>
-
-    </header>
-
-
-    <section class="hero">
 
       <h1>
-        Welcome 👋
+        Live Request
       </h1>
 
-      <p>
-        Explore tasks, play games and
-        keep track of your points.
+      <p class="welcome" id="welcome">
+        Request a live session.
       </p>
 
-    </section>
+      <div class="price">
+        $10
+      </div>
 
+      <div class="price-label">
+        One live request
+      </div>
 
-    <!-- =====================================
-         ADSTERRA NATIVE AD
-    ====================================== -->
+      <div class="info">
 
-    <div class="ad-box">
+        <div class="info-title">
+          💳 Payment
+        </div>
+
+        <div class="info-text">
+          Pay the required amount in Bitcoin.
+          Your payment must be verified before
+          access to the live page is provided.
+        </div>
+
+      </div>
+
+      <button
+        class="pay-button"
+        id="payButton"
+        onclick="showPayment()"
+      >
+        Pay with Bitcoin
+      </button>
 
       <div
-        id="container-4b056cbeb341057fc1515bfa7767e1a0"
+        class="btc-box"
+        id="btcBox"
       >
 
-        <span class="ad-label">
-          Advertisement
-        </span>
-
-      </div>
-
-    </div>
-
-
-    <section class="section">
-
-      <div class="section-title">
-        Available
-      </div>
-
-
-      <div class="card">
-
-        <div class="row">
-
-          <div class="icon">
-            📧
-          </div>
-
-          <div class="info">
-
-            <h3>
-              Read & Discover
-            </h3>
-
-            <p>
-              Open the available external
-              content.
-            </p>
-
-          </div>
-
-          <button
-            class="open"
-            onclick="openTask()"
-          >
-            Open
-          </button>
-
+        <div class="btc-title">
+          ₿ Bitcoin Payment
         </div>
 
-      </div>
-
-
-      <div class="card">
-
-        <div class="row">
-
-          <div class="icon">
-            🎮
-          </div>
-
-          <div class="info">
-
-            <h3>
-              Mini Games
-            </h3>
-
-            <p>
-              Play simple games directly
-              inside the mini-app.
-            </p>
-
-          </div>
-
-          <button
-            class="open"
-            onclick="showPage('gamesPage')"
-          >
-            Play
-          </button>
-
+        <div
+          class="btc-address"
+          id="btcAddress"
+        >
+          Bitcoin address will appear here.
         </div>
-
-      </div>
-
-    </section>
-
-
-    <div class="notice">
-
-      Advertisement helps support this
-      mini-app. Please interact with ads
-      only when genuinely interested.
-
-    </div>
-
-  </div>
-
-
-  <!-- =========================================
-       TASK PAGE
-  ========================================== -->
-
-  <div
-    id="taskPage"
-    class="page"
-  >
-
-    <button
-      class="back"
-      onclick="showPage('homePage')"
-    >
-      ← Back
-    </button>
-
-
-    <section class="section">
-
-      <div class="section-title">
-        Available Task
-      </div>
-
-
-      <div class="task">
-
-        <h2>
-          📧 Read & Discover
-        </h2>
-
-        <p>
-          Open the external page below.
-          The external website controls
-          its own content and requirements.
-        </p>
 
         <button
-          class="main-button"
-          onclick="openExternalLink()"
+          class="copy-button"
+          onclick="copyAddress()"
         >
-          Open External Page
+          Copy BTC Address
+        </button>
+
+        <button
+          class="check-button"
+          onclick="checkPayment()"
+        >
+          Check Payment
         </button>
 
       </div>
 
-    </section>
+      <p id="status"></p>
 
+      <button
+        class="join-button"
+        id="joinButton"
+        onclick="joinLive()"
+      >
+        🔴 Join Live
+      </button>
 
-    <!-- SECOND AD -->
-
-    <div class="ad-box">
-
-      <span class="ad-label">
-        Advertisement
-      </span>
+      <p class="small">
+        Payment confirmation is required before
+        live access is enabled.
+      </p>
 
     </div>
 
   </div>
 
 
-  <!-- =========================================
-       GAMES
-  ========================================== -->
+  <script>
 
-  <div
-    id="gamesPage"
-    class="page"
-  >
+    const BTC_ADDRESS =
+      "bc1qlvast66gfja2rs2z77n2kmkwfyxx99klvmrkh5";
 
-    <button
-      class="back"
-      onclick="showPage('homePage')"
-    >
-      ← Back
-    </button>
+    /*
+      Replace this with your GitHub Pages live-page URL
+      after the live page has been created.
+    */
 
+    const LIVE_PAGE_URL =
+      "https://celedit7.github.io/live-payment-app/live.html";
 
-    <section class="section">
 
-      <div class="section-title">
-        Games 🎮
-      </div>
+    function showPayment() {
 
+      const box =
+        document.getElementById("btcBox");
 
-      <div class="card">
+      const address =
+        document.getElementById("btcAddress");
 
-        <div class="row">
+      const status =
+        document.getElementById("status");
 
-          <div class="icon">
-            ❌
-          </div>
+      box.style.display = "block";
 
-          <div class="info">
+      address.textContent =
+        BTC_ADDRESS;
 
-            <h3>
-              Tic-Tac-Toe
-            </h3>
+      status.textContent =
+        "Send the required BTC amount to the address above. Payment will need to be verified.";
 
-            <p>
-              Play a quick match against
-              the computer.
-            </p>
+      document.getElementById("payButton").style.display =
+        "none";
 
-          </div>
+    }
 
-          <button
-            class="open"
-            onclick="startGame()"
-          >
-            Play
-          </button>
 
-        </div>
+    function copyAddress() {
 
-      </div>
+      navigator.clipboard
+        .writeText(BTC_ADDRESS)
+        .then(() => {
 
-    </section>
+          document.getElementById("status").textContent =
+            "BTC address copied.";
 
-  </div>
+        })
+        .catch(() => {
 
+          document.getElementById("status").textContent =
+            "Copy failed. Please copy the address manually.";
 
-  <!-- =========================================
-       TIC TAC TOE
-  ========================================== -->
+        });
 
-  <div
-    id="gamePage"
-    class="page"
-  >
+    }
 
-    <button
-      class="back"
-      onclick="showPage('gamesPage')"
-    >
-      ← Back
-    </button>
 
+    async function checkPayment() {
 
-    <section class="section">
+      const status =
+        document.getElementById("status");
 
-      <div class="section-title">
-        Tic-Tac-Toe
-      </div>
+      status.textContent =
+        "Checking payment...";
 
+      /*
+        IMPORTANT:
 
-      <div
-        id="gameBoard"
-        style="
-          display:grid;
-          grid-template-columns:repeat(3,1fr);
-          gap:7px;
-        "
-      >
+        This is only a placeholder.
 
-        <button onclick="move(0)" class="gameCell"></button>
-        <button onclick="move(1)" class="gameCell"></button>
-        <button onclick="move(2)" class="gameCell"></button>
+        Real BTC verification will be connected
+        to the backend later.
 
-        <button onclick="move(3)" class="gameCell"></button>
-        <button onclick="move(4)" class="gameCell"></button>
-        <button onclick="move(5)" class="gameCell"></button>
+        Do NOT mark payment as successful here.
+      */
 
-        <button onclick="move(6)" class="gameCell"></button>
-        <button onclick="move(7)" class="gameCell"></button>
-        <button onclick="move(8)" class="gameCell"></button>
+      setTimeout(() => {
 
-      </div>
+        status.textContent =
+          "Payment verification is not connected yet.";
 
+      }, 1000);
 
-      <div
-        id="gameStatus"
-        style="
-          text-align:center;
-          margin:15px 0;
-          font-weight:bold;
-        "
-      >
-        Your turn ❌
-      </div>
+    }
 
 
-      <button
-        class="main-button"
-        onclick="startGame()"
-      >
-        New Game
-      </button>
+    function joinLive() {
 
-    </section>
+      window.location.href =
+        LIVE_PAGE_URL;
 
-  </div>
+    }
 
 
-  <!-- =========================================
-       WALLET
-  ========================================== -->
+    function loadTelegramUser() {
 
-  <div
-    id="walletPage"
-    class="page"
-  >
+      if (
+        window.Telegram &&
+        Telegram.WebApp
+      ) {
 
-    <button
-      class="back"
-      onclick="showPage('homePage')"
-    >
-      ← Back
-    </button>
+        Telegram.WebApp.ready();
 
+        const user =
+          Telegram.WebApp.initDataUnsafe?.user;
 
-    <section class="section">
+        if (user) {
 
-      <div class="card wallet">
+          const name =
+            user.first_name || "there";
 
-        <h2>
-          💰 Wallet
-        </h2>
+          document.getElementById("welcome").textContent =
+            "Hello " + name + " 👋 Request a live session.";
 
-        <div class="wallet-number">
-          ⭐ <span id="walletPoints">0</span>
-        </div>
-
-        <div class="locked">
-
-          🔒 Withdrawal Locked
-
-          <br><br>
-
-          Withdrawal becomes available
-          at the required point threshold.
-
-        </div>
-
-      </div>
-
-    </section>
-
-  </div>
-
-
-  <!-- =========================================
-       BOTTOM NAV
-  ========================================== -->
-
-  <nav class="nav">
-
-    <button
-      class="active"
-      onclick="setNav(this);showPage('homePage')"
-    >
-      <span>🏠</span>
-      Home
-    </button>
-
-
-    <button
-      onclick="setNav(this);showPage('taskPage')"
-    >
-      <span>📧</span>
-      Tasks
-    </button>
-
-
-    <button
-      onclick="setNav(this);showPage('gamesPage')"
-    >
-      <span>🎮</span>
-      Games
-    </button>
-
-
-    <button
-      onclick="setNav(this);showPage('walletPage')"
-    >
-      <span>💰</span>
-      Wallet
-    </button>
-
-  </nav>
-
-</div>
-
-
-<!-- =========================================
-     ADSTERRA NATIVE SCRIPT
-========================================== -->
-
-<script
-  async
-  data-cfasync="false"
-  src="https://tightslybella.com/4b056cbeb341057fc1515bfa7767e1a0/invoke.js">
-</script>
-
-
-<!-- =========================================
-     MONETAG IN-APP INTERSTITIAL
-========================================== -->
-
-<script>
-
-  if(typeof show_11687570 === "function"){
-
-    show_11687570({
-
-      type: "inApp",
-
-      inAppSettings: {
-
-        frequency: 1,
-
-        capping: 0.1,
-
-        interval: 60,
-
-        timeout: 5,
-
-        everyPage: false
+        }
 
       }
 
-    });
+    }
 
-  }
 
-</script>
+    loadTelegramUser();
 
-
-<script>
-
-/* =========================================
-   EXTERNAL LINK
-========================================= */
-
-const EXTERNAL_LINK =
-  "https://www.paid-to-read-email.com/points?read=2";
-
-
-function openExternalLink(){
-
-  window.open(
-    EXTERNAL_LINK,
-    "_blank",
-    "noopener,noreferrer"
-  );
-
-}
-
-
-/* =========================================
-   PAGE NAVIGATION
-========================================= */
-
-function showPage(pageId){
-
-  document
-    .querySelectorAll(".page")
-    .forEach(page => {
-
-      page.classList.remove("active");
-
-    });
-
-
-  const page =
-    document.getElementById(pageId);
-
-
-  if(page){
-
-    page.classList.add("active");
-
-  }
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-/* =========================================
-   NAVIGATION
-========================================= */
-
-function setNav(button){
-
-  document
-    .querySelectorAll(".nav button")
-    .forEach(btn => {
-
-      btn.classList.remove("active");
-
-    });
-
-
-  button.classList.add("active");
-
-}
-
-
-/* =========================================
-   POINTS
-========================================= */
-
-let points =
-  Number(
-    localStorage.getItem("celedit_points") || 0
-  );
-
-
-function updatePoints(){
-
-  document.getElementById(
-    "points"
-  ).textContent =
-    points.toLocaleString();
-
-
-  document.getElementById(
-    "walletPoints"
-  ).textContent =
-    points.toLocaleString();
-
-}
-
-
-function savePoints(){
-
-  localStorage.setItem(
-    "celedit_points",
-    points
-  );
-
-  updatePoints();
-
-}
-
-
-updatePoints();
-
-
-/* =========================================
-   TIC TAC TOE
-========================================= */
-
-let board = [
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  ""
-];
-
-let activeGame = false;
-
-let playerTurn = true;
-
-
-const winningLines = [
-
-  [0,1,2],
-  [3,4,5],
-  [6,7,8],
-
-  [0,3,6],
-  [1,4,7],
-  [2,5,8],
-
-  [0,4,8],
-  [2,4,6]
-
-];
-
-
-function startGame(){
-
-  showPage("gamePage");
-
-
-  board = [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    ""
-  ];
-
-
-  activeGame = true;
-
-  playerTurn = true;
-
-
-  drawBoard();
-
-
-  document.getElementById(
-    "gameStatus"
-  ).textContent =
-    "Your turn ❌";
-
-}
-
-
-function drawBoard(){
-
-  document
-    .querySelectorAll(".gameCell")
-    .forEach(
-      (cell,index) => {
-
-        cell.textContent =
-          board[index];
-
-      }
-    );
-
-}
-
-
-function move(index){
-
-  if(!activeGame)
-    return;
-
-  if(!playerTurn)
-    return;
-
-  if(board[index] !== "")
-    return;
-
-
-  board[index] =
-    "X";
-
-
-  drawBoard();
-
-
-  if(checkGame())
-    return;
-
-
-  playerTurn = false;
-
-
-  document.getElementById(
-    "gameStatus"
-  ).textContent =
-    "Computer is thinking...";
-
-
-  setTimeout(
-    computerMove,
-    400
-  );
-
-}
-
-
-function computerMove(){
-
-  if(!activeGame)
-    return;
-
-
-  const empty =
-    board
-      .map(
-        (value,index) =>
-          value === ""
-          ? index
-          : null
-      )
-      .filter(
-        value =>
-          value !== null
-      );
-
-
-  if(!empty.length)
-    return;
-
-
-  const index =
-    empty[
-      Math.floor(
-        Math.random() *
-        empty.length
-      )
-    ];
-
-
-  board[index] =
-    "O";
-
-
-  drawBoard();
-
-
-  if(checkGame())
-    return;
-
-
-  playerTurn = true;
-
-
-  document.getElementById(
-    "gameStatus"
-  ).textContent =
-    "Your turn ❌";
-
-}
-
-
-function hasWinner(symbol){
-
-  return winningLines.some(
-    line =>
-
-      board[line[0]] === symbol &&
-      board[line[1]] === symbol &&
-      board[line[2]] === symbol
-
-  );
-
-}
-
-
-function checkGame(){
-
-  if(hasWinner("X")){
-
-    activeGame = false;
-
-
-    document.getElementById(
-      "gameStatus"
-    ).textContent =
-      "🏆 You won!";
-
-
-    return true;
-
-  }
-
-
-  if(hasWinner("O")){
-
-    activeGame = false;
-
-
-    document.getElementById(
-      "gameStatus"
-    ).textContent =
-      "🤖 Computer won.";
-
-
-    return true;
-
-  }
-
-
-  if(
-    board.every(
-      value =>
-        value !== ""
-    )
-  ){
-
-    activeGame = false;
-
-
-    document.getElementById(
-      "gameStatus"
-    ).textContent =
-      "🤝 Draw.";
-
-
-    return true;
-
-  }
-
-
-  return false;
-
-}
-
-</script>
+  </script>
 
 </body>
 </html>
