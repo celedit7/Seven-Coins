@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Live Request</title>
+  <title>CAM RATE</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -16,407 +15,509 @@
     }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #07111f;
+      font-family: Arial, sans-serif;
+      background: #0b0b0f;
       color: #fff;
       min-height: 100vh;
     }
 
-    .app {
+    .container {
       width: 100%;
-      max-width: 480px;
-      min-height: 100vh;
+      max-width: 500px;
       margin: auto;
-      padding: 20px 16px;
+      padding: 18px;
+    }
+
+    header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
+      margin-bottom: 25px;
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .live-badge {
+      background: #e53935;
+      padding: 6px 11px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
     }
 
     .card {
-      width: 100%;
-      background: #101d2c;
-      border: 1px solid #273a50;
-      border-radius: 22px;
-      padding: 28px 20px;
-      text-align: center;
-      box-shadow: 0 15px 40px rgba(0,0,0,.25);
-    }
-
-    .live-icon {
-      width: 70px;
-      height: 70px;
-      margin: 0 auto 18px;
-      border-radius: 50%;
-      background: #1a2b3f;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
+      background: #15151c;
+      border: 1px solid #292934;
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 15px;
     }
 
     h1 {
-      font-size: 27px;
+      font-size: 25px;
       margin-bottom: 10px;
     }
 
-    .welcome {
-      color: #9aa9ba;
+    h2 {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #9999a5;
       font-size: 14px;
       line-height: 1.5;
-      margin-bottom: 24px;
-    }
-
-    .price {
-      font-size: 38px;
-      font-weight: 900;
-      margin-bottom: 8px;
-    }
-
-    .price-label {
-      color: #8d9caf;
-      font-size: 13px;
-      margin-bottom: 24px;
-    }
-
-    .info {
-      background: #0c1826;
-      border: 1px solid #26384d;
-      border-radius: 14px;
-      padding: 15px;
-      text-align: left;
       margin-bottom: 20px;
     }
 
-    .info-title {
-      font-weight: bold;
-      margin-bottom: 7px;
+    .price {
+      font-size: 40px;
+      font-weight: 800;
+      margin: 15px 0;
     }
 
-    .info-text {
-      color: #8998aa;
-      font-size: 12px;
-      line-height: 1.5;
+    .network {
+      background: #20202a;
+      border-radius: 12px;
+      padding: 13px;
+      margin-bottom: 18px;
+      font-size: 14px;
     }
 
-    .pay-button {
+    button,
+    .btn {
       width: 100%;
-      border: 0;
+      border: none;
       border-radius: 12px;
       padding: 15px;
-      background: #f1c40f;
-      color: #111;
       font-size: 15px;
       font-weight: bold;
       cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: block;
     }
 
-    .pay-button:active {
-      transform: scale(.98);
+    .primary {
+      background: #ffffff;
+      color: #000;
     }
 
-    #status {
-      margin-top: 16px;
-      color: #9aa9ba;
+    .secondary {
+      background: #25252f;
+      color: #fff;
+      margin-top: 10px;
+    }
+
+    .wallet {
+      background: #0e0e14;
+      border: 1px solid #30303b;
+      border-radius: 12px;
+      padding: 13px;
+      word-break: break-all;
       font-size: 13px;
       line-height: 1.5;
+      margin: 15px 0 10px;
     }
 
-    .btc-box {
-      display: none;
-      margin-top: 20px;
-      padding: 16px;
-      background: #0c1826;
-      border: 1px solid #26384d;
-      border-radius: 14px;
-      text-align: left;
+    .copy {
+      background: #25252f;
+      color: white;
+      margin-bottom: 18px;
     }
 
-    .btc-title {
-      font-weight: bold;
-      margin-bottom: 10px;
+    .qr {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
     }
 
-    .btc-address {
-      word-break: break-all;
-      color: #f1c40f;
+    .qr img {
+      width: 220px;
+      height: 220px;
+      background: white;
+      padding: 8px;
+      border-radius: 12px;
+    }
+
+    .note {
+      color: #888894;
       font-size: 12px;
       line-height: 1.5;
-      margin-bottom: 12px;
-    }
-
-    .copy-button {
-      width: 100%;
-      border: 0;
-      border-radius: 10px;
-      padding: 11px;
-      background: #1b2c40;
-      color: #fff;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .check-button {
-      width: 100%;
-      margin-top: 10px;
-      border: 0;
-      border-radius: 10px;
-      padding: 12px;
-      background: #f1c40f;
-      color: #111;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .join-button {
-      display: none;
-      width: 100%;
       margin-top: 15px;
-      border: 0;
-      border-radius: 12px;
-      padding: 15px;
-      background: #20bf6b;
-      color: #fff;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
+      text-align: center;
     }
 
-    .small {
-      color: #66778b;
-      font-size: 11px;
-      margin-top: 18px;
+    .status {
+      background: #191922;
+      border: 1px solid #30303b;
+      border-radius: 14px;
+      padding: 16px;
+      margin: 20px 0;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .success-icon {
+      font-size: 55px;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .countdown {
+      font-size: 40px;
+      text-align: center;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .telegram-link {
+      color: #5db8ff;
+      word-break: break-all;
+    }
+
+    .warning {
+      background: #211c12;
+      border: 1px solid #51401e;
+      color: #d7c28b;
+      padding: 13px;
+      border-radius: 12px;
+      font-size: 12px;
       line-height: 1.5;
+      margin-top: 15px;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="app">
+<div class="container">
+
+  <header>
+    <div class="logo">CAM RATE</div>
+    <div class="live-badge">● LIVE</div>
+  </header>
+
+  <!-- START SCREEN -->
+  <section id="startScreen">
 
     <div class="card">
 
-      <div class="live-icon">
-        🔴
-      </div>
+      <h1>Live Request</h1>
 
-      <h1>
-        Live Request
-      </h1>
-
-      <p class="welcome" id="welcome">
-        Request a live session.
+      <p class="subtitle">
+        Request access to the live session.
       </p>
 
-      <div class="price">
-        $10
+      <div class="price">$10</div>
+
+      <div class="network">
+        Payment method: <strong>USDT • BEP-20</strong>
       </div>
 
-      <div class="price-label">
-        One live request
-      </div>
-
-      <div class="info">
-
-        <div class="info-title">
-          💳 Payment
-        </div>
-
-        <div class="info-text">
-          Pay the required amount in Bitcoin.
-          Your payment must be verified before
-          access to the live page is provided.
-        </div>
-
-      </div>
-
-      <button
-        class="pay-button"
-        id="payButton"
-        onclick="showPayment()"
-      >
-        Pay with Bitcoin
+      <button class="primary" onclick="showPayment()">
+        Continue
       </button>
-
-      <div
-        class="btc-box"
-        id="btcBox"
-      >
-
-        <div class="btc-title">
-          ₿ Bitcoin Payment
-        </div>
-
-        <div
-          class="btc-address"
-          id="btcAddress"
-        >
-          Bitcoin address will appear here.
-        </div>
-
-        <button
-          class="copy-button"
-          onclick="copyAddress()"
-        >
-          Copy BTC Address
-        </button>
-
-        <button
-          class="check-button"
-          onclick="checkPayment()"
-        >
-          Check Payment
-        </button>
-
-      </div>
-
-      <p id="status"></p>
-
-      <button
-        class="join-button"
-        id="joinButton"
-        onclick="joinLive()"
-      >
-        🔴 Join Live
-      </button>
-
-      <p class="small">
-        Payment confirmation is required before
-        live access is enabled.
-      </p>
 
     </div>
 
-  </div>
+  </section>
+
+  <!-- PAYMENT SCREEN -->
+  <section id="paymentScreen" class="hidden">
+
+    <div class="card">
+
+      <h2>Payment Details</h2>
+
+      <p class="subtitle">
+        Demo payment interface. No blockchain transaction is
+        verified by this page.
+      </p>
+
+      <div class="network">
+        Network: <strong>USDT • BEP-20</strong>
+      </div>
+
+      <div class="wallet" id="walletAddress">
+        0xD22d3280e9498144bb1508C784754519AD3Ad433
+      </div>
+
+      <button class="copy" onclick="copyWallet()">
+        📋 Copy Address
+      </button>
+
+      <div class="qr">
+        <img id="qrImage" alt="Wallet QR Code">
+      </div>
+
+      <button class="primary" onclick="showProof()">
+        I've Made Payment
+      </button>
+
+      <button class="secondary" onclick="showStart()">
+        ← Back
+      </button>
+
+      <div class="warning">
+        Demo only: this interface does not confirm or verify
+        blockchain payments.
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- PROOF SCREEN -->
+  <section id="proofScreen" class="hidden">
+
+    <div class="card">
+
+      <h2>Payment Proof</h2>
+
+      <p class="subtitle">
+        Send your proof through the Telegram verification chat.
+      </p>
+
+      <a
+        href="https://t.me/livesVerification"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn primary"
+      >
+        📸 Upload Payment Proof
+      </a>
+
+      <div class="status">
+
+        <strong>⏳ Payment Proof Under Review</strong>
+
+        <br><br>
+
+        After sending your screenshot to:
+
+        <br>
+
+        <a
+          href="https://t.me/livesVerification"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="telegram-link"
+        >
+          https://t.me/livesVerification
+        </a>
+
+        <br><br>
+
+        Please wait while your submission is reviewed manually.
+
+        <br><br>
+
+        ✅ If your submission is approved, you will be notified.
+
+        <br><br>
+
+        ⚠️ Please do not send the same proof multiple times.
+
+      </div>
+
+      <button class="secondary" onclick="showPayment()">
+        ← Back
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- SUCCESS SCREEN -->
+  <section id="successScreen" class="hidden">
+
+    <div class="card">
+
+      <div class="success-icon">
+        ✅
+      </div>
+
+      <h2 style="text-align:center;">
+        Payment Successful
+      </h2>
+
+      <p class="subtitle" style="text-align:center;">
+        Your live session is being prepared.
+      </p>
+
+      <div class="countdown" id="countdown">
+        2:00
+      </div>
+
+      <button class="primary" onclick="joinLive()">
+        🔴 Join Live
+      </button>
+
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+
+  const WALLET =
+    "0xD22d3280e9498144bb1508C784754519AD3Ad433";
+
+  const TELEGRAM_PROOF =
+    "https://t.me/livesVerification";
+
+  const LIVE_PAGE =
+    "https://celedit7.github.io/Seven-Coins/live.html";
 
 
-  <script>
-
-    const BTC_ADDRESS =
-      "bc1qlvast66gfja2rs2z77n2kmkwfyxx99klvmrkh5";
-
-    /*
-      Replace this with your GitHub Pages live-page URL
-      after the live page has been created.
-    */
-
-    const LIVE_PAGE_URL =
-      "https://celedit7.github.io/live-payment-app/live.html";
+  // Telegram WebApp
+  if (window.Telegram && Telegram.WebApp) {
+    Telegram.WebApp.ready();
+    Telegram.WebApp.expand();
+  }
 
 
-    function showPayment() {
+  // QR code
+  const qrData =
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="
+    + encodeURIComponent(WALLET);
 
-      const box =
-        document.getElementById("btcBox");
-
-      const address =
-        document.getElementById("btcAddress");
-
-      const status =
-        document.getElementById("status");
-
-      box.style.display = "block";
-
-      address.textContent =
-        BTC_ADDRESS;
-
-      status.textContent =
-        "Send the required BTC amount to the address above. Payment will need to be verified.";
-
-      document.getElementById("payButton").style.display =
-        "none";
-
-    }
+  document.getElementById("qrImage").src = qrData;
 
 
-    function copyAddress() {
+  function hideAll() {
 
-      navigator.clipboard
-        .writeText(BTC_ADDRESS)
-        .then(() => {
+    document.getElementById("startScreen")
+      .classList.add("hidden");
 
-          document.getElementById("status").textContent =
-            "BTC address copied.";
+    document.getElementById("paymentScreen")
+      .classList.add("hidden");
 
-        })
-        .catch(() => {
+    document.getElementById("proofScreen")
+      .classList.add("hidden");
 
-          document.getElementById("status").textContent =
-            "Copy failed. Please copy the address manually.";
-
-        });
-
-    }
+    document.getElementById("successScreen")
+      .classList.add("hidden");
+  }
 
 
-    async function checkPayment() {
+  function showStart() {
 
-      const status =
-        document.getElementById("status");
+    hideAll();
 
-      status.textContent =
-        "Checking payment...";
-
-      /*
-        IMPORTANT:
-
-        This is only a placeholder.
-
-        Real BTC verification will be connected
-        to the backend later.
-
-        Do NOT mark payment as successful here.
-      */
-
-      setTimeout(() => {
-
-        status.textContent =
-          "Payment verification is not connected yet.";
-
-      }, 1000);
-
-    }
+    document.getElementById("startScreen")
+      .classList.remove("hidden");
+  }
 
 
-    function joinLive() {
+  function showPayment() {
 
-      window.location.href =
-        LIVE_PAGE_URL;
+    hideAll();
 
-    }
+    document.getElementById("paymentScreen")
+      .classList.remove("hidden");
+  }
 
 
-    function loadTelegramUser() {
+  function showProof() {
 
-      if (
-        window.Telegram &&
-        Telegram.WebApp
-      ) {
+    hideAll();
 
-        Telegram.WebApp.ready();
+    document.getElementById("proofScreen")
+      .classList.remove("hidden");
+  }
 
-        const user =
-          Telegram.WebApp.initDataUnsafe?.user;
 
-        if (user) {
+  function copyWallet() {
 
-          const name =
-            user.first_name || "there";
+    navigator.clipboard.writeText(WALLET)
+      .then(() => {
+        alert("Wallet address copied!");
+      })
+      .catch(() => {
+        alert("Copy failed. Please copy the address manually.");
+      });
 
-          document.getElementById("welcome").textContent =
-            "Hello " + name + " 👋 Request a live session.";
+  }
 
-        }
+
+  function joinLive() {
+
+    window.open(
+      LIVE_PAGE,
+      "_blank"
+    );
+
+  }
+
+
+  // Demo-only success screen
+  function showDemoSuccess() {
+
+    hideAll();
+
+    document.getElementById("successScreen")
+      .classList.remove("hidden");
+
+    startCountdown();
+
+  }
+
+
+  let countdownTimer;
+
+
+  function startCountdown() {
+
+    clearInterval(countdownTimer);
+
+    let seconds = 120;
+
+    const display =
+      document.getElementById("countdown");
+
+    function update() {
+
+      const minutes =
+        Math.floor(seconds / 60);
+
+      const remaining =
+        seconds % 60;
+
+      display.textContent =
+        minutes + ":" +
+        String(remaining).padStart(2, "0");
+
+      if (seconds <= 0) {
+
+        clearInterval(countdownTimer);
+
+        display.textContent = "READY";
 
       }
 
+      seconds--;
+
     }
 
+    update();
 
-    loadTelegramUser();
+    countdownTimer =
+      setInterval(update, 1000);
 
-  </script>
+  }
+
+</script>
 
 </body>
 </html>
